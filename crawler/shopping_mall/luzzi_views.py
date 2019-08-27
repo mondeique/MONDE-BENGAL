@@ -110,7 +110,6 @@ def make_model_table(all_info_list):
         p, _ = Product.objects.update_or_create(shopping_mall=1, image_url=all_info_list[i][6], bag_url=all_info_list[i][1],
                                                 is_best=all_info_list[i][0], price=all_info_list[i][2],
                                                 crawled_date=all_info_list[i][7])
-        # TODO : get_or_create & Boolean으로 판단하기
         # p = Product.objects.get(pk=i+1)
         for j in range(len(all_info_list[i][3])):
             q, _ = ColorTab.objects.update_or_create(product=p, is_mono=all_info_list[i][5], on_sale=all_info_list[i][4][j],
@@ -140,7 +139,7 @@ def make_model_table(all_info_list):
                     colortag = 11
                 elif any('아이보리' or '화이트' or '하얀' in q.colors[k]):
                     colortag = 12
-                elif any('회색' or '그레이' in q.colors[k]):
+                elif any('실버' or '회색' or '그레이' in q.colors[k]):
                     colortag = 13
                 elif any('멀티' or '다중' or '뱀피' in q.colors[k]):
                     colortag = 99

@@ -24,7 +24,7 @@ def page_list_provider(tab_list):
         source = BeautifulSoup(html, 'html.parser')
         pag_num = source.find('a', {"class": "this"}).get_text()
         page_list.append(str(tab_list[i]) + '/?page=' + str(pag_num))
-        last_pag_content = source.find_all('a', {"class:" "other"})[-1]
+        last_pag_content = source('a', {"class:" "other"})[-1]
         last_pag_num = last_pag_content.get_text()
         for j in range(int(last_pag_num)-1):
             page_list.append(str(tab_list[i]) + '/?page=' + str(j+2))

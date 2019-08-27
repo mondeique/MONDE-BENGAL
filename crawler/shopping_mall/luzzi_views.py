@@ -22,12 +22,10 @@ def page_list_provider(tab_list):
     for i in range(len(tab_list)):
         html = urlopen(tab_list[i])
         source = BeautifulSoup(html, 'html.parser')
-        pag_num = source.find('a', {"class": "this"}).get_text()
-        page_list.append(str(tab_list[i]) + '/?page=' + str(pag_num))
-        last_pag_content = source('a', {"class:" "other"})[-1]
-        last_pag_num = last_pag_content.get_text()
-        for j in range(int(last_pag_num)-1):
-            page_list.append(str(tab_list[i]) + '/?page=' + str(j+2))
+        last_pag_content = source.find('a', {"class": "last"})
+        last_pag_num = last_pag_content['href'].split('=')[-1]
+        for j in range(int(last_pag_num)):
+            page_list.append(str(tab_list[i]) + '/?page=' + str(j+1))
     return page_list
 
 

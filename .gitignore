@@ -116,3 +116,6 @@ media/
 */secret.json
 
 .idea/
+
+# jupyter notebook file
+.ipynb

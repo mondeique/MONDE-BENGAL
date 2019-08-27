@@ -24,6 +24,10 @@ def page_list_provider(tab_list):
         source = BeautifulSoup(html, 'html.parser')
         pag_num = source.find('a', {"class": "this"}).get_text()
         page_list.append(str(tab_list[i]) + '/?page=' + str(pag_num))
+        last_pag_content = source.find_all('a', {"class:" "other"})[-1]
+        last_pag_num = last_pag_content.get_text()
+        for j in range(int(last_pag_num)-1):
+            page_list.append(str(tab_list[i]) + '/?page=' + str(j+2))
     return page_list
 
 
@@ -106,11 +110,11 @@ def make_model_table(all_info_list):
         p, _ = Product.objects.update_or_create(shopping_mall=1, image_url=all_info_list[i][6], bag_url=all_info_list[i][1],
                                                 is_best=all_info_list[i][0], price=all_info_list[i][2],
                                                 crawled_date=all_info_list[i][7])
+        # TODO : get_or_create & Boolean으로 판단하기
         # p = Product.objects.get(pk=i+1)
         for j in range(len(all_info_list[i][3])):
             q, _ = ColorTab.objects.update_or_create(product=p, is_mono=all_info_list[i][5], on_sale=all_info_list[i][4][j],
-                                                  colors=all_info_list[i][3][j])
-            # TODO : 나오는 경우의 수를 모두 생각해야 하는가? 그럼 어떻게?
+                                                     colors=all_info_list[i][3][j])
             for k in range(len(q.colors)):
                 if any('레드' or '와인' or '브릭' or '버건디' or '빨강' in q.colors[k]):
                     colortag = 1

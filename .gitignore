@@ -118,4 +118,4 @@ media/
 .idea/
 
 # jupyter notebook file
-.ipynb
+*.ipynb

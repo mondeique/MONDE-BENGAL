@@ -130,13 +130,12 @@ def coming_info_crawler(product_list):
     return all_info_list
 
 
-# TODO : Question colortag가 안나와요.
 # TODO : 영어도 있음 (수정)
 # model table 에 집어넣기
 def coming_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.update_or_create(shopping_mall=7, image_url=all_info_list[i][5], product_name=all_info_list[i][7],
-                                                bag_url=all_info_list[i][0], price=all_info_list[i][1], crawled_date=all_info_list[i][6])
+        p, _ = Product.objects.get_or_create(shopping_mall=7, image_url=all_info_list[i][5], product_name=all_info_list[i][7],
+                                             bag_url=all_info_list[i][0], price=all_info_list[i][1], crawled_date=all_info_list[i][6])
         # p = Product.objects.get(pk=i+1)
         for j in range(len(all_info_list[i][2])):
             q, _ = ColorTab.objects.update_or_create(product=p, is_mono=all_info_list[i][4], on_sale=all_info_list[i][3][j],

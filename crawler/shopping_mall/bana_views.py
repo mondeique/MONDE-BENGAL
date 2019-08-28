@@ -45,8 +45,7 @@ def bana_product_list_provider(main_url, page_list):
                 for url in b.find_all('a'):
                     product_list.append(main_url + '/shop/' + url['href'][2:])
     product_list = list(set(product_list))
-    print(product_list)
-    return product_list
+    return product_list[:5]
 
 
 def bana_info_crawler(product_list):
@@ -117,10 +116,12 @@ def bana_info_crawler(product_list):
 # TODO : 왜 두개씩 생기는거지?
 # model table 에 집어넣기
 def bana_make_model_table(all_info_list):
+    print('bana_make_model_table')
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.update_or_create(shopping_mall=4, image_url=all_info_list[i][6], product_name=all_info_list[i][8],
-                                                bag_url=all_info_list[i][1], is_best=all_info_list[i][0], price=all_info_list[i][2],
-                                                crawled_date=all_info_list[i][7])
+        p, _ = Product.objects.get_or_create(shopping_mall=4, image_url=all_info_list[i][6], product_name=all_info_list[i][8],
+                                             bag_url=all_info_list[i][1], is_best=all_info_list[i][0], price=all_info_list[i][2],
+                                             crawled_date=all_info_list[i][7])
+        print(i, p.id)
         # p = Product.objects.get(pk=i+1)
         q, _ = ColorTab.objects.update_or_create(product=p, is_mono=all_info_list[i][5], on_sale=all_info_list[i][4],
                                                  colors=all_info_list[i][3])

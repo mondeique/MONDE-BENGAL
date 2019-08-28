@@ -22,8 +22,8 @@ urlpatterns = [
     # path('luzzibag/', views.luzzi_web_crawling),
     # path('pau/', views.pau_web_crawling),
     # path('jade/', views.jade_web_crawling),
-    # path('bana/', views.bana_web_crawling),
+    path('bana/', views.bana_web_crawling),
     # path('beginning/', views.beginning_web_crawling),
     # path('bnburde/', views.bnburde_web_crawling),
-    path('coming/', views.coming_web_crawling)
+    # path('coming/', views.coming_web_crawling)
 ]

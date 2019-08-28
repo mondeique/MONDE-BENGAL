@@ -124,13 +124,12 @@ def bnburde_info_crawler(product_list):
     return all_info_list
 
 
-# TODO : Question colortag가 안나와요.
 # model table 에 집어넣기
 def bnburde_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.update_or_create(shopping_mall=6, image_url=all_info_list[i][6], product_name=all_info_list[i][8],
-                                                bag_url=all_info_list[i][1], is_best=all_info_list[i][0], price=all_info_list[i][2],
-                                                crawled_date=all_info_list[i][7])
+        p, _ = Product.objects.get_or_create(shopping_mall=6, image_url=all_info_list[i][6], product_name=all_info_list[i][8],
+                                             bag_url=all_info_list[i][1], is_best=all_info_list[i][0], price=all_info_list[i][2],
+                                             crawled_date=all_info_list[i][7])
         # p = Product.objects.get(pk=i+1)
         for j in range(len(all_info_list[i][3])):
             q, _ = ColorTab.objects.update_or_create(product=p, is_mono=all_info_list[i][5], on_sale=all_info_list[i][4][j],

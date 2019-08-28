@@ -41,14 +41,14 @@ from crawler.shopping_mall.coming_views import *
 #     return redirect("/admin")
 
 
-# def bana_web_crawling(requests):
-#     main_url = 'http://www.banabanamall.com'
-#     bana_tab_list = bana_tab_list_provider(main_url)
-#     bana_page_list = bana_page_list_provider(bana_tab_list)
-#     bana_product_list = bana_product_list_provider(main_url, bana_page_list)
-#     bana_all_info_list = bana_info_crawler(bana_product_list)
-#     bana_make_model_table(bana_all_info_list)
-#     return redirect("/admin")
+def bana_web_crawling(requests):
+    main_url = 'http://www.banabanamall.com'
+    bana_tab_list = bana_tab_list_provider(main_url)
+    bana_page_list = bana_page_list_provider(bana_tab_list)
+    bana_product_list = bana_product_list_provider(main_url, bana_page_list)
+    bana_all_info_list = bana_info_crawler(bana_product_list)
+    bana_make_model_table(bana_all_info_list)
+    return redirect("/admin")
 
 
 # def beginning_web_crawling(requests):
@@ -71,11 +71,11 @@ from crawler.shopping_mall.coming_views import *
 #     return redirect("/admin")
 
 
-def coming_web_crawling(requests):
-    main_url = 'http://www.comingbag.co.kr'
-    coming_tab_list = coming_tab_list_provider(main_url)
-    coming_page_list = coming_page_list_provider(coming_tab_list)
-    coming_product_list = coming_product_list_provider(main_url, coming_page_list)
-    coming_all_info_list = coming_info_crawler(coming_product_list)
-    coming_make_model_table(coming_all_info_list)
-    return redirect("/admin")
+# def coming_web_crawling(requests):
+#     main_url = 'http://www.comingbag.co.kr'
+#     coming_tab_list = coming_tab_list_provider(main_url)
+#     coming_page_list = coming_page_list_provider(coming_tab_list)
+#     coming_product_list = coming_product_list_provider(main_url, coming_page_list)
+#     coming_all_info_list = coming_info_crawler(coming_product_list)
+#     coming_make_model_table(coming_all_info_list)
+#     return redirect("/admin")

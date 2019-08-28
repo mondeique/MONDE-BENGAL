@@ -46,7 +46,7 @@ def bana_product_list_provider(main_url, page_list):
                     product_list.append(main_url + '/shop/' + url['href'][2:])
     product_list = list(set(product_list))
     print(product_list)
-    return product_list[:5]
+    return product_list
 
 
 def bana_info_crawler(product_list):

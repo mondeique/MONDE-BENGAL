@@ -41,7 +41,7 @@ def luzzi_product_list_provider(main_url, page_list):
             for url in a.find_all('a'):
                 product_list.append(main_url + parse.quote(url['href']))
     product_list = list(set(product_list))
-    return product_list[:5]
+    return product_list
 
 
 def luzzi_info_crawler(product_list):
@@ -80,11 +80,11 @@ def luzzi_info_crawler(product_list):
         info_list.append(color_list)
 
         # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
-        on_sale=True
+        on_sale = True
         on_sale_list = []
         for color in color_list:
             if "품절" in color:
-                on_sale=False
+                on_sale = False
             on_sale_list.append(on_sale)
         info_list.append(on_sale_list)
 
@@ -96,7 +96,7 @@ def luzzi_info_crawler(product_list):
 
         # 이미지 source html 정보 추출하기
         a = source.find('div', {"class": "thumbnail"})
-        info_list.append(str('http:') + a.find('img')['src'])
+        info_list.append('http:' + a.find('img')['src'])
 
         # 크롤링된 시간 정보 담기
         info_list.append(timezone.now())

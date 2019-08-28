@@ -98,13 +98,19 @@ def bana_info_crawler(product_list):
         # 크롤링된 시간 정보 담기
         info_list.append(timezone.now())
 
+        # 상품 이름 정보 담기
+        for a in source.find_all('div', {"class": "left"}):
+            for b in a.find_all('div', {"class": "bold w24 goodsnm"}):
+                name = b.get_text()
+                info_list.append(name)
+
         # 모든 정보 담기
         all_info_list.append(info_list)
 
         # 서버 과부하를 위해 10s 간 멈춤
         time.sleep(10)
+
     print(all_info_list)
-    print(len(all_info_list))
     return all_info_list
 
 
@@ -112,8 +118,8 @@ def bana_info_crawler(product_list):
 # model table 에 집어넣기
 def bana_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.update_or_create(shopping_mall=4, image_url=all_info_list[i][6], bag_url=all_info_list[i][1],
-                                                is_best=all_info_list[i][0], price=all_info_list[i][2],
+        p, _ = Product.objects.update_or_create(shopping_mall=4, image_url=all_info_list[i][6], product_name=all_info_list[i][8],
+                                                bag_url=all_info_list[i][1], is_best=all_info_list[i][0], price=all_info_list[i][2],
                                                 crawled_date=all_info_list[i][7])
         # p = Product.objects.get(pk=i+1)
         q, _ = ColorTab.objects.update_or_create(product=p, is_mono=all_info_list[i][5], on_sale=all_info_list[i][4],

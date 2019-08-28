@@ -8,6 +8,7 @@ from crawler.shopping_mall.jade_views import *
 from crawler.shopping_mall.bana_views import *
 from crawler.shopping_mall.beginning_views import *
 from crawler.shopping_mall.bnburde_views import *
+from crawler.shopping_mall.coming_views import *
 
 
 # def luzzi_web_crawling(requests):
@@ -60,11 +61,21 @@ from crawler.shopping_mall.bnburde_views import *
 #     return redirect("/admin")
 
 
-def bnburde_web_crawling(requests):
-    main_url = 'http://www.bnburde.com'
-    bnburde_tab_list = bnburde_tab_list_provider(main_url)
-    bnburde_page_list = bnburde_page_list_provider(bnburde_tab_list)
-    bnburde_product_list = bnburde_product_list_provider(main_url, bnburde_page_list)
-    bnburde_all_info_list = bnburde_info_crawler(bnburde_product_list)
-    bnburde_make_model_table(bnburde_all_info_list)
+# def bnburde_web_crawling(requests):
+#     main_url = 'http://www.bnburde.com'
+#     bnburde_tab_list = bnburde_tab_list_provider(main_url)
+#     bnburde_page_list = bnburde_page_list_provider(bnburde_tab_list)
+#     bnburde_product_list = bnburde_product_list_provider(main_url, bnburde_page_list)
+#     bnburde_all_info_list = bnburde_info_crawler(bnburde_product_list)
+#     bnburde_make_model_table(bnburde_all_info_list)
+#     return redirect("/admin")
+
+
+def coming_web_crawling(requests):
+    main_url = 'http://www.comingbag.co.kr'
+    coming_tab_list = coming_tab_list_provider(main_url)
+    coming_page_list = coming_page_list_provider(coming_tab_list)
+    coming_product_list = coming_product_list_provider(main_url, coming_page_list)
+    coming_all_info_list = coming_info_crawler(coming_product_list)
+    coming_make_model_table(coming_all_info_list)
     return redirect("/admin")

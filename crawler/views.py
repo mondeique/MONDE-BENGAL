@@ -7,6 +7,7 @@ from crawler.shopping_mall.pau_views import *
 from crawler.shopping_mall.jade_views import *
 from crawler.shopping_mall.bana_views import *
 from crawler.shopping_mall.beginning_views import *
+from crawler.shopping_mall.bnburde_views import *
 
 
 # def luzzi_web_crawling(requests):
@@ -49,11 +50,21 @@ from crawler.shopping_mall.beginning_views import *
 #     return redirect("/admin")
 
 
-def beginning_web_crawling(requests):
-    main_url = 'http://www.beginning.kr'
-    beginning_tab_list = beginning_tab_list_provider(main_url)
-    beginning_page_list = beginning_page_list_provider(beginning_tab_list)
-    beginning_product_list = beginning_product_list_provider(main_url, beginning_page_list)
-    beginning_all_info_list = beginning_info_crawler(beginning_product_list)
-    beginning_make_model_table(beginning_all_info_list)
+# def beginning_web_crawling(requests):
+#     main_url = 'http://www.beginning.kr'
+#     beginning_tab_list = beginning_tab_list_provider(main_url)
+#     beginning_page_list = beginning_page_list_provider(beginning_tab_list)
+#     beginning_product_list = beginning_product_list_provider(main_url, beginning_page_list)
+#     beginning_all_info_list = beginning_info_crawler(beginning_product_list)
+#     beginning_make_model_table(beginning_all_info_list)
+#     return redirect("/admin")
+
+
+def bnburde_web_crawling(requests):
+    main_url = 'http://www.bnburde.com'
+    bnburde_tab_list = bnburde_tab_list_provider(main_url)
+    bnburde_page_list = bnburde_page_list_provider(bnburde_tab_list)
+    bnburde_product_list = bnburde_product_list_provider(main_url, bnburde_page_list)
+    bnburde_all_info_list = bnburde_info_crawler(bnburde_product_list)
+    bnburde_make_model_table(bnburde_all_info_list)
     return redirect("/admin")

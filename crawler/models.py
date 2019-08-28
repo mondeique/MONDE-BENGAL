@@ -32,8 +32,7 @@ class Product(models.Model):
     )
     shopping_mall = models.IntegerField(choices=SITE_CHOICES, help_text='crawling 된 bag 의 homepage')
     image_url = models.URLField(help_text='가방 이미지의 html image source')
-    # TODO 이름 짓기
-    product_image = models.ImageField(upload_to='', null=True, blank=True)
+    product_name = models.CharField(null=True, max_length=100)
     bag_url = models.URLField(help_text='한 상품에 대한 url')
     is_best = models.BooleanField(default=False)
     price = models.CharField(max_length=50)

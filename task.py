@@ -13,6 +13,7 @@ from crawler.shopping_mall.bnburde_views import *
 from crawler.shopping_mall.coming_views import *
 from crawler.shopping_mall.gabangpop_views import *
 from crawler.shopping_mall.bagshoes_views import *
+from crawler.shopping_mall.mclanee_views import *
 
 
 def luzzi_web_crawling():
@@ -96,6 +97,14 @@ def bagshoes_web_crawling():
     bagshoes_make_model_table(bagshoes_all_info_list)
 
 
+def mclanee_web_crawling():
+    main_url = 'http://www.mclanee.co.kr'
+    mclanee_tab_list = mclanee_tab_list_provider(main_url)
+    mclanee_page_list = mclanee_page_list_provider(mclanee_tab_list)
+    mclanee_product_list = mclanee_product_list_provider(main_url, mclanee_page_list)
+    mclanee_all_info_list = mclanee_info_crawler(mclanee_product_list)
+    mclanee_make_model_table(mclanee_all_info_list)
+
 # luzzi_web_crawling()
 # pau_web_crawling()
 # jade_web_crawling()
@@ -104,7 +113,8 @@ def bagshoes_web_crawling():
 # bnburde_web_crawling()
 # coming_web_crawling()
 # gabangpop_web_crawling()
-bagshoes_web_crawling()
+# bagshoes_web_crawling()
+mclanee_web_crawling()
 
 
 

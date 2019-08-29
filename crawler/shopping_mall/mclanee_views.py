@@ -1,50 +1,56 @@
 from django.utils import timezone
 from crawler.models import *
 from urllib.request import urlopen
+from urllib import parse
 from bs4 import BeautifulSoup
 import time
 
 
-def bagshoes_tab_list_provider(main_url):
+def mclanee_tab_list_provider(main_url):
     tab_list = []
     html = urlopen(main_url)
     source = BeautifulSoup(html, 'html.parser')
-    for a in source.find_all('div', {"id": "category"}):
-        for b in a.find_all('div', {"class": "position"}):
-            for url in b.find_all('a'):
-                if url['href'].startswith('/shop'):
-                    tab_list.append(main_url + url['href'])
-    return tab_list[:7]
+    for a in source.find_all('div', {"id": "gnb"}):
+        for b in a.find_all('ul', {"class": "d1Box div eng"}):
+            for c in b.find_all('li', {"class": "d1 xans-record-"}):
+                for url in c.find_all('a', {"class": "upper"}):
+                    if url['href'].startswith('/product'):
+                        tab_list.append(main_url + url['href'])
+    return tab_list
 
 
-def bagshoes_page_list_provider(tab_list):
+def mclanee_page_list_provider(tab_list):
     page_list = []
     for i in range(len(tab_list)):
         html = urlopen(tab_list[i])
         source = BeautifulSoup(html, 'html.parser')
-        for a in source.find_all('div', {"class": "item-wrap"}):
-            for b in a.find_all('div', {"class": "item-page"}):
-                for url in b.find_all('a'):
-                    page_list.append('http://www.bagshoes.co.kr' + url['href'])
+        for a in source.find_all('div', {"class": "inner"}):
+            for b in a.find_all('div', {"class": "ec-base-paginate"}):
+                for url in b.find_all('a', {"class": "last"}):
+                    last_pag_num = 1
+                    if url['href'].split('=')[-1] != '#none':
+                        last_pag_num = url['href'].split('=')[-1]
+                    for j in range(int(last_pag_num)):
+                        page_list.append(tab_list[i] + '&page=' + str(j+1))
     page_list = list(set(page_list))
     return page_list
 
 
-def bagshoes_product_list_provider(main_url, page_list):
+def mclanee_product_list_provider(main_url, page_list):
     product_list = []
     for i in range(len(page_list)):
         html = urlopen(page_list[i])
         source = BeautifulSoup(html, 'html.parser')
-        for a in source.find_all('div', {"class": "box"}):
-            for b in a.find_all('div', {"class": "prd-thumb"}):
+        for a in source.find_all('ul', {"class": "prdList"}):
+            for b in a.find_all('div', {"class": "prd_tmb"}):
                 for url in b.find_all('a'):
-                    if url['href'].startswith('/shop'):
-                        product_list.append(main_url + url['href'])
+                    if url['href'].startswith('/product'):
+                        product_list.append(main_url + parse.quote(url['href']))
     product_list = list(set(product_list))
     return product_list[:5]
 
 
-def bagshoes_info_crawler(product_list):
+def mclanee_info_crawler(product_list):
     all_info_list = []
     for i in range(len(product_list)):
         info_list = []
@@ -55,7 +61,7 @@ def bagshoes_info_crawler(product_list):
         # TODO : best 상품인지 아닌지 현재로써는 모름
         # Best 상품인지 아닌지에 대한 정보 담기
         is_best = False
-        if product_list[i].startswith('http://www.bagshoes.co.kr/shop/shopbrand.html?xcode=049&type=P'):
+        if product_list[i].startswith('http://www.mclanee.co.kr/product/list.html?cate_no=101'):
             is_best = True
         info_list.append(is_best)
 
@@ -64,8 +70,8 @@ def bagshoes_info_crawler(product_list):
 
         # 가격 정보 추출하기
         price_list = []
-        for a in source.find_all('div', {"class": "table-opt"}):
-            for b in a.find_all('div', {"class": "price"}):
+        for a in source.find_all('div', {"class": "cont details"}):
+            for b in a.find_all('strong', {"id": "span_product_price_text"}):
                 price = b.get_text()
                 price = price.replace('\n', '').replace('\r', '').replace('\t', '')
                 price_list.append(price)
@@ -74,13 +80,12 @@ def bagshoes_info_crawler(product_list):
 
         # 색상 정보 추출하기
         color_list = []
-        for a in source.find_all('div', {"class": "table-opt"}):
-            for b in a.find_all('div', {"class": "tb-left"}):
-                for c in b.find_all('select', {"id": "optionlist_0"}):
-                    for d in c.find_all('option'):
-                        color = d.get_text()
+        for a in source.find_all('div', {"class": "infoArea"}):
+            for b in a.find_all('tbody', {"class": "xans-product-option"}):
+                for c in b.find_all('ul', {"option_title": "색상"}):
+                    for d in c.find_all('li'):
+                        color = d['title']
                         color_list.append(color)
-        color_list = [s for s in color_list if '필수' not in s]
         color_list = list(set(color_list))
         info_list.append(color_list)
 
@@ -100,20 +105,22 @@ def bagshoes_info_crawler(product_list):
         info_list.append(is_mono)
 
         # 이미지 source html 정보 추출하기
-        a = source.find('div', {"class": "thumb-info"})
-        img_source = a.find('div', {"class": "thumb"})
-        info_list.append('http://www.bagshoes.co.kr' + img_source.find('img')['src'])
+        a = source.find('div', {"class": "keyImg"})
+        img_source = a.find('div', {"class": "thumbnail"})
+        info_list.append(img_source.find('img', {"class": "BigImage"})['src'])
 
         # 크롤링된 시간 정보 담기
         info_list.append(timezone.now())
 
         # 상품 이름 정보 담기
-        for a in source.find_all('div', {"class": "info"}):
-            for b in a.find_all('div', {"id": "sangse_name"}):
-                for c in b.find_all('h3'):
-                    name = c.get_text()
-                    name = name.replace('\n', '').replace('\r', '').replace('\t', '')
-                    info_list.append(name)
+        name_list = []
+        for a in source.find_all('div', {"class": "cont details"}):
+            for b in a.find_all('li', {"class": "xans-record-"}):
+                for c in b.find_all('span'):
+                    name_list.append(c.get_text())
+        name = name_list[1]
+        name = name.replace('\n', '').replace('\r', '').replace('\t', '')
+        info_list.append(name)
 
         # 모든 정보 담기
         all_info_list.append(info_list)
@@ -125,9 +132,9 @@ def bagshoes_info_crawler(product_list):
 
 
 # model table 에 집어넣기
-def bagshoes_make_model_table(all_info_list):
+def mclanee_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.get_or_create(shopping_mall=9, image_url=all_info_list[i][6], product_name=all_info_list[i][8],
+        p, _ = Product.objects.get_or_create(shopping_mall=10, image_url=all_info_list[i][6], product_name=all_info_list[i][8],
                                              bag_url=all_info_list[i][1], is_best = all_info_list[i][0]
                                              , price=all_info_list[i][2], crawled_date=all_info_list[i][7])
         # p = Product.objects.get(pk=i+1)

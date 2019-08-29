@@ -97,9 +97,9 @@ def gabangpop_info_crawler(product_list):
         info_list.append(color_list)
 
         # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
-        on_sale = True
         on_sale_list = []
         for color in color_list:
+            on_sale = True
             if "품절" in color:
                 on_sale = False
             on_sale_list.append(on_sale)

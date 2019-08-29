@@ -45,7 +45,7 @@ def bana_product_list_provider(main_url, page_list):
                 for url in b.find_all('a'):
                     product_list.append(main_url + '/shop/' + url['href'][2:])
     product_list = list(set(product_list))
-    return product_list[:5]
+    return product_list
 
 
 def bana_info_crawler(product_list):
@@ -113,7 +113,6 @@ def bana_info_crawler(product_list):
     return all_info_list
 
 
-# TODO : 왜 두개씩 생기는거지?
 # model table 에 집어넣기
 def bana_make_model_table(all_info_list):
     print('bana_make_model_table')

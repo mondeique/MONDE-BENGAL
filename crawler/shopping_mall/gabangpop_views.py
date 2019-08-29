@@ -5,49 +5,50 @@ from bs4 import BeautifulSoup
 import time
 
 
-def bnburde_tab_list_provider(main_url):
+def gabangpop_tab_list_provider(main_url):
     tab_list = []
-    html = urlopen(main_url)
+    html = urlopen(main_url + '/app/category/intro/130')
     source = BeautifulSoup(html, 'html.parser')
-    for a in source.find_all('div', {"class": "lnb_wrap"}):
-        for b in a.find_all('ul', {"class": "clear"}):
+    for a in source.find_all('div', {"class": "lnb"}):
+        for b in a.find_all('div', {"class": "lnb_lst"}):
             for url in b.find_all('a'):
-                if url['href'].startswith('/shop/shopbrand.html?type'):
+                if url['href'].startswith('/app/category/lists'):
                     tab_list.append(main_url + url['href'])
-    return tab_list[:7]
+    return tab_list
 
 
-def bnburde_page_list_provider(tab_list):
+def gabangpop_page_list_provider(tab_list):
+    page_content_list = []
     page_list = []
     for i in range(len(tab_list)):
         html = urlopen(tab_list[i])
         source = BeautifulSoup(html, 'html.parser')
-        for a in source.find_all('div', {"class": "item-page"}):
-            last_pag_content = a.find('a', {"class": "pager last"})
-            if last_pag_content == None:
-                last_pag_num = 1
-            else:
-                last_pag_num = last_pag_content['href'].split('=')[-1]
-            for j in range(int(last_pag_num)):
-                page_list.append(tab_list[i] + '&page=' + str(j+1))
+        for a in source.find_all('div', {"class": "prod-list"}):
+            for b in a.find_all('div', {"class": "page-paging"}):
+                for url in b.find_all('a', {"href": "#"}):
+                    page_content_list.append(url)
+                    last_pag_num = len(page_content_list)
+                    for j in range(int(last_pag_num)):
+                        page_list.append(tab_list[i] + '?category=&d_cat_cd=' + tab_list[i].split('/')[-1] + '&page=' + str(j+1))
+    page_list = list(set(page_list))
     return page_list
 
 
-def bnburde_product_list_provider(main_url, page_list):
+def gabangpop_product_list_provider(main_url, page_list):
     product_list = []
     for i in range(len(page_list)):
         html = urlopen(page_list[i])
         source = BeautifulSoup(html, 'html.parser')
-        for a in source.find_all('div', {"class": 'item-cont'}):
-            for b in a.find_all('dl', {"class": "item-list"}):
-                for url in b.find_all('a'):
-                    if url['href'].startswith('/shop'):
+        for a in source.find_all('div', {"class": 'prod-list'}):
+            for b in a.find_all('div', {"class": "prod-listB"}):
+                for url in b.find_all('a', {"class": "td_a"}):
+                    if url['href'].startswith('/app/product'):
                         product_list.append(main_url + url['href'])
     product_list = list(set(product_list))
-    return product_list
+    return product_list[:5]
 
 
-def bnburde_info_crawler(product_list):
+def gabangpop_info_crawler(product_list):
     all_info_list = []
     for i in range(len(product_list)):
         info_list = []
@@ -55,35 +56,44 @@ def bnburde_info_crawler(product_list):
         html = urlopen(product_list[i])
         source = BeautifulSoup(html, 'html.parser')
 
-        # Best 상품인지 아닌지에 대한 정보 담기
-        is_best = False
-        if product_list[i].startswith('http://www.bnburde.com/shop/shopbrand.html?type=P&xcode=021'):
-            is_best = True
-        info_list.append(is_best)
+        # Best 상품인지 아닌지에 대한 정보 담을 필요 없음
+        # is_best = False
+        # info_list.append(is_best)
 
         # 가방 url 담기
         info_list.append(product_list[i])
 
         # 가격 정보 추출하기
         price_list = []
-        for a in source.find_all('div', {"class": "table-opt"}):
-            for b in a.find_all('tr'):
-                for c in b.find_all('div', {"class": "tb-left"}):
-                    price_list.append(c.get_text())
-                    price = price_list
-
-        real_price = price[3]
-        real_price = real_price.replace(' ', '').replace('\n', '')
-        info_list.append(real_price)
+        for a in source.find_all('div', {"class": "prod-preview"}):
+            for b in a.find_all('span', {"class": "price"}):
+                price = b.get_text()
+                price = price.replace('\n', '').replace('\r', '').replace('\t', '')
+                price_list.append(price)
+        price = price_list[0]
+        info_list.append(price)
 
         # 색상 정보 추출하기
         color_list = []
-        for a in source.find_all('div', {"class": "opt-wrap"}):
-            for b in a.find_all('select', {"label": "COLOR"}):
-                for color in b.find_all('option'):
-                    color_list.append(color.get_text())
-        color_list = [s for s in color_list if '옵션' not in s]
-
+        for a in source.find_all('div', {"class": "prod-preview"}):
+            for b in a.find_all('p', {"class": "prod-name"}):
+                name = b.get_text()
+                name = name.replace('\n', '').replace('\r', '').replace('\t', '')
+                if '(' in name:
+                    left_index = name.index('(')
+                    right_index = name.index(')')
+                    if right_index - left_index > 2:
+                        color_list.append(name[left_index+1:right_index])
+                if '블랙' in name:
+                    color_list.append('블랙')
+                if 'BLACK' in name:
+                    color_list.append('블랙')
+        for c in source.find_all('select', {"id": "option1"}):
+            for d in c.find_all('option'):
+                color_list.append(d.get_text())
+                color_list = [s for s in color_list if '선택' not in s]
+                color_list = [s for s in color_list if 'FREE' not in s]
+        color_list = list(set(color_list))
         info_list.append(color_list)
 
         # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
@@ -102,17 +112,18 @@ def bnburde_info_crawler(product_list):
         info_list.append(is_mono)
 
         # 이미지 source html 정보 추출하기
-        a = source.find('div', {"class": "thumb-info"})
-        img_source = a.find('div', {"class": "thumb"})
-        info_list.append('http://www.bnburde.com' + img_source.find('img')['src'])
+        a = source.find('div', {"class": "prod-detail-preview"})
+        img_source = a.find('div', {"class": "prod-image"})
+        info_list.append(img_source.find('img')['src'])
 
         # 크롤링된 시간 정보 담기
         info_list.append(timezone.now())
 
         # 상품 이름 정보 담기
-        for a in source.find_all('div', {"class": "info"}):
-            for b in a.find_all('h3', {"class": "tit-prd"}):
+        for a in source.find_all('div', {"class": "prod-preview"}):
+            for b in a.find_all('p', {"class": "prod-name"}):
                 name = b.get_text()
+                name = name.replace('\n', '').replace('\r', '').replace('\t', '')
                 info_list.append(name)
 
         # 모든 정보 담기
@@ -124,16 +135,16 @@ def bnburde_info_crawler(product_list):
     return all_info_list
 
 
+# TODO : 이름 이상한 것 많음..
 # model table 에 집어넣기
-def bnburde_make_model_table(all_info_list):
+def gabangpop_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.get_or_create(shopping_mall=6, image_url=all_info_list[i][6], product_name=all_info_list[i][8],
-                                             bag_url=all_info_list[i][1], is_best=all_info_list[i][0], price=all_info_list[i][2],
-                                             crawled_date=all_info_list[i][7])
+        p, _ = Product.objects.get_or_create(shopping_mall=8, image_url=all_info_list[i][5], product_name=all_info_list[i][7],
+                                             bag_url=all_info_list[i][0], price=all_info_list[i][1], crawled_date=all_info_list[i][6])
         # p = Product.objects.get(pk=i+1)
-        for j in range(len(all_info_list[i][3])):
-            q, _ = ColorTab.objects.update_or_create(product=p, is_mono=all_info_list[i][5], on_sale=all_info_list[i][4][j],
-                                                     colors=all_info_list[i][3][j])
+        for j in range(len(all_info_list[i][2])):
+            q, _ = ColorTab.objects.update_or_create(product=p, is_mono=all_info_list[i][4], on_sale=all_info_list[i][3][j],
+                                                     colors=all_info_list[i][2][j])
             for k in range(len(q.colors)):
                 if any(c in q.colors[k] for c in ('레드', '와인', '브릭', '버건디', '빨강')):
                     colortag = 1

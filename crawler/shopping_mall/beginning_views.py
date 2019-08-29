@@ -36,7 +36,7 @@ def beginning_product_list_provider(main_url, page_list):
                 if url['href'].startswith('/shop'):
                     product_list.append(main_url + url['href'])
     product_list = list(set(product_list))
-    return product_list[:5]
+    return product_list
 
 
 def beginning_info_crawler(product_list):

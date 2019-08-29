@@ -38,7 +38,7 @@ def coming_product_list_provider(main_url, page_list):
                     if url['href'].startswith('/product'):
                         product_list.append(main_url + url['href'])
     product_list = list(set(product_list))
-    return product_list[:5]
+    return product_list
 
 
 def coming_info_crawler(product_list):
@@ -69,7 +69,6 @@ def coming_info_crawler(product_list):
                 for c in b.find_all('strong', {"id": "span_product_price_text"}):
                     info_list.append(c.get_text())
 
-        # TODO : for 문에서 두번씩 도는거 처리
         # 색상 정보 추출하기
         color_list = []
         for a in source.find_all('div', {"class": "infoArea"}):

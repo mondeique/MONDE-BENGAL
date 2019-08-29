@@ -11,6 +11,7 @@ from crawler.shopping_mall.bana_views import *
 from crawler.shopping_mall.beginning_views import *
 from crawler.shopping_mall.bnburde_views import *
 from crawler.shopping_mall.coming_views import *
+from crawler.shopping_mall.gabangpop_views import *
 
 
 def luzzi_web_crawling():
@@ -76,12 +77,22 @@ def coming_web_crawling():
     coming_make_model_table(coming_all_info_list)
 
 
+def gabangpop_web_crawling():
+    main_url = 'http://www.gabangpop.co.kr'
+    gabangpop_tab_list = gabangpop_tab_list_provider(main_url)
+    gabangpop_page_list = gabangpop_page_list_provider(gabangpop_tab_list)
+    gabangpop_product_list = gabangpop_product_list_provider(main_url, gabangpop_page_list)
+    gabangpop_all_info_list = gabangpop_info_crawler(gabangpop_product_list)
+    gabangpop_make_model_table(gabangpop_all_info_list)
+
+
 # luzzi_web_crawling()
 # pau_web_crawling()
 # jade_web_crawling()
-bana_web_crawling()
+# bana_web_crawling()
 # beginning_web_crawling()
 # bnburde_web_crawling()
 # coming_web_crawling()
+gabangpop_web_crawling()
 
 

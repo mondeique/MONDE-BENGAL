@@ -16,6 +16,7 @@ from crawler.shopping_mall.bagshoes_views import *
 from crawler.shopping_mall.mclanee_views import *
 from crawler.shopping_mall.mjade_views import *
 from crawler.shopping_mall.pink_views import *
+from crawler.shopping_mall.whosbag_views import *
 
 
 def luzzi_web_crawling():
@@ -125,6 +126,16 @@ def pink_web_crawling():
     pink_all_info_list = pink_info_crawler(pink_product_list)
     pink_make_model_table(pink_all_info_list)
 
+
+def whosbag_web_crawling():
+    main_url = 'http://www.whosbag.com'
+    whosbag_tab_list = whosbag_tab_list_provider(main_url)
+    whosbag_page_list = whosbag_page_list_provider(whosbag_tab_list)
+    whosbag_product_list = whosbag_product_list_provider(main_url, whosbag_page_list)
+    whosbag_all_info_list = whosbag_info_crawler(whosbag_product_list)
+    whosbag_make_model_table(whosbag_all_info_list)
+
+
 # luzzi_web_crawling()
 # pau_web_crawling()
 # jade_web_crawling()
@@ -136,7 +147,8 @@ def pink_web_crawling():
 # bagshoes_web_crawling()
 # mclanee_web_crawling()
 # mjade_web_crawling()
-pink_web_crawling()
+# pink_web_crawling()
+whosbag_web_crawling()
 
 
 

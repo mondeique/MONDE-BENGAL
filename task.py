@@ -14,6 +14,7 @@ from crawler.shopping_mall.coming_views import *
 from crawler.shopping_mall.gabangpop_views import *
 from crawler.shopping_mall.bagshoes_views import *
 from crawler.shopping_mall.mclanee_views import *
+from crawler.shopping_mall.mjade_views import *
 
 
 def luzzi_web_crawling():
@@ -105,6 +106,15 @@ def mclanee_web_crawling():
     mclanee_all_info_list = mclanee_info_crawler(mclanee_product_list)
     mclanee_make_model_table(mclanee_all_info_list)
 
+
+def mjade_web_crawling():
+    main_url = 'http://www.mjade.co.kr'
+    mjade_tab_list = mjade_tab_list_provider(main_url)
+    mjade_page_list = mjade_page_list_provider(mjade_tab_list)
+    mjade_product_list = mjade_product_list_provider(main_url, mjade_page_list)
+    mjade_all_info_list = mjade_info_crawler(mjade_product_list)
+    mjade_make_model_table(mjade_all_info_list)
+
 # luzzi_web_crawling()
 # pau_web_crawling()
 # jade_web_crawling()
@@ -114,7 +124,8 @@ def mclanee_web_crawling():
 # coming_web_crawling()
 # gabangpop_web_crawling()
 # bagshoes_web_crawling()
-mclanee_web_crawling()
+# mclanee_web_crawling()
+mjade_web_crawling()
 
 
 

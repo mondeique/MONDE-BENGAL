@@ -1,6 +1,9 @@
 import os
 import django
 
+os.environ['DJANGO_SETTINGS_MODULE'] = 'web_crawler.settings'
+django.setup()
+
 from crawler.shopping_mall.luzzi_views import *
 from crawler.shopping_mall.pau_views import *
 from crawler.shopping_mall.jade_views import *
@@ -8,9 +11,6 @@ from crawler.shopping_mall.bana_views import *
 from crawler.shopping_mall.beginning_views import *
 from crawler.shopping_mall.bnburde_views import *
 from crawler.shopping_mall.coming_views import *
-
-os.environ['DJANGO_SETTINGS_MODULE'] = 'web_crawler.settings'
-django.setup()
 
 
 def luzzi_web_crawling():
@@ -76,12 +76,12 @@ def coming_web_crawling():
     coming_make_model_table(coming_all_info_list)
 
 
-luzzi_web_crawling()
-pau_web_crawling()
-jade_web_crawling()
+# luzzi_web_crawling()
+# pau_web_crawling()
+# jade_web_crawling()
 bana_web_crawling()
-beginning_web_crawling()
-bnburde_web_crawling()
-coming_web_crawling()
+# beginning_web_crawling()
+# bnburde_web_crawling()
+# coming_web_crawling()
 
 

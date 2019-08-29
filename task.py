@@ -12,6 +12,7 @@ from crawler.shopping_mall.beginning_views import *
 from crawler.shopping_mall.bnburde_views import *
 from crawler.shopping_mall.coming_views import *
 from crawler.shopping_mall.gabangpop_views import *
+from crawler.shopping_mall.bagshoes_views import *
 
 
 def luzzi_web_crawling():
@@ -86,6 +87,15 @@ def gabangpop_web_crawling():
     gabangpop_make_model_table(gabangpop_all_info_list)
 
 
+def bagshoes_web_crawling():
+    main_url = 'http://www.bagshoes.co.kr'
+    bagshoes_tab_list = bagshoes_tab_list_provider(main_url)
+    bagshoes_page_list = bagshoes_page_list_provider(bagshoes_tab_list)
+    bagshoes_product_list = bagshoes_product_list_provider(main_url, bagshoes_page_list)
+    bagshoes_all_info_list = bagshoes_info_crawler(bagshoes_product_list)
+    bagshoes_make_model_table(bagshoes_all_info_list)
+
+
 # luzzi_web_crawling()
 # pau_web_crawling()
 # jade_web_crawling()
@@ -93,6 +103,8 @@ def gabangpop_web_crawling():
 # beginning_web_crawling()
 # bnburde_web_crawling()
 # coming_web_crawling()
-gabangpop_web_crawling()
+# gabangpop_web_crawling()
+bagshoes_web_crawling()
+
 
 

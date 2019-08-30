@@ -14,6 +14,7 @@ def luzzi_tab_list_provider(main_url):
         for url in a.find_all('a'):
             if url['href'].startswith('/category'):
                 tab_list.append(main_url + parse.quote(url['href']))
+    print(tab_list[:5])
     return tab_list
 
 
@@ -29,6 +30,7 @@ def luzzi_page_list_provider(tab_list):
             last_pag_num = 1
         for j in range(int(last_pag_num)):
             page_list.append(tab_list[i] + '/?page=' + str(j+1))
+    print(page_list[:5])
     return page_list
 
 
@@ -41,7 +43,8 @@ def luzzi_product_list_provider(main_url, page_list):
             for url in a.find_all('a'):
                 product_list.append(main_url + parse.quote(url['href']))
     product_list = list(set(product_list))
-    return product_list
+    print(product_list[:5])
+    return product_list[:5]
 
 
 def luzzi_info_crawler(product_list):
@@ -126,37 +129,41 @@ def luzzi_make_model_table(all_info_list):
         for j in range(len(all_info_list[i][3])):
             q, _ = ColorTab.objects.update_or_create(product=p, is_mono=all_info_list[i][5], on_sale=all_info_list[i][4][j],
                                                      colors=all_info_list[i][3][j])
-            for k in range(len(q.colors)):
-                if any(c in q.colors[k] for c in ('레드', '와인', '브릭', '버건디', '빨강')):
+            colortag_list = []
+            colortag_list.append(q.colors)
+            for k in range(len(colortag_list)):
+                print(colortag_list[k])
+                if any(c in colortag_list[k] for c in ('레드', '와인', '브릭', '버건디', '빨강')):
                     colortag = 1
-                elif any(c in q.colors[k] for c in ('코랄', '핑크')):
+                elif any(c in colortag_list[k] for c in ('코랄', '핑크')):
                     colortag = 2
-                elif any(c in q.colors[k] for c in ('오렌지', '귤')):
+                elif any(c in colortag_list[k] for c in ('오렌지', '귤')):
                     colortag = 3
-                elif any(c in q.colors[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로')):
+                elif any(c in colortag_list[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로')):
                     colortag = 4
-                elif any(c in q.colors[k] for c in ('베이지', '코코아')):
+                elif any(c in colortag_list[k] for c in ('베이지', '코코아')):
                     colortag = 5
-                elif any(c in q.colors[k] for c in ('녹', '그린', '카키', '타프', '올리브', '라임')):
+                elif any(c in colortag_list[k] for c in ('녹', '그린', '카키', '타프', '올리브', '라임')):
                     colortag = 6
-                elif any(c in q.colors[k] for c in ('아쿠아', '세레니티', '블루', '청', '민트')):
+                elif any(c in colortag_list[k] for c in ('아쿠아', '세레니티', '블루', '청', '민트')):
                     colortag = 7
-                elif any(c in q.colors[k] for c in ('네이비', '진파랑')):
+                elif any(c in colortag_list[k] for c in ('네이비', '진파랑')):
                     colortag = 8
-                elif any(c in q.colors[k] for c in ('보라', '퍼플')):
+                elif any(c in colortag_list[k] for c in ('보라', '퍼플')):
                     colortag = 9
-                elif any(c in q.colors[k] for c in ('브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운')):
+                elif any(c in colortag_list[k] for c in ('브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운')):
                     colortag = 10
-                elif any(c in q.colors[k] for c in ('블랙', '검정')):
+                elif any(c in colortag_list[k] for c in ('블랙', '검정')):
                     colortag = 11
-                elif any(c in q.colors[k] for c in ('아이보리', '화이트', '하얀')):
+                elif any(c in colortag_list[k] for c in ('아이보리', '화이트', '크림', '하얀')):
                     colortag = 12
-                elif any(c in q.colors[k] for c in ('실버', '회색', '그레이')):
+                elif any(c in colortag_list[k] for c in ('실버', '회색', '그레이')):
                     colortag = 13
-                elif any(c in q.colors[k] for c in ('멀티', '다중', '뱀피')):
+                elif any(c in colortag_list[k] for c in ('멀티', '다중', '뱀피')):
                     colortag = 99
                 else:
                     colortag = 0
 
+                print(colortag)
                 ColorTag.objects.update_or_create(colortab=q, color=colortag)
 

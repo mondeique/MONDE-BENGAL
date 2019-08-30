@@ -136,7 +136,7 @@ def whosbag_web_crawling():
     whosbag_make_model_table(whosbag_all_info_list)
 
 
-# luzzi_web_crawling()
+luzzi_web_crawling()
 # pau_web_crawling()
 # jade_web_crawling()
 # bana_web_crawling()
@@ -148,7 +148,7 @@ def whosbag_web_crawling():
 # mclanee_web_crawling()
 # mjade_web_crawling()
 # pink_web_crawling()
-whosbag_web_crawling()
+# whosbag_web_crawling()
 
 
 

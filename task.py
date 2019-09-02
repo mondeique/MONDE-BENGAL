@@ -138,8 +138,8 @@ def whosbag_web_crawling():
 
 # luzzi_web_crawling()
 # pau_web_crawling()
-jade_web_crawling()
-# bana_web_crawling()
+# jade_web_crawling()
+bana_web_crawling()
 # beginning_web_crawling()
 # bnburde_web_crawling()
 # coming_web_crawling()

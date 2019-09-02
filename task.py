@@ -10,6 +10,7 @@ from crawler.shopping_mall.jade_views import *
 from crawler.shopping_mall.bana_views import *
 from crawler.shopping_mall.beginning_views import *
 from crawler.shopping_mall.bnburde_views import *
+from crawler.shopping_mall.wconcept_views import *
 from crawler.shopping_mall.gabangpop_views import *
 from crawler.shopping_mall.bagshoes_views import *
 from crawler.shopping_mall.mclanee_views import *
@@ -72,6 +73,15 @@ def bnburde_web_crawling():
     bnburde_make_model_table(bnburde_all_info_list)
 
 
+def wconcept_web_crawling():
+    main_url = 'https://www.wconcept.co.kr/Women/004'
+    wconcept_tab_list = wconcept_tab_list_provider(main_url)
+    wconcept_page_list = wconcept_page_list_provider(wconcept_tab_list)
+    wconcept_product_list = wconcept_product_list_provider(main_url, wconcept_page_list)
+    wconcept_all_info_list = wconcept_info_crawler(wconcept_product_list)
+    wconcept_make_model_table(wconcept_all_info_list)
+
+
 def gabangpop_web_crawling():
     main_url = 'http://www.gabangpop.co.kr'
     gabangpop_tab_list = gabangpop_tab_list_provider(main_url)
@@ -132,12 +142,13 @@ def whosbag_web_crawling():
 # bana_web_crawling()
 # beginning_web_crawling()
 # bnburde_web_crawling()
+wconcept_web_crawling()
 # gabangpop_web_crawling()
 # bagshoes_web_crawling()
 # mclanee_web_crawling()
 # mjade_web_crawling()
 # pink_web_crawling()
-whosbag_web_crawling()
+# whosbag_web_crawling()
 
 
 

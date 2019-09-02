@@ -73,15 +73,6 @@ def bnburde_web_crawling():
     bnburde_make_model_table(bnburde_all_info_list)
 
 
-def coming_web_crawling():
-    main_url = 'http://www.comingbag.co.kr'
-    coming_tab_list = coming_tab_list_provider(main_url)
-    coming_page_list = coming_page_list_provider(coming_tab_list)
-    coming_product_list = coming_product_list_provider(main_url, coming_page_list)
-    coming_all_info_list = coming_info_crawler(coming_product_list)
-    coming_make_model_table(coming_all_info_list)
-
-
 def gabangpop_web_crawling():
     main_url = 'http://www.gabangpop.co.kr'
     gabangpop_tab_list = gabangpop_tab_list_provider(main_url)
@@ -141,8 +132,7 @@ def whosbag_web_crawling():
 # jade_web_crawling()
 # bana_web_crawling()
 # beginning_web_crawling()
-bnburde_web_crawling()
-# coming_web_crawling()
+# bnburde_web_crawling()
 # gabangpop_web_crawling()
 # bagshoes_web_crawling()
 # mclanee_web_crawling()

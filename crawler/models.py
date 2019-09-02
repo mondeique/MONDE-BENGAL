@@ -8,7 +8,7 @@ class Product(models.Model):
     BANAMALL = 4
     BEGINNING = 5
     BNBURDE = 6
-    COMING = 7
+    WCONCEPT = 7
     GABANGPOP = 8
     BAGSHOES = 9
     MCLANEE = 10
@@ -22,7 +22,7 @@ class Product(models.Model):
         (BANAMALL, 'banabana mall'),
         (BEGINNING, 'beginning'),
         (BNBURDE, 'bnburde'),
-        (COMING, 'comingbag'),
+        (WCONCEPT, 'wconcept'),
         (GABANGPOP, 'gabangpop'),
         (BAGSHOES, 'bagshoes'),
         (MCLANEE, 'mclanee'),

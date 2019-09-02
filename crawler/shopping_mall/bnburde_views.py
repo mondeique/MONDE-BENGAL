@@ -44,7 +44,7 @@ def bnburde_product_list_provider(main_url, page_list):
                     if url['href'].startswith('/shop'):
                         product_list.append(main_url + url['href'])
     product_list = list(set(product_list))
-    return product_list
+    return product_list[:5]
 
 
 def bnburde_info_crawler(product_list):
@@ -79,9 +79,12 @@ def bnburde_info_crawler(product_list):
         # 색상 정보 추출하기
         color_list = []
         for a in source.find_all('div', {"class": "opt-wrap"}):
-            for b in a.find_all('select', {"label": "COLOR"}):
-                for color in b.find_all('option'):
-                    color_list.append(color.get_text())
+            for b_1 in a.find_all('select', {"label": "COLOR"}):
+                for color_1 in b_1.find_all('option'):
+                    color_list.append(color_1.get_text())
+            for b_2 in a.find_all('select', {"label": "color"}):
+                for color_2 in b_2.find_all('option'):
+                    color_list.append(color_2.get_text())
         color_list = [s for s in color_list if '옵션' not in s]
 
         info_list.append(color_list)
@@ -134,37 +137,42 @@ def bnburde_make_model_table(all_info_list):
         for j in range(len(all_info_list[i][3])):
             q, _ = ColorTab.objects.update_or_create(product=p, is_mono=all_info_list[i][5], on_sale=all_info_list[i][4][j],
                                                      colors=all_info_list[i][3][j])
-            for k in range(len(q.colors)):
-                if any(c in q.colors[k] for c in ('레드', '와인', '브릭', '버건디', '빨강')):
-                    colortag = 1
-                elif any(c in q.colors[k] for c in ('코랄', '핑크')):
-                    colortag = 2
-                elif any(c in q.colors[k] for c in ('오렌지', '귤')):
-                    colortag = 3
-                elif any(c in q.colors[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로')):
-                    colortag = 4
-                elif any(c in q.colors[k] for c in ('베이지', '코코아')):
-                    colortag = 5
-                elif any(c in q.colors[k] for c in ('녹', '그린', '카키', '타프', '올리브', '라임')):
-                    colortag = 6
-                elif any(c in q.colors[k] for c in ('아쿠아', '세레니티', '블루', '청', '민트')):
-                    colortag = 7
-                elif any(c in q.colors[k] for c in ('네이비', '진파랑')):
-                    colortag = 8
-                elif any(c in q.colors[k] for c in ('보라', '퍼플')):
-                    colortag = 9
-                elif any(c in q.colors[k] for c in ('브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운')):
-                    colortag = 10
-                elif any(c in q.colors[k] for c in ('블랙', '검정')):
-                    colortag = 11
-                elif any(c in q.colors[k] for c in ('아이보리', '화이트', '하얀')):
-                    colortag = 12
-                elif any(c in q.colors[k] for c in ('실버', '회색', '그레이')):
-                    colortag = 13
-                elif any(c in q.colors[k] for c in ('멀티', '다중', '뱀피')):
-                    colortag = 99
+            colortab_list = []
+            colortab_list.append(q.colors)
+            for k in range(len(colortab_list)):
+                colortag_list = []
+                print(colortab_list[k])
+                if any(c in colortab_list[k] for c in ('레드', '와인', '브릭', '버건디', '빨강')):
+                    colortag_list.append(1)
+                elif any(c in colortab_list[k] for c in ('로즈쿼츠', '피치', '살구', '코랄', '핑크')):
+                    colortag_list.append(2)
+                elif any(c in colortab_list[k] for c in ('오렌지', '귤')):
+                    colortag_list.append(3)
+                elif any(c in colortab_list[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로')):
+                    colortag_list.append(4)
+                elif any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아')):
+                    colortag_list.append(5)
+                elif any(c in colortab_list[k] for c in ('녹', '그린', '카키', '올리브', '라임', '비취')):
+                    colortag_list.append(6)
+                elif any(c in colortab_list[k] for c in ('소라', '아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘')):
+                    colortag_list.append(7)
+                elif any(c in colortab_list[k] for c in ('네이비', '진파랑', '곤색')):
+                    colortag_list.append(8)
+                elif any(c in colortab_list[k] for c in ('모브', '보라', '퍼플', '보르도', '보로도', '바이올렛')):
+                    colortag_list.append(9)
+                elif any(c in colortab_list[k] for c in ('샌드', '타프', '에땅', '머드', '에토프', '밤색', '브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운', '초콜렛')):
+                    colortag_list.append(10)
+                elif any(c in colortab_list[k] for c in ('블랙', '검정')):
+                    colortag_list.append(11)
+                elif any(c in colortab_list[k] for c in ('아이보리', '아이', '화이트', '크림', '하얀')):
+                    colortag_list.append(12)
+                elif any(c in colortab_list[k] for c in ('실버', '회색', '그레이', '차콜')):
+                    colortag_list.append(13)
+                elif any(c in colortab_list[k] for c in ('멀티', '다중', '뱀피', '지브라', '호피')):
+                    colortag_list.append(99)
                 else:
-                    colortag = 0
+                    colortag_list.append(0)
 
-                ColorTag.objects.update_or_create(colortab=q, color=colortag)
-
+                print(colortag_list)
+                for m in range(len(colortag_list)):
+                    ColorTag.objects.update_or_create(colortab=q, color=colortag_list[m])

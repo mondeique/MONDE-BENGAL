@@ -142,17 +142,17 @@ def luzzi_make_model_table(all_info_list):
                     colortag_list.append(3)
                 elif any(c in colortab_list[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로')):
                     colortag_list.append(4)
-                elif any(c in colortab_list[k] for c in ('베이지', '코코아')):
+                elif any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아')):
                     colortag_list.append(5)
-                elif any(c in colortab_list[k] for c in ('녹', '그린', '카키', '타프', '올리브', '라임')):
+                elif any(c in colortab_list[k] for c in ('녹', '그린', '카키', '타프', '올리브', '라임', '비취')):
                     colortag_list.append(6)
                 elif any(c in colortab_list[k] for c in ('아쿠아', '세레니티', '블루', '청', '민트')):
                     colortag_list.append(7)
                 elif any(c in colortab_list[k] for c in ('네이비', '진파랑')):
                     colortag_list.append(8)
-                elif any(c in colortab_list[k] for c in ('보라', '퍼플')):
+                elif any(c in colortab_list[k] for c in ('보라', '퍼플', '보르도', '보로도')):
                     colortag_list.append(9)
-                elif any(c in colortab_list[k] for c in ('브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운')):
+                elif any(c in colortab_list[k] for c in ('에땅', '브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운')):
                     colortag_list.append(10)
                 elif any(c in colortab_list[k] for c in ('블랙', '검정')):
                     colortag_list.append(11)
@@ -160,7 +160,7 @@ def luzzi_make_model_table(all_info_list):
                     colortag_list.append(12)
                 elif any(c in colortab_list[k] for c in ('실버', '회색', '그레이')):
                     colortag_list.append(13)
-                elif any(c in colortab_list[k] for c in ('멀티', '다중', '뱀피')):
+                elif any(c in colortab_list[k] for c in ('멀티', '다중', '뱀피', '지브라', '호피')):
                     colortag_list.append(99)
                 else:
                     colortag_list.append(0)

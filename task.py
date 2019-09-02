@@ -10,7 +10,6 @@ from crawler.shopping_mall.jade_views import *
 from crawler.shopping_mall.bana_views import *
 from crawler.shopping_mall.beginning_views import *
 from crawler.shopping_mall.bnburde_views import *
-from crawler.shopping_mall.coming_views import *
 from crawler.shopping_mall.gabangpop_views import *
 from crawler.shopping_mall.bagshoes_views import *
 from crawler.shopping_mall.mclanee_views import *
@@ -133,7 +132,7 @@ def whosbag_web_crawling():
 # bana_web_crawling()
 # beginning_web_crawling()
 # bnburde_web_crawling()
-# gabangpop_web_crawling()
+gabangpop_web_crawling()
 # bagshoes_web_crawling()
 # mclanee_web_crawling()
 # mjade_web_crawling()

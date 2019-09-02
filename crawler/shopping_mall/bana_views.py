@@ -129,7 +129,7 @@ def bana_make_model_table(all_info_list):
             print(colortab_list[k])
             if any(c in colortab_list[k] for c in ('레드', '와인', '브릭', '버건디', '빨강')):
                 colortag_list.append(1)
-            elif any(c in colortab_list[k] for c in ('코랄', '핑크')):
+            elif any(c in colortab_list[k] for c in ('피치', '살구', '코랄', '핑크')):
                 colortag_list.append(2)
             elif any(c in colortab_list[k] for c in ('오렌지', '귤')):
                 colortag_list.append(3)
@@ -137,15 +137,15 @@ def bana_make_model_table(all_info_list):
                 colortag_list.append(4)
             elif any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아')):
                 colortag_list.append(5)
-            elif any(c in colortab_list[k] for c in ('녹', '그린', '카키', '타프', '올리브', '라임', '비취')):
+            elif any(c in colortab_list[k] for c in ('녹', '그린', '카키', '올리브', '라임', '비취')):
                 colortag_list.append(6)
-            elif any(c in colortab_list[k] for c in ('아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘')):
+            elif any(c in colortab_list[k] for c in ('소라', '아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘')):
                 colortag_list.append(7)
             elif any(c in colortab_list[k] for c in ('네이비', '진파랑', '곤색')):
                 colortag_list.append(8)
             elif any(c in colortab_list[k] for c in ('보라', '퍼플', '보르도', '보로도')):
                 colortag_list.append(9)
-            elif any(c in colortab_list[k] for c in ('에땅', '머드', '에토프', '밤색', '브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운', '초콜렛')):
+            elif any(c in colortab_list[k] for c in ('타프', '샌드', '에땅', '머드', '에토프', '밤색', '브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운', '초콜렛')):
                 colortag_list.append(10)
             elif any(c in colortab_list[k] for c in ('블랙', '검정')):
                 colortag_list.append(11)
@@ -153,7 +153,7 @@ def bana_make_model_table(all_info_list):
                 colortag_list.append(12)
             elif any(c in colortab_list[k] for c in ('실버', '회색', '그레이', '차콜')):
                 colortag_list.append(13)
-            elif any(c in colortab_list[k] for c in ('멀티', '다중', '뱀피', '지브라', '호피')):
+            elif any(c in colortab_list[k] for c in ('레인보우', '멀티', '다중', '뱀피', '지브라', '호피')):
                 colortag_list.append(99)
             else:
                 colortag_list.append(0)

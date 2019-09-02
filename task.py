@@ -134,8 +134,8 @@ def whosbag_web_crawling():
 # bnburde_web_crawling()
 # gabangpop_web_crawling()
 # bagshoes_web_crawling()
-mclanee_web_crawling()
-# mjade_web_crawling()
+# mclanee_web_crawling()
+mjade_web_crawling()
 # pink_web_crawling()
 # whosbag_web_crawling()
 

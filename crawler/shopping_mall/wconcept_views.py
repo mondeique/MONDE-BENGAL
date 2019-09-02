@@ -125,7 +125,7 @@ def wconcept_info_crawler(product_list):
             for b in a_1.find_all('h3', {"class": "product"}):
                 name = b.get_text()
                 name_list.append(name)
-                info_list.append(name_list[0])
+        info_list.append(name_list[0])
 
         # 모든 정보 담기
         all_info_list.append(info_list)

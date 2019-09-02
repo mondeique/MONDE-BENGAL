@@ -127,7 +127,7 @@ def jade_make_model_table(all_info_list):
                 print(colortab_list[k])
                 if any(c in colortab_list[k] for c in ('레드', '와인', '브릭', '버건디', '빨강')):
                     colortag_list.append(1)
-                elif any(c in colortab_list[k] for c in ('코랄', '핑크')):
+                elif any(c in colortab_list[k] for c in ('살구', '코랄', '핑크')):
                     colortag_list.append(2)
                 elif any(c in colortab_list[k] for c in ('오렌지', '귤')):
                     colortag_list.append(3)

@@ -31,7 +31,7 @@ class Product(models.Model):
         (WHOSBAG, 'whosbag'),
     )
     shopping_mall = models.IntegerField(choices=SITE_CHOICES, help_text='crawling 된 bag 의 homepage')
-    is_banned = models.BooleanField(default=False)
+    is_banned = models.BooleanField(default=False, help_text='best에 가방 외의 것들이 들어갈 수 있기 때문에 생성된 필드')
     image_url = models.URLField(help_text='가방 이미지의 html image source')
     product_name = models.CharField(null=True, max_length=100)
     bag_url = models.URLField(help_text='한 상품에 대한 url')

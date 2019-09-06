@@ -79,11 +79,16 @@ def bana_info_crawler(product_list):
         info_list.append(color)
 
         # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
-        # 어차피 하나의 색상이기 때문에 무조건 True
-        on_sale_list = True
-        info_list.append(on_sale_list)
+        on_sale = True
+        for a in source.find_all(('div', {"class": "left"})):
+            for b in a.find_all('table', {"class": "goods_spec"}):
+                for sale in b.find_all('b'):
+                    if '품절' in sale.get_text():
+                        on_sale = False
+        info_list.append(on_sale)
 
         # 단일색 / 중복색 정보 담기
+        # 어차피 하나의 색이기 때문에 is_mono는 당연히 True!
         is_mono = True
         if len(color) > 1:
             is_mono = False

@@ -39,7 +39,7 @@ def bana_product_list_provider(main_url, page_list):
     product_list = []
     for i in range(len(page_list)):
         is_best = 0
-        if page_list[i].startwith('http://www.banabanamall.com/shop/goods/goods_list.php?category=022'):
+        if page_list[i].startswith('http://www.banabanamall.com/shop/goods/goods_list.php?category=022'):
             is_best = 1
         html = urlopen(page_list[i])
         source = BeautifulSoup(html, 'html.parser')
@@ -62,6 +62,7 @@ def bana_info_crawler(product_list):
     all_info_list = []
     for i in range(len(product_list)):
         info_list = []
+
         # Best 상품인지 아닌지에 대한 정보 담기
         is_best = False
         if product_list[i][1] == 1:

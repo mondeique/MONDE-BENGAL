@@ -37,12 +37,22 @@ def luzzi_page_list_provider(tab_list):
 def luzzi_product_list_provider(main_url, page_list):
     product_list = []
     for i in range(len(page_list)):
+        is_best = 0
+        if page_list[i].startswith('http://www.luzzibag.com/category/%ED%95%9C%EC%A3%BC%EA%B0%84-best/46/'):
+            is_best = 1
         html = urlopen(page_list[i])
         source = BeautifulSoup(html, 'html.parser')
         for a in source.find_all('div', {"class": "prdImg_thumb"}):
             for url in a.find_all('a'):
-                product_list.append(main_url + parse.quote(url['href']))
-    product_list = list(set(product_list))
+                product_list.append([main_url + parse.quote(url['href']), is_best])
+    remove_list = []
+    for i in range(len(product_list)):
+        for j in range(len(product_list)-i-1):
+            if product_list[i][0] == product_list[i+j+1][0]:
+                remove_list.append(i)
+
+    for i in range(len(remove_list)):
+        del product_list[remove_list[i]]
     print(product_list[:5])
     return product_list[:5]
 
@@ -54,15 +64,15 @@ def luzzi_info_crawler(product_list):
 
         # Best 상품인지 아닌지에 대한 정보 담기
         is_best = False
-        if product_list[i].startswith('http://www.luzzibag.com/category/%ED%95%9C%EC%A3%BC%EA%B0%84-best/46/'):
+        if product_list[i][1] == 1:
             is_best = True
         info_list.append(is_best)
 
-        html = urlopen(product_list[i])
+        html = urlopen(product_list[i][0])
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_list[i])
+        info_list.append(product_list[i][0])
 
         # 가격 정보 추출하기
         a = source.find('div', {"class": "infoArea"})

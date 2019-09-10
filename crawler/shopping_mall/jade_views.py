@@ -30,13 +30,23 @@ def jade_page_list_provider(tab_list):
 def jade_product_list_provider(main_url, page_list):
     product_list = []
     for i in range(len(page_list)):
+        is_best = 0
+        if page_list[i].startswith('http://www.jadebag.co.kr/shop/shopbrand.html?xcode=003&type=O'):
+            is_best = 1
         html = urlopen(page_list[i])
         source = BeautifulSoup(html, 'html.parser')
         for a in source.find_all('div', {"class": 'item-list'}):
             for b in a.find_all('dt', {"class": "thumb"}):
                 for url in b.find_all('a'):
-                    product_list.append(main_url + url['href'])
-    product_list = list(set(product_list))
+                    product_list.append([main_url + url['href'], is_best])
+    remove_list = []
+    for i in range(len(product_list)):
+        for j in range(len(product_list)-i-1):
+            if product_list[i][0] == product_list[i+j+1][0]:
+                remove_list.append(i)
+
+    for i in range(len(remove_list)):
+        del product_list[remove_list[i]]
     return product_list[:5]
 
 
@@ -44,18 +54,18 @@ def jade_info_crawler(product_list):
     all_info_list = []
     for i in range(len(product_list)):
         info_list = []
-        # TODO : best 상품인지 아닌지 현재로써는 모름
+
         # Best 상품인지 아닌지에 대한 정보 담기
         is_best = False
-        if product_list[i].startswith('http://www.jadebag.co.kr/shop/shopbrand.html?xcode=003&type=O'):
+        if product_list[i][1] == 1:
             is_best = True
         info_list.append(is_best)
 
-        html = urlopen(product_list[i])
+        html = urlopen(product_list[i][0])
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_list[i])
+        info_list.append(product_list[i][0])
 
         # 가격 정보 추출하기
         a = source.find('div', {"class": "table-opt"})

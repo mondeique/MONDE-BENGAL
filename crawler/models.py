@@ -1,4 +1,9 @@
+import requests
 from django.db import models
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
+from crawler.tools import get_image_filename
 
 
 class Product(models.Model):
@@ -43,8 +48,35 @@ class Product(models.Model):
 class BagImage(models.Model):
     product = models.ForeignKey(Product, related_name='bag_images', on_delete=models.CASCADE)
     # TODO 이름 짓기
-    bag_image = models.ImageField(upload_to='')
+    bag_image = models.ImageField(upload_to='crawled-image', blank=True)
     order = models.PositiveIntegerField(default=1)
+
+    def get_image_extension(self):
+        return 'jpeg'
+
+    def save(self, *args, **kwargs):
+        super(BagImage, self).save(*args, **kwargs)
+        #TODO : FIX ME 찬영
+        self._save_image()
+
+    def _save_image(self):
+        #TODO : crop 말고 저장
+        from PIL import Image
+        resp = requests.get(self.product.image_url)
+        image = Image.open(BytesIO(resp.content))
+        width, height = image.size
+        left = width * 0.01
+        top = height * 0.01
+        right = width * 0.99
+        bottom = height * 0.99
+        crop_data = image.crop((int(left), int(top), int(right), int(bottom)))
+        # http://stackoverflow.com/questions/3723220/how-do-you-convert-a-pil-image-to-a-django-file
+        crop_io = BytesIO()
+        crop_data.save(crop_io, format=self.get_image_extension())
+        crop_file = InMemoryUploadedFile(crop_io, None, get_image_filename(self.bag_image), 'image/jpeg', len(crop_io.getvalue()), None)
+        self.bag_image.save(get_image_filename(self.bag_image), crop_file, save=False)
+        # To avoid recursive save, call super.save
+        super(BagImage, self).save()
 
 
 class ColorTab(models.Model):

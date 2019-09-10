@@ -123,7 +123,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
 
 # Celery
 CELERY_BROKER_URL = 'redis://localhost:6379'
@@ -132,3 +131,25 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TAST_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Seoul'
+
+#AWS
+AWS_ACCESS_KEY_ID = load_credential("AWS_ACCESS_KEY_ID", "")
+AWS_SECRET_ACCESS_KEY = load_credential("AWS_SECRET_ACCESS_KEY", "")
+AWS_STORAGE_BUCKET_NAME = 'monde-web-crawler'
+AWS_S3_REGION_NAME = 'ap-northeast-2'
+AWS_S3_HOST = 's3.%s.amazonaws.com' % AWS_S3_REGION_NAME
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
+AWS_AUTO_CREATE_BUCKET=True
+AWS_DEFAULT_ACL = None
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+#static file
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_LOCATION = 'static'
+STATIC_URL = '/static/'
+MEDIA_LOCATION = 'media'
+MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIA_LOCATION)
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+MEDIAFILES_LOCATION = 'media'
+STATICFILES_LOCATION = 'static'

@@ -122,7 +122,7 @@ def beginning_make_model_table(all_info_list):
         if not is_created:
             p.delete()
         else:
-            return p
+            pass
 
         img, _ = BagImage.objects.update_or_create(product=p, image_url=all_info_list[i][6])
 

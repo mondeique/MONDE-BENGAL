@@ -139,10 +139,14 @@ def wconcept_info_crawler(product_list):
 # model table 에 집어넣기
 def wconcept_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.get_or_create(shopping_mall=7, image_url=all_info_list[i][5], product_name=all_info_list[i][7],
+        p, _ = Product.objects.get_or_create(shopping_mall=7, product_name=all_info_list[i][7],
                                              bag_url=all_info_list[i][0],  # is_best=all_info_list[i][0]
                                              price=all_info_list[i][1], crawled_date=all_info_list[i][6])
+
+        img, _ = BagImage.objects.update_or_create(product=p, image_url=all_info_list[i][5])
+
         # p = Product.objects.get(pk=i+1)
+
         for j in range(len(all_info_list[i][2])):
             q, _ = ColorTab.objects.update_or_create(product=p, is_mono=all_info_list[i][4], on_sale=all_info_list[i][3][j],
                                                      colors=all_info_list[i][2][j])

@@ -131,7 +131,7 @@ def bana_info_crawler(product_list):
 # model table 에 집어넣기
 def bana_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.get_or_create(shopping_mall=4, product_name=all_info_list[i][8],
+        p, _ = Product.objects.update_or_create(shopping_mall=4, product_name=all_info_list[i][8],
                                              bag_url=all_info_list[i][1], is_best=all_info_list[i][0], price=all_info_list[i][2],
                                              crawled_date=all_info_list[i][7])
 

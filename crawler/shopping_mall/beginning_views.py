@@ -1,6 +1,7 @@
 from django.utils import timezone
 from crawler.models import *
 from urllib.request import urlopen
+from django.utils import timezone
 from bs4 import BeautifulSoup
 import time
 
@@ -117,8 +118,9 @@ def beginning_info_crawler(product_list):
 def beginning_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
         p, is_created = Product.objects.get_or_create(shopping_mall=5, product_name=all_info_list[i][8],
-                                             bag_url=all_info_list[i][1], is_best=all_info_list[i][0], price=all_info_list[i][2],
-                                             crawled_date=all_info_list[i][7])
+                                                      bag_url=all_info_list[i][1], is_best=all_info_list[i][0],
+                                                      price=all_info_list[i][2],
+                                                      defaults={'crawled_date': timezone.now()})
         if not is_created:
             p.delete()
         else:

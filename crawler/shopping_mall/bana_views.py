@@ -131,16 +131,15 @@ def bana_info_crawler(product_list):
 # model table 에 집어넣기
 def bana_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.update_or_create(shopping_mall=4, product_name=all_info_list[i][8],
-                                             bag_url=all_info_list[i][1], is_best=all_info_list[i][0], price=all_info_list[i][2],
-                                             crawled_date=all_info_list[i][7])
+        p, _ = Product.objects.update_or_create(shopping_mall=4, bag_url=all_info_list[i][1],
+                                                defaults={'crawled_date': timezone.now(), 'product_name': all_info_list[i][8],
+                                                          'is_best': all_info_list[i][0], 'price': all_info_list[i][2]})
 
-        img, _ = BagImage.objects.update_or_create(product=p, image_url=all_info_list[i][6])
+        img, _ = BagImage.objects.update_or_create(product=p, defaults={'image_url': all_info_list[i][6]})
 
-        # p = Product.objects.get(pk=i+1)
-
-        q, _ = ColorTab.objects.update_or_create(product=p, is_mono=all_info_list[i][5], on_sale=all_info_list[i][4],
-                                                 colors=all_info_list[i][3])
+        q, _ = ColorTab.objects.update_or_create(product=p,
+                                                 defaults={'is_mono': all_info_list[i][5], 'on_sale': all_info_list[i][4],
+                                                           'colors': all_info_list[i][3]})
         colortab_list = []
         colortab_list.append(q.colors)
         for k in range(len(colortab_list)):
@@ -179,5 +178,5 @@ def bana_make_model_table(all_info_list):
 
             print(colortag_list)
             for m in range(len(colortag_list)):
-                ColorTag.objects.update_or_create(colortab=q, color=colortag_list[m])
+                ColorTag.objects.update_or_create(colortab=q, defaults={'color': colortag_list[m]})
 

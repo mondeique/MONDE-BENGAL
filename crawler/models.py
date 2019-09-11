@@ -56,13 +56,13 @@ class BagImage(models.Model):
 
     def save(self, *args, **kwargs):
         super(BagImage, self).save(*args, **kwargs)
-        #TODO : FIX ME 찬영
+        # TODO : FIX ME
         self._save_image()
 
     def _save_image(self):
-        #TODO : crop 말고 저장
+        # TODO : crop 말고 저장
         from PIL import Image
-        resp = requests.get(self.product.image_url)
+        resp = requests.get(self.image_url)
         image = Image.open(BytesIO(resp.content))
         width, height = image.size
         left = width * 0.01

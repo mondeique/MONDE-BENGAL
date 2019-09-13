@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crawler.apps.CrawlerConfig',
     'django_extensions',
+    'category'
 ]
 
 MIDDLEWARE = [

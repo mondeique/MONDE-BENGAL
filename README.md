@@ -32,3 +32,10 @@ $ celery -A   [파일이름]   worker -l info
 $ python task.py 
 ```
 
+### 4.Errors
+- mysqlclient 가 설치되지 않는 문제 (OSX Mojave)
+```
+$ brew reinstall openssl
+$ LDFLAGS=-L/usr/local/opt/openssl/lib pip install mysqlclient
+```
+

@@ -36,6 +36,7 @@ def pau_web_crawling():
 
 @shared_task
 def jade_web_crawling():
+    print('jade')
     main_url = 'http://www.jadebag.co.kr'
     jade_tab_list = jade_tab_list_provider(main_url)
     jade_page_list = jade_page_list_provider(jade_tab_list)
@@ -45,6 +46,7 @@ def jade_web_crawling():
 
 @shared_task
 def bana_web_crawling():
+    print('bana')
     main_url = 'http://www.banabanamall.com'
     bana_tab_list = bana_tab_list_provider(main_url)
     bana_page_list = bana_page_list_provider(bana_tab_list)

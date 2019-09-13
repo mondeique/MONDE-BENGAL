@@ -7,5 +7,5 @@ django.setup()
 from crawler.tasks import *
 
 #celery 사용
-result = bana_web_crawling.delay()
-result = jade_web_crawling.delay()
+beginning_web_crawling.delay()
+# result = jade_web_crawling.delay()

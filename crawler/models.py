@@ -46,7 +46,7 @@ class Product(models.Model):
 
 
 class BagImage(models.Model):
-    product = models.ForeignKey(Product, related_name='bag_images', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='bag_images', null=True, on_delete=models.SET_NULL) #쇼핑몰에서 사라져도 data는 저장되게 하기 위해
     image_url = models.URLField(help_text='가방 이미지의 html image source')
     bag_image = models.ImageField(upload_to='crawled-image', blank=True)
     order = models.PositiveIntegerField(default=1)

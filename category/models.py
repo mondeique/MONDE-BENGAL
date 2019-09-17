@@ -8,7 +8,7 @@ PRECISION = 4
 
 
 class Categories(models.Model):
-    bag_image = models.OneToOneField(BagImage, related_name="categories", null=True, on_delete=models.CASCADE)
+    bag_image = models.OneToOneField(BagImage, related_name="categories", on_delete=models.CASCADE)
     # accuracy = models.DecimalField(max_digits=PRECISION + 1, decimal_places=PRECISION)
     shape_result = jsonfield.JSONField(default=dict) # {'bucket':0.8832, 'rectangle':0.11, 'circle':0.01}
     handle_result = jsonfield.JSONField(default=dict)

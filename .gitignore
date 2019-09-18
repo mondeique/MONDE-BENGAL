@@ -113,7 +113,7 @@ media/
 
 .mypy_cache/
 */local.py
-*/secret.json
+*/secrets.json
 
 .idea/
 

@@ -24,6 +24,7 @@ def jade_page_list_provider(tab_list):
     page_list = []
     for i in range(len(tab_list)):
         page_list.append(tab_list[i])
+    page_list = sorted(page_list)
     return page_list
 
 

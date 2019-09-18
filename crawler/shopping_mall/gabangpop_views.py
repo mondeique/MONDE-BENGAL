@@ -30,7 +30,7 @@ def gabangpop_page_list_provider(tab_list):
                     last_pag_num = len(page_content_list)
                     for j in range(int(last_pag_num)):
                         page_list.append(tab_list[i] + '?category=&d_cat_cd=' + tab_list[i].split('/')[-1] + '&page=' + str(j+1))
-    page_list = list(set(page_list))
+    page_list = sorted(list(set(page_list)))
     return page_list
 
 

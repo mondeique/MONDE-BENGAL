@@ -26,7 +26,7 @@ def bagshoes_page_list_provider(tab_list):
             for b in a.find_all('div', {"class": "item-page"}):
                 for url in b.find_all('a'):
                     page_list.append('http://www.bagshoes.co.kr' + url['href'])
-    page_list = list(set(page_list))
+    page_list = sorted(list(set(page_list)))
     return page_list
 
 

@@ -14,7 +14,6 @@ def luzzi_tab_list_provider(main_url):
         for url in a.find_all('a'):
             if url['href'].startswith('/category'):
                 tab_list.append(main_url + parse.quote(url['href']))
-    print(tab_list[:5])
     return tab_list
 
 
@@ -30,7 +29,7 @@ def luzzi_page_list_provider(tab_list):
             last_pag_num = 1
         for j in range(int(last_pag_num)):
             page_list.append(tab_list[i] + '/?page=' + str(j+1))
-    print(page_list[:5])
+    page_list = sorted(page_list)
     return page_list
 
 
@@ -53,7 +52,6 @@ def luzzi_product_list_provider(main_url, page_list):
 
     for i in range(len(remove_list)):
         del product_list[remove_list[i]]
-    print(product_list[:5])
     return product_list[:5]
 
 

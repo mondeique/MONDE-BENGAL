@@ -29,6 +29,7 @@ def pau_page_list_provider(tab_list):
             last_pag_num = 1
         for j in range(int(last_pag_num)):
             page_list.append(tab_list[i] + '/?page=' + str(j+1))
+    page_list = sorted(page_list)
     return page_list
 
 

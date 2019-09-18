@@ -32,7 +32,7 @@ def mclanee_page_list_provider(tab_list):
                         last_pag_num = url['href'].split('=')[-1]
                     for j in range(int(last_pag_num)):
                         page_list.append(tab_list[i] + '&page=' + str(j+1))
-    page_list = list(set(page_list))
+    page_list = sorted(list(set(page_list)))
     return page_list
 
 

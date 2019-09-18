@@ -50,8 +50,10 @@ def luzzi_product_list_provider(main_url, page_list):
             if product_list[i][0] == product_list[i+j+1][0]:
                 remove_list.append(i)
 
+    count = 0
     for i in range(len(remove_list)):
-        del product_list[remove_list[i]]
+        del product_list[remove_list[i] - count]
+        count = count + 1
     return product_list[:5]
 
 

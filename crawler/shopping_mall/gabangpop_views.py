@@ -44,7 +44,7 @@ def gabangpop_product_list_provider(main_url, page_list):
                 for url in b.find_all('a', {"class": "td_a"}):
                     if url['href'].startswith('/app/product'):
                         product_list.append(main_url + url['href'])
-    product_list = list(set(product_list))
+    product_list = sorted(list(set(product_list)))
     return product_list[:5]
 
 

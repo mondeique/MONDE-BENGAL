@@ -53,6 +53,7 @@ def pau_product_list_provider(main_url, page_list):
         for j in range(len(product_list)-i-1):
             if product_list[i][0] == product_list[i+j+1][0]:
                 remove_list.append(i)
+                break;
 
     count = 0
     for i in range(len(remove_list)):

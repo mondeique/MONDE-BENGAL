@@ -65,35 +65,36 @@ def wconcept_info_crawler(product_list):
         price_list = []
         for a in source.find_all('div', {"class": "price_wrap"}):
             for b in a.find_all('dd', {"class": "sale"}):
-                price = b.get_text()
-                price = price.replace('\n', '').replace('\r', '').replace('\t', '')
-                price_list.append(price)
+                for c in b.find_all('em'):
+                    price = c.get_text()
+                    price = price.replace('\n', '').replace('\r', '').replace('\t', '')
+                    price_list.append(price)
         price = price_list[0]
         info_list.append(price)
 
         # 색상 정보 추출하기
         color_list = []
-        for a_1 in source.find_all('div', {"class": "select-list-selected"}):
-            for b_1 in a_1.find_all('ul', {"class": "select-list"}):
-                for color in b_1.find_all('a', {"class" : "select-list-link"}):
-                    color_list.append(color.get_text())
-        for a_2 in source.find_all('div', {"class": "h_group"}):
-            for b_2 in a_2.find_all('h3', {"class": "product"}):
-                name = b_2.get_text()
-                if '-' in name:
-                    color_list.append("".join(name).split('-')[-3:-1])
-                elif '[' in name:
-                    left_index = name.index('[')
-                    right_index = name.index(']')
-                    if right_index - left_index < 6:
-                        color_list.append(name[left_index+1:right_index])
-                else:
-                    color_list.append("".join(name).split(' ')[-1])
-        color_list = [s for s in color_list if 'ONE' not in s]
-        color_list = [s for s in color_list if '선택' not in s]
-        color_list = [s for s in color_list if 'chain' not in s]
-        color_list = [s for s in color_list if 'FREE' not in s]
-        color_list = list(set(color_list))
+        # for a_1 in source.find_all('div', {"class": "select-list-selected"}):
+        #     for b_1 in a_1.find_all('ul', {"class": "select-list"}):
+        #         for color in b_1.find_all('a', {"class" : "select-list-link"}):
+        #             color_list.append(color.get_text())
+        # for a_2 in source.find_all('div', {"class": "h_group"}):
+        #     for b_2 in a_2.find_all('h3', {"class": "product"}):
+        #         name = b_2.get_text()
+        #         if '-' in name:
+        #             color_list.append("".join(name).split('-')[-3:-1])
+        #         elif '[' in name:
+        #             left_index = name.index('[')
+        #             right_index = name.index(']')
+        #             if right_index - left_index < 6:
+        #                 color_list.append(name[left_index+1:right_index])
+        #         else:
+        #             color_list.append("".join(name).split(' ')[-1])
+        # color_list = [s for s in color_list if 'ONE' not in s]
+        # color_list = [s for s in color_list if '선택' not in s]
+        # color_list = [s for s in color_list if 'chain' not in s]
+        # color_list = [s for s in color_list if 'FREE' not in s]
+        # color_list = sorted(list(set(color_list)))
         info_list.append(color_list)
 
         # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
@@ -114,7 +115,7 @@ def wconcept_info_crawler(product_list):
         # 이미지 source html 정보 추출하기
         a = source.find('div', {"class": "img_goods"})
         img_source = a.find('div', {"class": "img_area"})
-        info_list.append('https://' + img_source.find('img')['src'])
+        info_list.append('https:' + img_source.find('img')['src'])
 
         # 크롤링된 시간 정보 담기
         info_list.append(timezone.now())

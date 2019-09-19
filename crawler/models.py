@@ -63,8 +63,16 @@ class BagImage(models.Model):
         # TODO : crop 말고 저장
         from PIL import Image
         resp = requests.get(self.image_url)
+        print(resp.content)
         print('request ok')
-        image = Image.open(BytesIO(resp.content))
+        # image = Image.open(BytesIO(resp.content))
+        byteImgIO = BytesIO()
+        byteImg = Image.open(resp.content)
+        byteImg.save(byteImgIO, "JPG")
+        byteImgIO.seek(0)
+        byteImg = byteImgIO.read()
+        dataBytesIO = BytesIO(byteImg)
+        image = Image.open(dataBytesIO)
         print('image open ok')
         width, height = image.size
         left = width * 0.01

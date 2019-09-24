@@ -17,6 +17,8 @@ $ LDFLAGS=-L/usr/local/opt/openssl/lib pip install mysqlclient
 (Ubuntu 18.04 LTS)
 ```
 $ sudo apt-get install mysql-client
+$ apt-get install python3-dev libmysqlclient-dev gcc
+$ pip install mysqlclient
 ```
 ## redis install (ubuntu)
 ```

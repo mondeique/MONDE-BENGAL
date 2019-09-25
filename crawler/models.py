@@ -43,6 +43,7 @@ class Product(models.Model):
     is_best = models.BooleanField(default=False)
     price = models.CharField(max_length=50)
     crawled_date = models.DateTimeField(null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now_add=True, null=True)
 
 
 class BagImage(models.Model):

@@ -32,6 +32,7 @@ def bana_page_list_provider(tab_list):
         last_pag_num = page_num_list[-1]
         for j in range(int(last_pag_num)):
             page_list.append(tab_list[i] + '&page=' + str(j+1))
+    page_list = sorted(page_list)
     return page_list
 
 
@@ -53,8 +54,10 @@ def bana_product_list_provider(main_url, page_list):
             if product_list[i][0] == product_list[i+j+1][0]:
                 remove_list.append(i)
 
+    count = 0
     for i in range(len(remove_list)):
-        del product_list[remove_list[i]]
+        del product_list[remove_list[i] - count]
+        count = count + 1
     return product_list[:5]
 
 
@@ -104,10 +107,12 @@ def bana_info_crawler(product_list):
             is_mono = False
         info_list.append(is_mono)
 
-        # TODO : gif to jpg converter
-        # 이미지 source html 정보 추출하기 (이미지가 gif 형태로 저장되기 때문에 나중에 해결해야함)
-        for a in source.find_all('span', {"class": "thumbnail"}):
-            info_list.append('http://www.banabanamall.com/shop' + a.find('img')['src'][2:])
+        # 이미지 source html 정보 추출하기
+        new_html = 'http://www.banabanamall.com/shop//goods/goods_popup_large.php?' + product_list[i][0].split('?')[-1]
+        html = urlopen(new_html)
+        source_in = BeautifulSoup(html, 'html.parser')
+        for a in source_in.find_all('img', {"id": "objImg"}):
+            info_list.append('http://www.banabanamall.com/shop/' + a['src'][2:])
 
         # 크롤링된 시간 정보 담기
         info_list.append(timezone.now())

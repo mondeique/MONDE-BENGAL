@@ -113,9 +113,12 @@ media/
 
 .mypy_cache/
 */local.py
-*/secret.json
+*/secrets.json
 
 .idea/
 
 # jupyter notebook file
 *.ipynb
+
+# redis dump.rdb file
+dump.rdb

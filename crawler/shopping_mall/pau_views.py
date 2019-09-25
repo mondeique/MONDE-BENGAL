@@ -29,6 +29,7 @@ def pau_page_list_provider(tab_list):
             last_pag_num = 1
         for j in range(int(last_pag_num)):
             page_list.append(tab_list[i] + '/?page=' + str(j+1))
+    page_list = sorted(page_list)
     return page_list
 
 
@@ -52,9 +53,12 @@ def pau_product_list_provider(main_url, page_list):
         for j in range(len(product_list)-i-1):
             if product_list[i][0] == product_list[i+j+1][0]:
                 remove_list.append(i)
+                break;
 
+    count = 0
     for i in range(len(remove_list)):
-        del product_list[remove_list[i]]
+        del product_list[remove_list[i] - count]
+        count = count + 1
     return product_list[:5]
 
 

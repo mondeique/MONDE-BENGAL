@@ -32,7 +32,7 @@ def mclanee_page_list_provider(tab_list):
                         last_pag_num = url['href'].split('=')[-1]
                     for j in range(int(last_pag_num)):
                         page_list.append(tab_list[i] + '&page=' + str(j+1))
-    page_list = list(set(page_list))
+    page_list = sorted(list(set(page_list)))
     return page_list
 
 
@@ -55,8 +55,10 @@ def mclanee_product_list_provider(main_url, page_list):
             if product_list[i][0] == product_list[i+j+1][0]:
                 remove_list.append(i)
 
+    count = 0
     for i in range(len(remove_list)):
-        del product_list[remove_list[i]]
+        del product_list[remove_list[i] - count]
+        count = count + 1
     return product_list[:5]
 
 
@@ -116,7 +118,7 @@ def mclanee_info_crawler(product_list):
         # 이미지 source html 정보 추출하기
         a = source.find('div', {"class": "keyImg"})
         img_source = a.find('div', {"class": "thumbnail"})
-        info_list.append(img_source.find('img', {"class": "BigImage"})['src'])
+        info_list.append('http:' + img_source.find('img', {"class": "BigImage"})['src'])
 
         # 크롤링된 시간 정보 담기
         info_list.append(timezone.now())

@@ -26,7 +26,7 @@ def bagshoes_page_list_provider(tab_list):
             for b in a.find_all('div', {"class": "item-page"}):
                 for url in b.find_all('a'):
                     page_list.append('http://www.bagshoes.co.kr' + url['href'])
-    page_list = list(set(page_list))
+    page_list = sorted(list(set(page_list)))
     return page_list
 
 
@@ -49,8 +49,10 @@ def bagshoes_product_list_provider(main_url, page_list):
             if product_list[i][0] == product_list[i+j+1][0]:
                 remove_list.append(i)
 
+    count = 0
     for i in range(len(remove_list)):
-        del product_list[remove_list[i]]
+        del product_list[remove_list[i] - count]
+        count = count + 1
     return product_list[:5]
 
 

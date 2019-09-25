@@ -24,6 +24,7 @@ def beginning_page_list_provider(tab_list):
             last_pag_num = last_pag_content['href'].split('=')[-1]
             for j in range(int(last_pag_num)):
                 page_list.append(tab_list[i] + '&page=' + str(j+1))
+    page_list = sorted(page_list)
     return page_list
 
 
@@ -36,7 +37,7 @@ def beginning_product_list_provider(main_url, page_list):
             for url in a.find_all('a'):
                 if url['href'].startswith('/shop'):
                     product_list.append(main_url + url['href'])
-    product_list = list(set(product_list))
+    product_list = sorted(list(set(product_list)))
     return product_list[:5]
 
 

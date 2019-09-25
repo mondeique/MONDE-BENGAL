@@ -31,7 +31,7 @@ def whosbag_page_list_provider(tab_list):
                         last_pag_num = url['href'].split('=')[-1]
                     for j in range(int(last_pag_num)):
                         page_list.append(tab_list[i] + '&page=' + str(j+1))
-    page_list = list(set(page_list))
+    page_list = sorted(list(set(page_list)))
     return page_list
 
 
@@ -54,8 +54,10 @@ def whosbag_product_list_provider(main_url, page_list):
             if product_list[i][0] == product_list[i+j+1][0]:
                 remove_list.append(i)
 
+    count = 0
     for i in range(len(remove_list)):
-        del product_list[remove_list[i]]
+        del product_list[remove_list[i] - count]
+        count = count + 1
     return product_list[:5]
 
 

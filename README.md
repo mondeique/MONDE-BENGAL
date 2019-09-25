@@ -7,10 +7,18 @@ $ pip install -r requirements.txt
 or
 $ pipenv install
 ``` 
-- mysqlclient 가 설치되지 않는 error (OSX Mojave)
+- mysqlclient의 경우 따로 install 해야함 
+
+(OSX Mojave)
 ```
 $ brew reinstall openssl
 $ LDFLAGS=-L/usr/local/opt/openssl/lib pip install mysqlclient
+```
+(Ubuntu 18.04 LTS)
+```
+$ sudo apt-get install mysql-client
+$ apt-get install python3-dev libmysqlclient-dev gcc
+$ pip install mysqlclient
 ```
 ## redis install (ubuntu)
 ```

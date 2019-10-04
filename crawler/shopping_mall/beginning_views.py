@@ -41,6 +41,21 @@ def beginning_product_list_provider(main_url, page_list):
     return product_list[:5]
 
 
+def beginning_update_database(proudct_list):
+    queryset = Product.objects.filter(shopping_mall=5)
+    if queryset.count() == 0:
+        pass
+    else:
+        origin_list = []
+        for bag in queryset:
+            origin_list.append(bag.bag_url)
+        for origin in origin_list:
+            if origin in proudct_list:
+                pass
+            else:
+                Product.objects.get(bag_url=origin).is_valid = True
+
+
 def beginning_info_crawler(product_list):
     all_info_list = []
     for i in range(len(product_list)):

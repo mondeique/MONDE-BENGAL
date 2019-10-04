@@ -169,8 +169,7 @@ def gabangpop_make_model_table(all_info_list):
         img, _ = BagImage.objects.update_or_create(product=p, defaults={'image_url': all_info_list[i][5]})
 
         for j in range(len(all_info_list[i][2])):
-            q, _ = ColorTab.objects.update_or_create(product=p,
-                                                     defaults={'is_mono': all_info_list[i][4], 'on_sale': all_info_list[i][3][j],
+            q, _ = ColorTab.objects.update_or_create(defaults={'product': p, 'is_mono': all_info_list[i][4], 'on_sale': all_info_list[i][3][j],
                                                                'colors': all_info_list[i][2][j]})
             colortab_list = []
             colortab_list.append(q.colors)

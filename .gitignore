@@ -122,3 +122,6 @@ media/
 
 # redis dump.rdb file
 dump.rdb
+
+# jpg file
+*.jpg

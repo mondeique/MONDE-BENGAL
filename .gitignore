@@ -117,9 +117,6 @@ media/
 
 .idea/
 
-# jupyter notebook file
-*.ipynb
-
 # redis dump.rdb file
 dump.rdb
 

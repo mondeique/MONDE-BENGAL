@@ -60,7 +60,7 @@ def pink_product_list_provider(main_url, page_list):
     return product_list[:5]
 
 
-def pink_update_database(proudct_list):
+def pink_update_database(product_list):
     queryset = Product.objects.filter(shopping_mall=12)
     if queryset.count() == 0:
         pass
@@ -69,10 +69,10 @@ def pink_update_database(proudct_list):
         for bag in queryset:
             origin_list.append(bag.bag_url)
         for origin in origin_list:
-            if origin in proudct_list:
+            if origin in product_list:
                 pass
             else:
-                Product.objects.get(bag_url=origin).is_valid = True
+                Product.objects.get(bag_url=origin).is_valid = False
 
 
 def pink_info_crawler(product_list):

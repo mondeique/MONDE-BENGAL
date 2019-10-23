@@ -38,7 +38,7 @@ def beginning_product_list_provider(main_url, page_list):
                 if url['href'].startswith('/shop'):
                     product_list.append(main_url + url['href'])
     product_list = sorted(list(set(product_list)))
-    return product_list[:5]
+    return product_list
 
 
 def beginning_update_database(product_list):
@@ -53,7 +53,9 @@ def beginning_update_database(product_list):
             if origin in product_list:
                 pass
             else:
-                Product.objects.get(bag_url=origin).is_valid = False
+                p = Product.objects.get(bag_url=origin)
+                p.is_valid = False
+                p.save()
 
 
 def beginning_info_crawler(product_list):

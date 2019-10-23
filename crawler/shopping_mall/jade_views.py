@@ -50,7 +50,7 @@ def jade_product_list_provider(main_url, page_list):
     for i in range(len(remove_list)):
         del product_list[remove_list[i] - count]
         count = count + 1
-    return product_list[:5]
+    return product_list
 
 
 def jade_update_database(product_list):
@@ -65,7 +65,9 @@ def jade_update_database(product_list):
             if origin in product_list:
                 pass
             else:
-                Product.objects.get(bag_url=origin).is_valid = False
+                p = Product.objects.get(bag_url=origin)
+                p.is_valid = False
+                p.save()
 
 
 def jade_info_crawler(product_list):

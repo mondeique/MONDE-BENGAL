@@ -43,7 +43,7 @@ def wconcept_product_list_provider(main_url, page_list):
             for url in a.find_all('a'):
                 if url['href'].startswith('/Product'):
                     product_list.append('https://www.wconcept.co.kr' + url['href'])
-    return product_list[:5]
+    return product_list
 
 
 def wconcept_update_database(product_list):
@@ -58,7 +58,9 @@ def wconcept_update_database(product_list):
             if origin in product_list:
                 pass
             else:
-                Product.objects.get(bag_url=origin).is_valid = False
+                p = Product.objects.get(bag_url=origin)
+                p.is_valid = False
+                p.save()
 
 
 def wconcept_info_crawler(product_list):

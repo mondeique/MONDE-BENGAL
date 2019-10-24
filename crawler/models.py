@@ -42,8 +42,8 @@ class Product(models.Model):
     bag_url = models.URLField(help_text='한 상품에 대한 url')
     is_best = models.BooleanField(default=False)
     price = models.CharField(max_length=50)
-    crawled_date = models.DateTimeField(null=True, blank=True)
-    updated_at = models.DateTimeField(auto_now_add=True, null=True)
+    crawled_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
     is_valid = models.BooleanField(default=True, help_text='만료된 웹 페이지의 경우 False로 변경됨')
 
 

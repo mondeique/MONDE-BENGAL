@@ -69,6 +69,7 @@ class BagImage(models.Model):
         # image = Image.open(BytesIO(resp.content))
         byteImgIO = BytesIO()
         byteImg = Image.open(BytesIO(resp.content))
+        byteImg = Image.Image.convert(mode="RGB", matrix=byteImg)
         byteImg.save(byteImgIO, "JPEG")
         byteImgIO.seek(0)
         byteImg = byteImgIO.read()

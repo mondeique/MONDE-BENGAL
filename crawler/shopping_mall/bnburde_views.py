@@ -47,31 +47,31 @@ def bnburde_product_list_provider(main_url, page_list):
                 for url in b.find_all('a'):
                     if url['href'].startswith('/shop'):
                         product_list.append([main_url + url['href'], is_best])
-    remove_list = []
-    for i in range(len(product_list)):
-        for j in range(len(product_list)-i-1):
-            if product_list[i][0] == product_list[i+j+1][0]:
-                remove_list.append(i)
-    count = 0
-    for i in range(len(remove_list)):
-        del product_list[remove_list[i] - count]
-        count = count + 1
+    # remove_list = []
+    # for i in range(len(product_list)):
+    #     for j in range(len(product_list)-i-1):
+    #         if product_list[i][0] == product_list[i+j+1][0]:
+    #             remove_list.append(i)
+    # count = 0
+    # for i in range(len(remove_list)):
+    #     del product_list[remove_list[i] - count]
+    #     count = count + 1
     return product_list
 
 
-def bnburde_update_database(product_list):
-    queryset = Product.objects.filter(shopping_mall=6)
-    if queryset.count() == 0:
-        pass
-    else:
-        origin_list = []
-        for bag in queryset:
-            origin_list.append(bag.bag_url)
-        for origin in origin_list:
-            if origin not in product_list:
-                p = Product.objects.get(bag_url=origin)
-                p.is_valid = False
-                p.save()
+# def bnburde_update_database(product_list):
+#     queryset = Product.objects.filter(shopping_mall=6)
+#     if queryset.count() == 0:
+#         pass
+#     else:
+#         origin_list = []
+#         for bag in queryset:
+#             origin_list.append(bag.bag_url)
+#         for origin in origin_list:
+#             if origin not in product_list:
+#                 p = Product.objects.get(bag_url=origin)
+#                 p.is_valid = False
+#                 p.save()
 
 
 def bnburde_info_crawler(product_list):
@@ -154,11 +154,53 @@ def bnburde_info_crawler(product_list):
     return all_info_list
 
 
+# bag image url를 기준으로 같은 product 거르면서 best 상품 살리기
+def bnburde_update_product_list(all_info_list):
+    remove_list = []
+    for i in range(len(all_info_list)-1):
+        for j in range(len(all_info_list)-i-1):
+            if all_info_list[i][6] == all_info_list[i+j+1][6]:
+                if all_info_list[i][0] == 0:
+                    remove_list.append(i)
+                else:
+                    remove_list.append(i+j+1)
+    remove_list = sorted(list(set(remove_list)))
+    count = 0
+    for i in range(len(remove_list)):
+        del all_info_list[remove_list[i] - count]
+        count = count + 1
+
+    return all_info_list
+
+
+# update database by using bag image url
+def bnburde_update_database(all_info_list):
+    queryset = BagImage.objects.filter(product__shopping_mall=6)
+    if queryset.count() == 0:
+        pass
+    else:
+        origin_list = []
+        new_crawled_list = []
+        for i in range(len(all_info_list)):
+            new_crawled_list.append(all_info_list[i][6])
+        for bag in queryset:
+            origin_list.append(bag.image_url)
+        for origin in origin_list:
+            if origin not in new_crawled_list:
+                p = Product.objects.get(bag_images__image_url=origin)
+                p.is_valid = False
+                p.save()
+            else:
+                p = Product.objects.get(bag_images__image_url=origin)
+                p.is_valid = True
+                p.save()
+
+
 # model table 에 집어넣기
 def bnburde_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.update_or_create(shopping_mall=6, product_name=all_info_list[i][8],
-                                                defaults={'bag_url': all_info_list[i][1], 'product_name': all_info_list[i][8],
+        p, _ = Product.objects.update_or_create(shopping_mall=6, bag_url=all_info_list[i][1],
+                                                defaults={'product_name': all_info_list[i][8],
                                                           'is_best': all_info_list[i][0], 'price': all_info_list[i][2]})
 
         img, _ = BagImage.objects.update_or_create(product=p, defaults={'image_url': all_info_list[i][6]})

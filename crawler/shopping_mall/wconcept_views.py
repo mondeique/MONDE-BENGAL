@@ -46,21 +46,19 @@ def wconcept_product_list_provider(main_url, page_list):
     return product_list
 
 
-def wconcept_update_database(product_list):
-    queryset = Product.objects.filter(shopping_mall=7)
-    if queryset.count() == 0:
-        pass
-    else:
-        origin_list = []
-        for bag in queryset:
-            origin_list.append(bag.bag_url)
-        for origin in origin_list:
-            if origin in product_list:
-                pass
-            else:
-                p = Product.objects.get(bag_url=origin)
-                p.is_valid = False
-                p.save()
+# def wconcept_update_database(product_list):
+#     queryset = Product.objects.filter(shopping_mall=7)
+#     if queryset.count() == 0:
+#         pass
+#     else:
+#         origin_list = []
+#         for bag in queryset:
+#             origin_list.append(bag.bag_url)
+#         for origin in origin_list:
+#             if origin not in product_list:
+#                 p = Product.objects.get(bag_url=origin)
+#                 p.is_valid = False
+#                 p.save()
 
 
 def wconcept_info_crawler(product_list):
@@ -154,52 +152,92 @@ def wconcept_info_crawler(product_list):
     return all_info_list
 
 
+# bag image url를 기준으로 같은 product 거르면서 best 상품 살리기
+def wconcept_update_product_list(all_info_list):
+    remove_list = []
+    for i in range(len(all_info_list)-1):
+        for j in range(len(all_info_list)-i-1):
+            if all_info_list[i][5] == all_info_list[i+j+1][5]:
+                if all_info_list[i][0] == 0:
+                    remove_list.append(i)
+                else:
+                    remove_list.append(i+j+1)
+    remove_list = list(set(remove_list))
+    count = 0
+    for i in range(len(remove_list)):
+        del all_info_list[remove_list[i] - count]
+        count = count + 1
+
+    return all_info_list
+
+
+# update database by using bag image url
+def wconcept_update_database(all_info_list):
+    queryset = BagImage.objects.filter(product__shopping_mall=7)
+    if queryset.count() == 0:
+        pass
+    else:
+        origin_list = []
+        new_crawled_list = []
+        for i in range(len(all_info_list)):
+            new_crawled_list.append(all_info_list[i][5])
+        for bag in queryset:
+            origin_list.append(bag.image_url)
+        for origin in origin_list:
+            if origin not in new_crawled_list:
+                p = Product.objects.filter(bag_images__image_url=origin).first()
+                p.is_valid = False
+                p.save()
+            else:
+                p = Product.objects.filter(bag_images__image_url=origin).first()
+                p.is_valid = True
+                p.save()
+
+
 # model table 에 집어넣기
 def wconcept_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.update_or_create(shopping_mall=7, bag_url=all_info_list[i][0],
-                                                defaults={'product_name': all_info_list[i][7], 'price': all_info_list[i][1],
-                                                          'crawled_date': timezone.now()})
+        p, _ = Product.objects.update_or_create(shopping_mall=7, product_name=all_info_list[i][7],
+                                                defaults={'bag_url': all_info_list[i][0], 'price': all_info_list[i][1]})
 
         img, _ = BagImage.objects.update_or_create(product=p, defaults={'image_url': all_info_list[i][5]})
 
         for j in range(len(all_info_list[i][2])):
-            q, _ = ColorTab.objects.update_or_create(defaults={'product': p, 'is_mono': all_info_list[i][4], 'on_sale': all_info_list[i][3][j],
-                                                               'colors': all_info_list[i][2][j]})
+            q, _ = ColorTab.objects.update_or_create(product=p, colors=all_info_list[i][2][j],
+                                                     defaults={ 'is_mono': all_info_list[i][4], 'on_sale': all_info_list[i][3][j]})
             colortab_list = []
             colortab_list.append(q.colors)
             for k in range(len(colortab_list)):
                 colortag_list = []
-                print(colortab_list[k])
                 if any(c in colortab_list[k] for c in ('레드', 'Burgundy', 'BURGUNDY', 'cherrypink', 'Grapefruit', 'Red', 'RED', 'red')):
                     colortag_list.append(1)
-                elif any(c in colortab_list[k] for c in ('magenta', 'Pink', 'Rosegold', 'PINK', 'pink', 'CORAL')):
+                if any(c in colortab_list[k] for c in ('magenta', 'Pink', 'Rosegold', 'PINK', 'pink', 'CORAL')):
                     colortag_list.append(2)
-                elif any(c in colortab_list[k] for c in ('Orange', 'ORANGE', 'orange')):
+                if any(c in colortab_list[k] for c in ('Orange', 'ORANGE', 'orange')):
                     colortag_list.append(3)
-                elif any(c in colortab_list[k] for c in ('Lemon', 'LEMON', 'mustard', 'Gold', 'GOLD', 'YELLOW')):
+                if any(c in colortab_list[k] for c in ('Lemon', 'LEMON', 'mustard', 'Gold', 'GOLD', 'YELLOW')):
                     colortag_list.append(4)
-                elif any(c in colortab_list[k] for c in ('beige', 'BEIGE', 'Beige')):
+                if any(c in colortab_list[k] for c in ('beige', 'BEIGE', 'Beige')):
                     colortag_list.append(5)
-                elif any(c in colortab_list[k] for c in ('melon', 'PISTACHIO', 'GREEN', '카키', 'OLIVE', 'Green', 'green', 'mint', 'neon')):
+                if any(c in colortab_list[k] for c in ('melon', 'PISTACHIO', 'GREEN', '카키', 'OLIVE', 'Green', 'green', 'mint', 'neon')):
                     colortag_list.append(6)
-                elif any(c in colortab_list[k] for c in ('블루', 'Mint', 'BLUE', 'blue')):
+                if any(c in colortab_list[k] for c in ('블루', 'Mint', 'BLUE', 'blue')):
                     colortag_list.append(7)
-                elif any(c in colortab_list[k] for c in ('navy', 'Navy', 'NAVY')):
+                if any(c in colortab_list[k] for c in ('navy', 'Navy', 'NAVY')):
                     colortag_list.append(8)
-                elif any(c in colortab_list[k] for c in ('mauve', 'purple', 'Lavender', 'PURPLE', 'IRIS', 'WINE', '플럼')):
+                if any(c in colortab_list[k] for c in ('mauve', 'purple', 'Lavender', 'PURPLE', 'IRIS', 'WINE', '플럼')):
                     colortag_list.append(9)
-                elif any(c in colortab_list[k] for c in ('브라운', 'caramel', 'Tan', 'MUSHROOM', 'ETOFFE', 'brown', 'Brown', 'BROWN')):
+                if any(c in colortab_list[k] for c in ('브라운', 'caramel', 'Tan', 'MUSHROOM', 'ETOFFE', 'brown', 'Brown', 'BROWN')):
                     colortag_list.append(10)
-                elif any(c in colortab_list[k] for c in ('BLACK', 'Black', 'black', '블랙')):
+                if any(c in colortab_list[k] for c in ('BLACK', 'Black', 'black', '블랙')):
                     colortag_list.append(11)
-                elif any(c in colortab_list[k] for c in ('cream', 'CREAM', 'white', 'ivory', 'Ivory', 'IVORY', 'WHITE', '화이트', '아이보리')):
+                if any(c in colortab_list[k] for c in ('cream', 'CREAM', 'white', 'ivory', 'Ivory', 'IVORY', 'WHITE', '화이트', '아이보리')):
                     colortag_list.append(12)
-                elif any(c in colortab_list[k] for c in ('Silver', 'GRAY', 'grey', 'gray', 'GREY', '그레이')):
+                if any(c in colortab_list[k] for c in ('Silver', 'GRAY', 'grey', 'gray', 'GREY', '그레이')):
                     colortag_list.append(13)
-                elif any(c in colortab_list[k] for c in ('multiple', 'MULTIPLE')):
+                if any(c in colortab_list[k] for c in ('multiple', 'MULTIPLE')):
                     colortag_list.append(99)
-                else:
+                if colortag_list.count == 0:
                     colortag_list.append(0)
 
                 print(colortag_list)

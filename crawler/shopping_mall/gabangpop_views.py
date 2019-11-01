@@ -27,7 +27,10 @@ def gabangpop_page_list_provider(tab_list):
             for b in a.find_all('div', {"class": "page-paging"}):
                 for url in b.find_all('a', {"href": "#"}):
                     page_content_list.append(url)
-                    last_pag_num = len(page_content_list)
+                    if len(page_content_list) > 10:
+                        last_pag_num = int(b.find('span', {"class": "paging_text"}).get_text()[0])
+                    else:
+                        last_pag_num = len(page_content_list)
                     for j in range(int(last_pag_num)):
                         page_list.append(tab_list[i] + '?category=&d_cat_cd=' + tab_list[i].split('/')[-1] + '&page=' + str(j+1))
     page_list = sorted(list(set(page_list)))
@@ -48,21 +51,19 @@ def gabangpop_product_list_provider(main_url, page_list):
     return product_list
 
 
-def gabangpop_update_database(product_list):
-    queryset = Product.objects.filter(shopping_mall=8)
-    if queryset.count() == 0:
-        pass
-    else:
-        origin_list = []
-        for bag in queryset:
-            origin_list.append(bag.bag_url)
-        for origin in origin_list:
-            if origin in product_list:
-                pass
-            else:
-                p = Product.objects.get(bag_url=origin)
-                p.is_valid = False
-                p.save()
+# def gabangpop_update_database(product_list):
+#     queryset = Product.objects.filter(shopping_mall=8)
+#     if queryset.count() == 0:
+#         pass
+#     else:
+#         origin_list = []
+#         for bag in queryset:
+#             origin_list.append(bag.bag_url)
+#         for origin in origin_list:
+#             if origin not in product_list:
+#                 p = Product.objects.get(bag_url=origin)
+#                 p.is_valid = False
+#                 p.save()
 
 
 def gabangpop_info_crawler(product_list):
@@ -92,19 +93,20 @@ def gabangpop_info_crawler(product_list):
 
         # 색상 정보 추출하기
         color_list = []
-        for a in source.find_all('div', {"class": "prod-preview"}):
-            for b in a.find_all('p', {"class": "prod-name"}):
-                name = b.get_text()
-                name = name.replace('\n', '').replace('\r', '').replace('\t', '')
-                if '(' in name:
-                    left_index = name.index('(')
-                    right_index = name.index(')')
-                    if right_index - left_index < 5:
-                        color_list.append(name[left_index+1:right_index])
-                if '블랙' in name:
-                    color_list.append('블랙')
-                if 'BLACK' in name:
-                    color_list.append('블랙')
+        # Color Extraction 으로 뽑아낼 예정
+        # for a in source.find_all('div', {"class": "prod-preview"}):
+        #     for b in a.find_all('p', {"class": "prod-name"}):
+        #         name = b.get_text()
+        #         name = name.replace('\n', '').replace('\r', '').replace('\t', '')
+        #         if '(' in name:
+        #             left_index = name.index('(')
+        #             right_index = name.index(')')
+        #             if right_index - left_index < 5:
+        #                 color_list.append(name[left_index+1:right_index])
+        #         if '블랙' in name:
+        #             color_list.append('블랙')
+        #         if 'BLACK' in name:
+        #             color_list.append('블랙')
         for c in source.find_all('select', {"id": "option1"}):
             for d in c.find_all('option'):
                 color_list.append(d.get_text())
@@ -161,55 +163,96 @@ def gabangpop_info_crawler(product_list):
     return all_info_list
 
 
+# bag image url를 기준으로 같은 product 거르면서 best 상품 살리기
+def gabangpop_update_product_list(all_info_list):
+    remove_list = []
+    for i in range(len(all_info_list)-1):
+        for j in range(len(all_info_list)-i-1):
+            if all_info_list[i][5] == all_info_list[i+j+1][5]:
+                if all_info_list[i][0] == 0:
+                    remove_list.append(i)
+                else:
+                    remove_list.append(i+j+1)
+    remove_list = list(set(remove_list))
+    count = 0
+    for i in range(len(remove_list)):
+        del all_info_list[remove_list[i] - count]
+        count = count + 1
+
+    return all_info_list
+
+
+# update database by using bag image url
+def gabangpop_update_database(all_info_list):
+    queryset = BagImage.objects.filter(product__shopping_mall=8)
+    if queryset.count() == 0:
+        pass
+    else:
+        origin_list = []
+        new_crawled_list = []
+        for i in range(len(all_info_list)):
+            new_crawled_list.append(all_info_list[i][5])
+        for bag in queryset:
+            origin_list.append(bag.image_url)
+        for origin in origin_list:
+            if origin not in new_crawled_list:
+                p = Product.objects.filter(bag_images__image_url=origin).first()
+                p.is_valid = False
+                p.save()
+            else:
+                p = Product.objects.filter(bag_images__image_url=origin).first()
+                p.is_valid = True
+                p.save()
+
+
 # model table 에 집어넣기
 def gabangpop_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.update_or_create(shopping_mall=8, bag_url=all_info_list[i][0],
-                                                defaults={'product_name': all_info_list[i][7], 'price': all_info_list[i][1],
-                                                          'crawled_date': timezone.now()})
+        p, _ = Product.objects.update_or_create(shopping_mall=8, product_name=all_info_list[i][7],
+                                                defaults={'bag_url': all_info_list[i][0], 'price': all_info_list[i][1]})
 
         img, _ = BagImage.objects.update_or_create(product=p, defaults={'image_url': all_info_list[i][5]})
 
         for j in range(len(all_info_list[i][2])):
-            q, _ = ColorTab.objects.update_or_create(defaults={'product': p, 'is_mono': all_info_list[i][4], 'on_sale': all_info_list[i][3][j],
-                                                               'colors': all_info_list[i][2][j]})
+            q, _ = ColorTab.objects.update_or_create(product=p, colors=all_info_list[i][2][j],
+                                                     defaults={'is_mono': all_info_list[i][4], 'on_sale': all_info_list[i][3][j]})
             colortab_list = []
             colortab_list.append(q.colors)
             for k in range(len(colortab_list)):
                 colortag_list = []
-                print(colortab_list[k])
                 if any(c in colortab_list[k] for c in ('red', '레드', '와인', '브릭', '버건디', '빨강')):
                     colortag_list.append(1)
-                elif any(c in colortab_list[k] for c in ('피치', '살구', '코랄', '핑크')):
+                if any(c in colortab_list[k] for c in ('피치', '살구', '코랄', '핑크')):
                     colortag_list.append(2)
-                elif any(c in colortab_list[k] for c in ('오렌지', '귤')):
+                if any(c in colortab_list[k] for c in ('오렌지', '귤')):
                     colortag_list.append(3)
-                elif any(c in colortab_list[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로')):
+                if any(c in colortab_list[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로')):
                     colortag_list.append(4)
-                elif any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아')):
+                if any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아')):
                     colortag_list.append(5)
-                elif any(c in colortab_list[k] for c in ('녹', '그린', '카키', '올리브', '라임', '비취')):
+                if any(c in colortab_list[k] for c in ('녹', '그린', '카키', '올리브', '라임', '비취')):
                     colortag_list.append(6)
-                elif any(c in colortab_list[k] for c in ('소라', '아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘')):
+                if any(c in colortab_list[k] for c in ('소라', '아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘')):
                     colortag_list.append(7)
-                elif any(c in colortab_list[k] for c in ('네이비', '진파랑', '곤색')):
+                if any(c in colortab_list[k] for c in ('네이비', '진파랑', '곤색')):
                     colortag_list.append(8)
-                elif any(c in colortab_list[k] for c in ('보라', '퍼플', '보르도', '보로도')):
+                if any(c in colortab_list[k] for c in ('보라', '퍼플', '보르도', '보로도')):
                     colortag_list.append(9)
-                elif any(c in colortab_list[k] for c in ('Brown', '샌드', '타프', '에땅', '머드', '에토프', '밤색', '브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운', '초콜렛')):
+                if any(c in colortab_list[k] for c in ('Brown', '샌드', '타프', '에땅', '머드', '에토프', '밤색', '브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운', '초콜렛')):
                     colortag_list.append(10)
-                elif any(c in colortab_list[k] for c in ('BLACK', '블랙', '검정')):
+                if any(c in colortab_list[k] for c in ('BLACK', '블랙', '검정')):
                     colortag_list.append(11)
-                elif any(c in colortab_list[k] for c in ('아이보리', '아이', '화이트', '크림', '하얀')):
+                if any(c in colortab_list[k] for c in ('아이보리', '아이', '화이트', '크림', '하얀')):
                     colortag_list.append(12)
-                elif any(c in colortab_list[k] for c in ('실버', '회색', '그레이', '차콜')):
+                if any(c in colortab_list[k] for c in ('실버', '회색', '그레이', '차콜')):
                     colortag_list.append(13)
-                elif any(c in colortab_list[k] for c in ('멀티', '다중', '뱀피', '지브라', '호피', '트리플')):
+                if any(c in colortab_list[k] for c in ('멀티', '다중', '뱀피', '지브라', '호피', '트리플')):
                     colortag_list.append(99)
-                else:
+                if colortag_list.count == 0:
                     colortag_list.append(0)
 
                 print(colortag_list)
                 for m in range(len(colortag_list)):
-                    ColorTag.objects.update_or_create(colortab=q, defaults={'color': colortag_list[m]})
+                    ColorTag.objects.update_or_create(colortab=q, color=colortag_list[m],
+                                                      defaults={'color': colortag_list[m]})
 

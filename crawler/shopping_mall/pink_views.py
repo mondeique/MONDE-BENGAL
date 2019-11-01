@@ -47,34 +47,32 @@ def pink_product_list_provider(main_url, page_list):
                 for url in b.find_all('a'):
                     if url['href'].startswith('/product'):
                         product_list.append([main_url + url['href'], is_best])
-    remove_list = []
-    for i in range(len(product_list)):
-        for j in range(len(product_list)-i-1):
-            if product_list[i][0] == product_list[i+j+1][0]:
-                remove_list.append(i)
-
-    count = 0
-    for i in range(len(remove_list)):
-        del product_list[remove_list[i] - count]
-        count = count + 1
+    # remove_list = []
+    # for i in range(len(product_list)):
+    #     for j in range(len(product_list)-i-1):
+    #         if product_list[i][0] == product_list[i+j+1][0]:
+    #             remove_list.append(i)
+    #
+    # count = 0
+    # for i in range(len(remove_list)):
+    #     del product_list[remove_list[i] - count]
+    #     count = count + 1
     return product_list
 
 
-def pink_update_database(product_list):
-    queryset = Product.objects.filter(shopping_mall=12)
-    if queryset.count() == 0:
-        pass
-    else:
-        origin_list = []
-        for bag in queryset:
-            origin_list.append(bag.bag_url)
-        for origin in origin_list:
-            if origin in product_list:
-                pass
-            else:
-                p = Product.objects.get(bag_url=origin)
-                p.is_valid = False
-                p.save()
+# def pink_update_database(product_list):
+#     queryset = Product.objects.filter(shopping_mall=12)
+#     if queryset.count() == 0:
+#         pass
+#     else:
+#         origin_list = []
+#         for bag in queryset:
+#             origin_list.append(bag.bag_url)
+#         for origin in origin_list:
+#             if origin not in product_list:
+#                 p = Product.objects.get(bag_url=origin)
+#                 p.is_valid = False
+#                 p.save()
 
 
 def pink_info_crawler(product_list):
@@ -155,52 +153,94 @@ def pink_info_crawler(product_list):
     return all_info_list
 
 
+# bag image url를 기준으로 같은 product 거르면서 best 상품 살리기
+def pink_update_product_list(all_info_list):
+    remove_list = []
+    for i in range(len(all_info_list)-1):
+        for j in range(len(all_info_list)-i-1):
+            if all_info_list[i][6] == all_info_list[i+j+1][6]:
+                if all_info_list[i][0] == 0:
+                    remove_list.append(i)
+                else:
+                    remove_list.append(i+j+1)
+    remove_list = sorted(list(set(remove_list)))
+    count = 0
+    for i in range(len(remove_list)):
+        del all_info_list[remove_list[i] - count]
+        count = count + 1
+
+    return all_info_list
+
+
+# update database by using bag image url
+def pink_update_database(all_info_list):
+    queryset = BagImage.objects.filter(product__shopping_mall=12)
+    if queryset.count() == 0:
+        pass
+    else:
+        origin_list = []
+        new_crawled_list = []
+        for i in range(len(all_info_list)):
+            new_crawled_list.append(all_info_list[i][6])
+        for bag in queryset:
+            origin_list.append(bag.image_url)
+        for origin in origin_list:
+            if origin not in new_crawled_list:
+                p = Product.objects.filter(bag_images__image_url=origin).first()
+                p.is_valid = False
+                p.save()
+            else:
+                p = Product.objects.filter(bag_images__image_url=origin).first()
+                p.is_valid = True
+                p.save()
+
+
+
 # model table 에 집어넣기
 def pink_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.update_or_create(shopping_mall=12, bag_url=all_info_list[i][1],
-                                                defaults={'crawled_date': timezone.now(), 'product_name': all_info_list[i][8],
+        p, _ = Product.objects.update_or_create(shopping_mall=12, product_name=all_info_list[i][8],
+                                                defaults={'bag_url': all_info_list[i][1],
                                                           'is_best': all_info_list[i][0], 'price': all_info_list[i][2]})
 
         img, _ = BagImage.objects.update_or_create(product=p, image_url=all_info_list[i][6])
 
         for j in range(len(all_info_list[i][3])):
-            q, _ = ColorTab.objects.update_or_create(defaults={'product': p, 'is_mono': all_info_list[i][5], 'on_sale': all_info_list[i][4][j],
-                                                               'colors': all_info_list[i][3][j]})
+            q, _ = ColorTab.objects.update_or_create(product=p, colors=all_info_list[i][3][j],
+                                                     defaults={'is_mono': all_info_list[i][5], 'on_sale': all_info_list[i][4][j]})
             colortab_list = []
             colortab_list.append(q.colors)
             for k in range(len(colortab_list)):
                 colortag_list = []
-                print(colortab_list[k])
                 if any(c in colortab_list[k] for c in ('레드', '와인', '브릭', '버건디', '빨강')):
                     colortag_list.append(1)
-                elif any(c in colortab_list[k] for c in ('피치', '살구', '코랄', '핑크')):
+                if any(c in colortab_list[k] for c in ('피치', '살구', '코랄', '핑크')):
                     colortag_list.append(2)
-                elif any(c in colortab_list[k] for c in ('오렌지', '귤')):
+                if any(c in colortab_list[k] for c in ('오렌지', '귤')):
                     colortag_list.append(3)
-                elif any(c in colortab_list[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로')):
+                if any(c in colortab_list[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로')):
                     colortag_list.append(4)
-                elif any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아')):
+                if any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아')):
                     colortag_list.append(5)
-                elif any(c in colortab_list[k] for c in ('녹', '그린', '카키', '올리브', '라임', '비취')):
+                if any(c in colortab_list[k] for c in ('녹', '그린', '카키', '올리브', '라임', '비취')):
                     colortag_list.append(6)
-                elif any(c in colortab_list[k] for c in ('소라', '아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘')):
+                if any(c in colortab_list[k] for c in ('소라', '아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘')):
                     colortag_list.append(7)
-                elif any(c in colortab_list[k] for c in ('네이비', '진파랑', '곤색')):
+                if any(c in colortab_list[k] for c in ('네이비', '진파랑', '곤색')):
                     colortag_list.append(8)
-                elif any(c in colortab_list[k] for c in ('애쉬플럼', '보라', '퍼플', '보르도', '보로도')):
+                if any(c in colortab_list[k] for c in ('애쉬플럼', '보라', '퍼플', '보르도', '보로도')):
                     colortag_list.append(9)
-                elif any(c in colortab_list[k] for c in ('피넛', '샌드', '타프', '에땅', '머드', '에토프', '밤색', '브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운', '초콜렛')):
+                if any(c in colortab_list[k] for c in ('피넛', '샌드', '타프', '에땅', '머드', '에토프', '밤색', '브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운', '초콜렛')):
                     colortag_list.append(10)
-                elif any(c in colortab_list[k] for c in ('블랙', '검정')):
+                if any(c in colortab_list[k] for c in ('블랙', '검정')):
                     colortag_list.append(11)
-                elif any(c in colortab_list[k] for c in ('아이보리', '아이', '화이트', '크림', '하얀')):
+                if any(c in colortab_list[k] for c in ('아이보리', '아이', '화이트', '크림', '하얀')):
                     colortag_list.append(12)
-                elif any(c in colortab_list[k] for c in ('실버', '회색', '그레이', '차콜')):
+                if any(c in colortab_list[k] for c in ('실버', '회색', '그레이', '차콜')):
                     colortag_list.append(13)
-                elif any(c in colortab_list[k] for c in ('멀티', '다중', '뱀피', '지브라', '호피', '트리플')):
+                if any(c in colortab_list[k] for c in ('멀티', '다중', '뱀피', '지브라', '호피', '트리플')):
                     colortag_list.append(99)
-                else:
+                if colortag_list.count == 0:
                     colortag_list.append(0)
 
                 print(colortag_list)

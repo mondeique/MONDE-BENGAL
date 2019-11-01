@@ -171,11 +171,11 @@ def jade_update_database(all_info_list):
             origin_list.append(bag.image_url)
         for origin in origin_list:
             if origin not in new_crawled_list:
-                p = Product.objects.get(bag_images__image_url=origin)
+                p = Product.objects.filter(bag_images__image_url=origin).first()
                 p.is_valid = False
                 p.save()
             else:
-                p = Product.objects.get(bag_images__image_url=origin)
+                p = Product.objects.filter(bag_images__image_url=origin).first()
                 p.is_valid = True
                 p.save()
 
@@ -183,8 +183,8 @@ def jade_update_database(all_info_list):
 # model table 에 집어넣기
 def jade_make_model_table(all_info_list):
     for i in range(len(all_info_list)):
-        p, _ = Product.objects.update_or_create(shopping_mall=3, bag_url=all_info_list[i][1],
-                                                defaults={'product_name': all_info_list[i][8],
+        p, _ = Product.objects.update_or_create(shopping_mall=3, product_name=all_info_list[i][8],
+                                                defaults={'bag_url': all_info_list[i][1],
                                                           'is_best': all_info_list[i][0], 'price': all_info_list[i][2]})
 
         img, _ = BagImage.objects.update_or_create(product=p, defaults={'image_url': all_info_list[i][6]})

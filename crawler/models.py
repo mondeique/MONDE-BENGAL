@@ -48,7 +48,8 @@ class Product(models.Model):
 
 
 class BagImage(models.Model):
-    product = models.ForeignKey(Product, related_name='bag_images', null=True, on_delete=models.CASCADE) # 쇼핑몰에서 사라져도 data는 저장되게 하기 위해
+    # Product 하나당 bag image는 하나이기 때문에 OneToOne Field로 선언
+    product = models.OneToOneField(Product, related_name='bag_image', null=True, on_delete=models.CASCADE)
     image_url = models.URLField(help_text='가방 이미지의 html image source')
     bag_image = models.ImageField(upload_to='crawled-image', blank=True)
     order = models.PositiveIntegerField(default=1)

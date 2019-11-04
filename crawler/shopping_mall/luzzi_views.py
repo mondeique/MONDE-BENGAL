@@ -2,6 +2,7 @@ from django.utils import timezone
 from crawler.models import *
 from urllib import parse
 from urllib.request import urlopen
+from urllib import error
 from bs4 import BeautifulSoup
 import time
 
@@ -140,8 +141,8 @@ def luzzi_info_crawler(product_list):
 
             # 서버 과부하 예방을 위해 10s 간 멈춤
             time.sleep(10)
-        except ConnectionResetError:
-            print("Connection reset by peer error")
+        except (ConnectionResetError, error.URLError):
+            print("Connection Error when crawling")
     print(all_info_list)
     return all_info_list
 

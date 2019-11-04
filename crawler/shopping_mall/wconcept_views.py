@@ -1,6 +1,7 @@
 from django.utils import timezone
 from crawler.models import *
 from urllib.request import urlopen
+from urllib import error
 from bs4 import BeautifulSoup
 import time
 
@@ -89,10 +90,10 @@ def wconcept_info_crawler(product_list):
 
             # 색상 정보 추출하기
             color_list = []
-            # for a_1 in source.find_all('div', {"class": "select-list-selected"}):
-            #     for b_1 in a_1.find_all('ul', {"class": "select-list"}):
-            #         for color in b_1.find_all('a', {"class" : "select-list-link"}):
-            #             color_list.append(color.get_text())
+            for a_1 in source.find_all('div', {"class": "select-list-selected"}):
+                for b_1 in a_1.find_all('ul', {"class": "select-list"}):
+                    for color in b_1.find_all('a', {"class" : "select-list-link"}):
+                        color_list.append(color.get_text())
             # for a_2 in source.find_all('div', {"class": "h_group"}):
             #     for b_2 in a_2.find_all('h3', {"class": "product"}):
             #         name = b_2.get_text()
@@ -105,11 +106,11 @@ def wconcept_info_crawler(product_list):
             #                 color_list.append(name[left_index+1:right_index])
             #         else:
             #             color_list.append("".join(name).split(' ')[-1])
-            # color_list = [s for s in color_list if 'ONE' not in s]
-            # color_list = [s for s in color_list if '선택' not in s]
-            # color_list = [s for s in color_list if 'chain' not in s]
-            # color_list = [s for s in color_list if 'FREE' not in s]
-            # color_list = sorted(list(set(color_list)))
+            color_list = [s for s in color_list if 'ONE' not in s]
+            color_list = [s for s in color_list if '선택' not in s]
+            color_list = [s for s in color_list if 'chain' not in s]
+            color_list = [s for s in color_list if 'FREE' not in s]
+            color_list = sorted(list(set(color_list)))
             info_list.append(color_list)
 
             # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
@@ -148,8 +149,8 @@ def wconcept_info_crawler(product_list):
 
             # 서버 과부하를 위해 10s 간 멈춤
             time.sleep(10)
-        except ConnectionResetError:
-            print("Connection reset by peer error")
+        except (ConnectionResetError, error.URLError):
+            print("Connection Error when crawling")
     print(all_info_list)
     return all_info_list
 
@@ -204,45 +205,52 @@ def wconcept_make_model_table(all_info_list):
 
         img, _ = BagImage.objects.update_or_create(product=p, defaults={'image_url': all_info_list[i][5]})
 
-        for j in range(len(all_info_list[i][2])):
-            q, _ = ColorTab.objects.update_or_create(product=p, colors=all_info_list[i][2][j],
-                                                     defaults={'is_mono': all_info_list[i][4], 'on_sale': all_info_list[i][3][j]})
-            colortab_list = []
-            colortab_list.append(q.colors)
-            for k in range(len(colortab_list)):
-                colortag_list = []
-                if any(c in colortab_list[k] for c in ('레드', 'Burgundy', 'BURGUNDY', 'cherrypink', 'Grapefruit', 'Red', 'RED', 'red')):
-                    colortag_list.append(1)
-                if any(c in colortab_list[k] for c in ('magenta', 'Pink', 'Rosegold', 'PINK', 'pink', 'CORAL')):
-                    colortag_list.append(2)
-                if any(c in colortab_list[k] for c in ('Orange', 'ORANGE', 'orange')):
-                    colortag_list.append(3)
-                if any(c in colortab_list[k] for c in ('Lemon', 'LEMON', 'mustard', 'Gold', 'GOLD', 'YELLOW')):
-                    colortag_list.append(4)
-                if any(c in colortab_list[k] for c in ('beige', 'BEIGE', 'Beige')):
-                    colortag_list.append(5)
-                if any(c in colortab_list[k] for c in ('melon', 'PISTACHIO', 'GREEN', '카키', 'OLIVE', 'Green', 'green', 'mint', 'neon')):
-                    colortag_list.append(6)
-                if any(c in colortab_list[k] for c in ('블루', 'Mint', 'BLUE', 'blue')):
-                    colortag_list.append(7)
-                if any(c in colortab_list[k] for c in ('navy', 'Navy', 'NAVY')):
-                    colortag_list.append(8)
-                if any(c in colortab_list[k] for c in ('mauve', 'purple', 'Lavender', 'PURPLE', 'IRIS', 'WINE', '플럼')):
-                    colortag_list.append(9)
-                if any(c in colortab_list[k] for c in ('브라운', 'caramel', 'Tan', 'MUSHROOM', 'ETOFFE', 'brown', 'Brown', 'BROWN')):
-                    colortag_list.append(10)
-                if any(c in colortab_list[k] for c in ('BLACK', 'Black', 'black', '블랙')):
-                    colortag_list.append(11)
-                if any(c in colortab_list[k] for c in ('cream', 'CREAM', 'white', 'ivory', 'Ivory', 'IVORY', 'WHITE', '화이트', '아이보리')):
-                    colortag_list.append(12)
-                if any(c in colortab_list[k] for c in ('Silver', 'GRAY', 'grey', 'gray', 'GREY', '그레이')):
-                    colortag_list.append(13)
-                if any(c in colortab_list[k] for c in ('multiple', 'MULTIPLE')):
-                    colortag_list.append(99)
-                if colortag_list.count == 0:
-                    colortag_list.append(0)
+        if len(all_info_list[i][2]):
+            for j in range(len(all_info_list[i][2])):
+                q, _ = ColorTab.objects.update_or_create(product=p, colors=all_info_list[i][2][j],
+                                                         defaults={'is_mono': all_info_list[i][4], 'on_sale': all_info_list[i][3][j]})
+                colortab_list = []
+                colortab_list.append(q.colors)
+                for k in range(len(colortab_list)):
+                    colortag_list = []
+                    if any(c in colortab_list[k] for c in ('레드', 'Burgundy', 'BURGUNDY', 'cherrypink', 'Grapefruit', 'Red', 'RED', 'red')):
+                        colortag_list.append(1)
+                    if any(c in colortab_list[k] for c in ('magenta', 'Pink', 'Rosegold', 'PINK', 'pink', 'CORAL')):
+                        colortag_list.append(2)
+                    if any(c in colortab_list[k] for c in ('Orange', 'ORANGE', 'orange')):
+                        colortag_list.append(3)
+                    if any(c in colortab_list[k] for c in ('Lemon', 'LEMON', 'mustard', 'Gold', 'GOLD', 'YELLOW')):
+                        colortag_list.append(4)
+                    if any(c in colortab_list[k] for c in ('beige', 'BEIGE', 'Beige')):
+                        colortag_list.append(5)
+                    if any(c in colortab_list[k] for c in ('melon', 'PISTACHIO', 'GREEN', '카키', 'OLIVE', 'Green', 'green', 'mint', 'neon')):
+                        colortag_list.append(6)
+                    if any(c in colortab_list[k] for c in ('블루', 'Mint', 'BLUE', 'blue')):
+                        colortag_list.append(7)
+                    if any(c in colortab_list[k] for c in ('navy', 'Navy', 'NAVY')):
+                        colortag_list.append(8)
+                    if any(c in colortab_list[k] for c in ('mauve', 'purple', 'Lavender', 'PURPLE', 'IRIS', 'WINE', '플럼')):
+                        colortag_list.append(9)
+                    if any(c in colortab_list[k] for c in ('브라운', 'caramel', 'Tan', 'MUSHROOM', 'ETOFFE', 'brown', 'Brown', 'BROWN')):
+                        colortag_list.append(10)
+                    if any(c in colortab_list[k] for c in ('BLACK', 'Black', 'black', '블랙')):
+                        colortag_list.append(11)
+                    if any(c in colortab_list[k] for c in ('cream', 'CREAM', 'white', 'ivory', 'Ivory', 'IVORY', 'WHITE', '화이트', '아이보리')):
+                        colortag_list.append(12)
+                    if any(c in colortab_list[k] for c in ('Silver', 'GRAY', 'grey', 'gray', 'GREY', '그레이')):
+                        colortag_list.append(13)
+                    if any(c in colortab_list[k] for c in ('multiple', 'MULTIPLE')):
+                        colortag_list.append(99)
+                    if len(colortag_list) == 0:
+                        colortag_list.append(0)
 
-                print(colortag_list)
-                for m in range(len(colortag_list)):
-                    ColorTag.objects.update_or_create(colortab=q, defaults={'color': colortag_list[m]})
+                    print(colortag_list)
+                    for m in range(len(colortag_list)):
+                        ColorTag.objects.update_or_create(colortab=q, defaults={'color': colortag_list[m]})
+        else:
+            q, _ = ColorTab.objects.update_or_create(product=p,
+                                                     defaults={'is_mono': all_info_list[i][4],
+                                                               'on_sale': 1})
+
+            ColorTag.objects.update_or_create(colortab=q, defaults={'color': 0})
 

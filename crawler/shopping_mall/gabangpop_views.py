@@ -18,22 +18,22 @@ def gabangpop_tab_list_provider(main_url):
 
 
 def gabangpop_page_list_provider(tab_list):
-    page_content_list = []
     page_list = []
     for i in range(len(tab_list)):
         html = urlopen(tab_list[i])
         source = BeautifulSoup(html, 'html.parser')
+        page_content_list = []
         for a in source.find_all('div', {"class": "prod-list"}):
             for b in a.find_all('div', {"class": "page-paging"}):
-                for url in b.find_all('a', {"href": "#"}):
-                    page_content_list.append(url)
-                    if len(page_content_list) > 10:
-                        last_pag_num = int(b.find('span', {"class": "paging_text"}).get_text()[0])
-                    else:
-                        last_pag_num = len(page_content_list)
-                    for j in range(int(last_pag_num)):
-                        page_list.append(tab_list[i] + '?category=&d_cat_cd=' + tab_list[i].split('/')[-1] + '&page=' + str(j+1))
-    page_list = sorted(list(set(page_list)))
+                for c in b.find_all('a', {"href": "#"}):
+                    page_content_list.append(c)
+                if len(page_content_list) > 10:
+                    for c in b.find('b', {"class": "org_1"}):
+                        last_pag_num = c
+                else:
+                    last_pag_num = len(page_content_list)
+        for j in range(int(last_pag_num)):
+            page_list.append(tab_list[i] + '?category=&d_cat_cd=' + tab_list[i].split('/')[-1] + '&page=' + str(j+1))
     return page_list
 
 

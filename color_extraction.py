@@ -7,14 +7,15 @@ import colorsys
 def color_extraction():
     queryset = ColorTag.objects.filter(color=0)
     for obj in queryset:
-        response = requests.get(obj.product.bag_images.image_url)
+        response = requests.get(obj.colortab.product.bag_image.image_url)
         img = Image.open(BytesIO(response.content))
+        # TODO : object-detection 붙이기
         # Extract 6 colors from an image.
         colors = colorgram.extract(img, 6)
         first_color = colors[0]
         rgb = first_color.rgb  # e.g. (255, 151, 210)
         proportion = first_color.proportion  # e.g. 0.34
-        if proportion > 0.5:
+        if proportion > 0.3:
 
             # We have Red/Pink/Orange/Yellow/Beige/Green/Blue/Navy/Purple/Brown/Black/White/Gray
             # H를 먼저 정한 뒤 S와 V를 조절하면서 색을 찾아나가도록 하자.

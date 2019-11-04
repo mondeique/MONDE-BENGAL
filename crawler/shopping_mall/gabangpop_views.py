@@ -70,95 +70,97 @@ def gabangpop_info_crawler(product_list):
     all_info_list = []
     for i in range(len(product_list)):
         info_list = []
+        try:
+            html = urlopen(product_list[i])
+            source = BeautifulSoup(html, 'html.parser')
 
-        html = urlopen(product_list[i])
-        source = BeautifulSoup(html, 'html.parser')
+            # Best 상품인지 아닌지에 대한 정보 담을 필요 없음
+            # is_best = False
+            # info_list.append(is_best)
 
-        # Best 상품인지 아닌지에 대한 정보 담을 필요 없음
-        # is_best = False
-        # info_list.append(is_best)
+            # 가방 url 담기
+            info_list.append(product_list[i])
 
-        # 가방 url 담기
-        info_list.append(product_list[i])
+            # 가격 정보 추출하기
+            price_list = []
+            for a in source.find_all('div', {"class": "prod-preview"}):
+                for b in a.find_all('span', {"class": "price"}):
+                    price = b.get_text()
+                    price = price.replace('\n', '').replace('\r', '').replace('\t', '')
+                    price_list.append(price)
+            price = price_list[0]
+            info_list.append(price)
 
-        # 가격 정보 추출하기
-        price_list = []
-        for a in source.find_all('div', {"class": "prod-preview"}):
-            for b in a.find_all('span', {"class": "price"}):
-                price = b.get_text()
-                price = price.replace('\n', '').replace('\r', '').replace('\t', '')
-                price_list.append(price)
-        price = price_list[0]
-        info_list.append(price)
+            # 색상 정보 추출하기
+            color_list = []
+            # Color Extraction 으로 뽑아낼 예정
+            # for a in source.find_all('div', {"class": "prod-preview"}):
+            #     for b in a.find_all('p', {"class": "prod-name"}):
+            #         name = b.get_text()
+            #         name = name.replace('\n', '').replace('\r', '').replace('\t', '')
+            #         if '(' in name:
+            #             left_index = name.index('(')
+            #             right_index = name.index(')')
+            #             if right_index - left_index < 5:
+            #                 color_list.append(name[left_index+1:right_index])
+            #         if '블랙' in name:
+            #             color_list.append('블랙')
+            #         if 'BLACK' in name:
+            #             color_list.append('블랙')
+            for c in source.find_all('select', {"id": "option1"}):
+                for d in c.find_all('option'):
+                    color_list.append(d.get_text())
+                    color_list = [s for s in color_list if '선택' not in s]
+                    if len(color_list) < 2:
+                        color_list = [s for s in color_list if 'FREE' not in s]
+            color_list = [s for s in color_list if 'acode' not in s]
+            color_list = [s for s in color_list if '2개' not in s]
+            color_list = [s for s in color_list if '1개' not in s]
+            color_list = [s for s in color_list if '포함' not in s]
+            color_list = [s for s in color_list if 'Small' not in s]
+            color_list = [s for s in color_list if 'Medium' not in s]
+            color_list = [s for s in color_list if 'Large' not in s]
+            color_list = [s for s in color_list if 'size' not in s]
+            color_list = list(set(color_list))
+            info_list.append(color_list)
 
-        # 색상 정보 추출하기
-        color_list = []
-        # Color Extraction 으로 뽑아낼 예정
-        # for a in source.find_all('div', {"class": "prod-preview"}):
-        #     for b in a.find_all('p', {"class": "prod-name"}):
-        #         name = b.get_text()
-        #         name = name.replace('\n', '').replace('\r', '').replace('\t', '')
-        #         if '(' in name:
-        #             left_index = name.index('(')
-        #             right_index = name.index(')')
-        #             if right_index - left_index < 5:
-        #                 color_list.append(name[left_index+1:right_index])
-        #         if '블랙' in name:
-        #             color_list.append('블랙')
-        #         if 'BLACK' in name:
-        #             color_list.append('블랙')
-        for c in source.find_all('select', {"id": "option1"}):
-            for d in c.find_all('option'):
-                color_list.append(d.get_text())
-                color_list = [s for s in color_list if '선택' not in s]
-                if len(color_list) < 2:
-                    color_list = [s for s in color_list if 'FREE' not in s]
-        color_list = [s for s in color_list if 'acode' not in s]
-        color_list = [s for s in color_list if '2개' not in s]
-        color_list = [s for s in color_list if '1개' not in s]
-        color_list = [s for s in color_list if '포함' not in s]
-        color_list = [s for s in color_list if 'Small' not in s]
-        color_list = [s for s in color_list if 'Medium' not in s]
-        color_list = [s for s in color_list if 'Large' not in s]
-        color_list = [s for s in color_list if 'size' not in s]
-        color_list = list(set(color_list))
-        info_list.append(color_list)
+            # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
+            on_sale_list = []
+            for color in color_list:
+                on_sale = True
+                if "품절" in color:
+                    on_sale = False
+                on_sale_list.append(on_sale)
+            info_list.append(on_sale_list)
 
-        # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
-        on_sale_list = []
-        for color in color_list:
-            on_sale = True
-            if "품절" in color:
-                on_sale = False
-            on_sale_list.append(on_sale)
-        info_list.append(on_sale_list)
+            # 단일색 / 중복색 정보 담기
+            is_mono = True
+            if len(color_list) > 1:
+                is_mono = False
+            info_list.append(is_mono)
 
-        # 단일색 / 중복색 정보 담기
-        is_mono = True
-        if len(color_list) > 1:
-            is_mono = False
-        info_list.append(is_mono)
+            # 이미지 source html 정보 추출하기
+            a = source.find('div', {"class": "prod-detail-preview"})
+            img_source = a.find('div', {"class": "prod-image"})
+            info_list.append(img_source.find('img')['src'])
 
-        # 이미지 source html 정보 추출하기
-        a = source.find('div', {"class": "prod-detail-preview"})
-        img_source = a.find('div', {"class": "prod-image"})
-        info_list.append(img_source.find('img')['src'])
+            # 크롤링된 시간 정보 담기
+            info_list.append(timezone.now())
 
-        # 크롤링된 시간 정보 담기
-        info_list.append(timezone.now())
+            # 상품 이름 정보 담기
+            for a in source.find_all('div', {"class": "prod-preview"}):
+                for b in a.find_all('p', {"class": "prod-name"}):
+                    name = b.get_text()
+                    name = name.replace('\n', '').replace('\r', '').replace('\t', '')
+                    info_list.append(name)
 
-        # 상품 이름 정보 담기
-        for a in source.find_all('div', {"class": "prod-preview"}):
-            for b in a.find_all('p', {"class": "prod-name"}):
-                name = b.get_text()
-                name = name.replace('\n', '').replace('\r', '').replace('\t', '')
-                info_list.append(name)
+            # 모든 정보 담기
+            all_info_list.append(info_list)
 
-        # 모든 정보 담기
-        all_info_list.append(info_list)
-
-        # 서버 과부하를 위해 10s 간 멈춤
-        time.sleep(10)
+            # 서버 과부하를 위해 10s 간 멈춤
+            time.sleep(10)
+        except ConnectionResetError:
+            print("Connection reset by peer error")
     print(all_info_list)
     return all_info_list
 
@@ -173,7 +175,7 @@ def gabangpop_update_product_list(all_info_list):
                     remove_list.append(i)
                 else:
                     remove_list.append(i+j+1)
-    remove_list = list(set(remove_list))
+    remove_list = sorted(list(set(remove_list)))
     count = 0
     for i in range(len(remove_list)):
         del all_info_list[remove_list[i] - count]

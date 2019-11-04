@@ -76,70 +76,72 @@ def luzzi_info_crawler(product_list):
     all_info_list = []
     for i in range(len(product_list)):
         info_list = []
+        try:
+            # Best 상품인지 아닌지에 대한 정보 담기
+            is_best = False
+            if product_list[i][1] == 1:
+                is_best = True
+            info_list.append(is_best)
 
-        # Best 상품인지 아닌지에 대한 정보 담기
-        is_best = False
-        if product_list[i][1] == 1:
-            is_best = True
-        info_list.append(is_best)
+            html = urlopen(product_list[i][0])
+            source = BeautifulSoup(html, 'html.parser')
 
-        html = urlopen(product_list[i][0])
-        source = BeautifulSoup(html, 'html.parser')
+            # 가방 url 담기
+            info_list.append(product_list[i][0])
 
-        # 가방 url 담기
-        info_list.append(product_list[i][0])
+            # 가격 정보 추출하기
+            a = source.find('div', {"class": "infoArea"})
+            price = a.find('strong', {"id": "span_product_price_text"})
+            info_list.append(price.get_text())
 
-        # 가격 정보 추출하기
-        a = source.find('div', {"class": "infoArea"})
-        price = a.find('strong', {"id": "span_product_price_text"})
-        info_list.append(price.get_text())
+            # 색상 정보 추출하기
+            color_list = []
+            for a in source.find_all('div', {"class": "contents_inner"}):
+                for b in a.find_all('tr', {"class": "xans-product-option"}):
+                    for c in b.find_all('li'):
+                        for d in c.find_all('span'):
+                            color_list.append(d.get_text())
+                    for e in b.find_all('select'):
+                        for f in e.find_all('optgroup', {"label": "색상"}):
+                            for g in f.find_all('option'):
+                                color_list.append(g.get_text())
+            info_list.append(color_list)
 
-        # 색상 정보 추출하기
-        color_list = []
-        for a in source.find_all('div', {"class": "contents_inner"}):
-            for b in a.find_all('tr', {"class": "xans-product-option"}):
-                for c in b.find_all('li'):
-                    for d in c.find_all('span'):
-                        color_list.append(d.get_text())
-                for e in b.find_all('select'):
-                    for f in e.find_all('optgroup', {"label": "색상"}):
-                        for g in f.find_all('option'):
-                            color_list.append(g.get_text())
-        info_list.append(color_list)
+            # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
+            on_sale_list = []
+            for color in color_list:
+                on_sale = True
+                if "품절" in color:
+                    on_sale = False
+                on_sale_list.append(on_sale)
+            info_list.append(on_sale_list)
 
-        # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
-        on_sale_list = []
-        for color in color_list:
-            on_sale = True
-            if "품절" in color:
-                on_sale = False
-            on_sale_list.append(on_sale)
-        info_list.append(on_sale_list)
+            # 단일색 / 중복색 정보 담기
+            is_mono = True
+            if len(color_list) > 1:
+                is_mono = False
+            info_list.append(is_mono)
 
-        # 단일색 / 중복색 정보 담기
-        is_mono = True
-        if len(color_list) > 1:
-            is_mono = False
-        info_list.append(is_mono)
+            # 이미지 source html 정보 추출하기
+            a = source.find('div', {"class": "thumbnail"})
+            info_list.append('http:' + a.find('img')['src'])
 
-        # 이미지 source html 정보 추출하기
-        a = source.find('div', {"class": "thumbnail"})
-        info_list.append('http:' + a.find('img')['src'])
+            # 크롤링된 시간 정보 담기
+            info_list.append(timezone.now())
 
-        # 크롤링된 시간 정보 담기
-        info_list.append(timezone.now())
+            # 상품 이름 정보 담기
+            for a in source.find_all('div', {"class": "item_name"}):
+                for b in a.find_all('div', {"class": "name"}):
+                    name = b.find('span').get_text()
+                    info_list.append(name)
 
-        # 상품 이름 정보 담기
-        for a in source.find_all('div', {"class": "item_name"}):
-            for b in a.find_all('div', {"class": "name"}):
-                name = b.find('span').get_text()
-                info_list.append(name)
+            # 모든 정보 담기
+            all_info_list.append(info_list)
 
-        # 모든 정보 담기
-        all_info_list.append(info_list)
-
-        # 서버 과부하 예방을 위해 10s 간 멈춤
-        time.sleep(10)
+            # 서버 과부하 예방을 위해 10s 간 멈춤
+            time.sleep(10)
+        except ConnectionResetError:
+            print("Connection reset by peer error")
     print(all_info_list)
     return all_info_list
 
@@ -230,7 +232,7 @@ def luzzi_make_model_table(all_info_list):
                     colortag_list.append(13)
                 if any(c in colortab_list[k] for c in ('멀티', '다중', '뱀피', '지브라', '호피')):
                     colortag_list.append(99)
-                if colortag_list.count == 0:
+                if len(colortag_list) == 0:
                     colortag_list.append(0)
 
                 print(colortag_list)

@@ -65,89 +65,91 @@ def wconcept_info_crawler(product_list):
     all_info_list = []
     for i in range(len(product_list)):
         info_list = []
+        try:
+            html = urlopen(product_list[i])
+            source = BeautifulSoup(html, 'html.parser')
 
-        html = urlopen(product_list[i])
-        source = BeautifulSoup(html, 'html.parser')
+            # Best 상품인지 아닌지에 대한 정보 담기
+            # is_best = False
+            # info_list.append(is_best)
 
-        # Best 상품인지 아닌지에 대한 정보 담기
-        # is_best = False
-        # info_list.append(is_best)
+            # 가방 url 담기
+            info_list.append(product_list[i])
 
-        # 가방 url 담기
-        info_list.append(product_list[i])
+            # 가격 정보 추출하기
+            price_list = []
+            for a in source.find_all('div', {"class": "price_wrap"}):
+                for b in a.find_all('dd', {"class": "sale"}):
+                    for c in b.find_all('em'):
+                        price = c.get_text()
+                        price = price.replace('\n', '').replace('\r', '').replace('\t', '')
+                        price_list.append(price)
+            price = price_list[0]
+            info_list.append(price)
 
-        # 가격 정보 추출하기
-        price_list = []
-        for a in source.find_all('div', {"class": "price_wrap"}):
-            for b in a.find_all('dd', {"class": "sale"}):
-                for c in b.find_all('em'):
-                    price = c.get_text()
-                    price = price.replace('\n', '').replace('\r', '').replace('\t', '')
-                    price_list.append(price)
-        price = price_list[0]
-        info_list.append(price)
+            # 색상 정보 추출하기
+            color_list = []
+            # for a_1 in source.find_all('div', {"class": "select-list-selected"}):
+            #     for b_1 in a_1.find_all('ul', {"class": "select-list"}):
+            #         for color in b_1.find_all('a', {"class" : "select-list-link"}):
+            #             color_list.append(color.get_text())
+            # for a_2 in source.find_all('div', {"class": "h_group"}):
+            #     for b_2 in a_2.find_all('h3', {"class": "product"}):
+            #         name = b_2.get_text()
+            #         if '-' in name:
+            #             color_list.append("".join(name).split('-')[-3:-1])
+            #         elif '[' in name:
+            #             left_index = name.index('[')
+            #             right_index = name.index(']')
+            #             if right_index - left_index < 6:
+            #                 color_list.append(name[left_index+1:right_index])
+            #         else:
+            #             color_list.append("".join(name).split(' ')[-1])
+            # color_list = [s for s in color_list if 'ONE' not in s]
+            # color_list = [s for s in color_list if '선택' not in s]
+            # color_list = [s for s in color_list if 'chain' not in s]
+            # color_list = [s for s in color_list if 'FREE' not in s]
+            # color_list = sorted(list(set(color_list)))
+            info_list.append(color_list)
 
-        # 색상 정보 추출하기
-        color_list = []
-        # for a_1 in source.find_all('div', {"class": "select-list-selected"}):
-        #     for b_1 in a_1.find_all('ul', {"class": "select-list"}):
-        #         for color in b_1.find_all('a', {"class" : "select-list-link"}):
-        #             color_list.append(color.get_text())
-        # for a_2 in source.find_all('div', {"class": "h_group"}):
-        #     for b_2 in a_2.find_all('h3', {"class": "product"}):
-        #         name = b_2.get_text()
-        #         if '-' in name:
-        #             color_list.append("".join(name).split('-')[-3:-1])
-        #         elif '[' in name:
-        #             left_index = name.index('[')
-        #             right_index = name.index(']')
-        #             if right_index - left_index < 6:
-        #                 color_list.append(name[left_index+1:right_index])
-        #         else:
-        #             color_list.append("".join(name).split(' ')[-1])
-        # color_list = [s for s in color_list if 'ONE' not in s]
-        # color_list = [s for s in color_list if '선택' not in s]
-        # color_list = [s for s in color_list if 'chain' not in s]
-        # color_list = [s for s in color_list if 'FREE' not in s]
-        # color_list = sorted(list(set(color_list)))
-        info_list.append(color_list)
+            # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
+            on_sale_list = []
+            for color in color_list:
+                on_sale = True
+                if "품절" in color:
+                    on_sale = False
+                on_sale_list.append(on_sale)
+            info_list.append(on_sale_list)
 
-        # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
-        on_sale_list = []
-        for color in color_list:
-            on_sale = True
-            if "품절" in color:
-                on_sale = False
-            on_sale_list.append(on_sale)
-        info_list.append(on_sale_list)
+            # 단일색 / 중복색 정보 담기
+            is_mono = True
+            if len(color_list) > 1:
+                is_mono = False
+            info_list.append(is_mono)
 
-        # 단일색 / 중복색 정보 담기
-        is_mono = True
-        if len(color_list) > 1:
-            is_mono = False
-        info_list.append(is_mono)
+            # 이미지 source html 정보 추출하기
+            a = source.find('div', {"class": "img_goods"})
+            img_source = a.find('div', {"class": "img_area"})
+            info_list.append('https:' + img_source.find('img')['src'])
 
-        # 이미지 source html 정보 추출하기
-        a = source.find('div', {"class": "img_goods"})
-        img_source = a.find('div', {"class": "img_area"})
-        info_list.append('https:' + img_source.find('img')['src'])
+            # 크롤링된 시간 정보 담기
+            info_list.append(timezone.now())
 
-        # 크롤링된 시간 정보 담기
-        info_list.append(timezone.now())
+            # 상품 이름 정보 담기
+            name_list = []
+            for a_1 in source.find_all('div', {"class": "h_group"}):
+                for b in a_1.find_all('h3', {"class": "product"}):
+                    name = b.get_text()
+                    name_list.append(name)
+            info_list.append(name_list[0])
 
-        # 상품 이름 정보 담기
-        name_list = []
-        for a_1 in source.find_all('div', {"class": "h_group"}):
-            for b in a_1.find_all('h3', {"class": "product"}):
-                name = b.get_text()
-                name_list.append(name)
-        info_list.append(name_list[0])
+            # 모든 정보 담기
+            all_info_list.append(info_list)
 
-        # 모든 정보 담기
-        all_info_list.append(info_list)
-
-        # 서버 과부하를 위해 10s 간 멈춤
-        time.sleep(10)
+            # 서버 과부하를 위해 10s 간 멈춤
+            time.sleep(10)
+        except ConnectionResetError:
+            print("Connection reset by peer error")
     print(all_info_list)
     return all_info_list
 
@@ -162,7 +164,7 @@ def wconcept_update_product_list(all_info_list):
                     remove_list.append(i)
                 else:
                     remove_list.append(i+j+1)
-    remove_list = list(set(remove_list))
+    remove_list = sorted(list(set(remove_list)))
     count = 0
     for i in range(len(remove_list)):
         del all_info_list[remove_list[i] - count]
@@ -204,7 +206,7 @@ def wconcept_make_model_table(all_info_list):
 
         for j in range(len(all_info_list[i][2])):
             q, _ = ColorTab.objects.update_or_create(product=p, colors=all_info_list[i][2][j],
-                                                     defaults={ 'is_mono': all_info_list[i][4], 'on_sale': all_info_list[i][3][j]})
+                                                     defaults={'is_mono': all_info_list[i][4], 'on_sale': all_info_list[i][3][j]})
             colortab_list = []
             colortab_list.append(q.colors)
             for k in range(len(colortab_list)):

@@ -80,85 +80,87 @@ def whosbag_info_crawler(product_list):
     all_info_list = []
     for i in range(len(product_list)):
         info_list = []
+        try:
+            # Best 상품인지 아닌지에 대한 정보 담기
+            is_best = False
+            if product_list[i][1] == 1:
+                is_best = True
+            info_list.append(is_best)
 
-        # Best 상품인지 아닌지에 대한 정보 담기
-        is_best = False
-        if product_list[i][1] == 1:
-            is_best = True
-        info_list.append(is_best)
+            html = urlopen(product_list[i][0])
+            source = BeautifulSoup(html, 'html.parser')
 
-        html = urlopen(product_list[i][0])
-        source = BeautifulSoup(html, 'html.parser')
+            # 가방 url 담기
+            info_list.append(product_list[i][0])
 
-        # 가방 url 담기
-        info_list.append(product_list[i][0])
+            # 가격 정보 추출하기
+            price_list = []
+            for a in source.find_all('div', {"class": "SMS_table_opt1"}):
+                for b in a.find_all('span', {"class": "price"}):
+                    price = b.get_text()
+                    price = price.replace('\n', '').replace('\r', '').replace('\t', '')
+                    price_list.append(price)
+            price = price_list[0]
+            info_list.append(price)
 
-        # 가격 정보 추출하기
-        price_list = []
-        for a in source.find_all('div', {"class": "SMS_table_opt1"}):
-            for b in a.find_all('span', {"class": "price"}):
-                price = b.get_text()
-                price = price.replace('\n', '').replace('\r', '').replace('\t', '')
-                price_list.append(price)
-        price = price_list[0]
-        info_list.append(price)
+            # 색상 정보 추출하기
+            color_list = []
+            for a in source.find_all('div', {"class": "SMS_optcountbox"}):
+                for b in a.find_all('dl', {"class": "SMS_optcount cb_clear"}):
+                    if b.find('dt').get_text() == 'SIZE':
+                        break
+                    for c in b.find_all('select', {"id": "optionlist_0"}):
+                        for d in c.find_all('option'):
+                            color = d.get_text()
+                            color_list.append(color)
+            # color extractor 로 뽑아낼 예정
+            # for a_1 in source.find_all('div', {"class": "info"}):
+            #     for b in a_1.find_all('h3', {"class": "tit-prd"}):
+            #         name = b.get_text()
+            #         left_index = name.index('[')
+            #         right_index = name.index(']')
+            #         if (right_index - left_index) < 3:
+            #             color_list.append(name[left_index+1:right_index])
+            color_list = [s for s in color_list if '필수' not in s]
+            color_list = list(set(color_list))
+            info_list.append(color_list)
 
-        # 색상 정보 추출하기
-        color_list = []
-        for a in source.find_all('div', {"class": "SMS_optcountbox"}):
-            for b in a.find_all('dl', {"class": "SMS_optcount cb_clear"}):
-                if b.find('dt').get_text() == 'SIZE':
-                    break
-                for c in b.find_all('select', {"id": "optionlist_0"}):
-                    for d in c.find_all('option'):
-                        color = d.get_text()
-                        color_list.append(color)
-        # color extractor 로 뽑아낼 예정
-        # for a_1 in source.find_all('div', {"class": "info"}):
-        #     for b in a_1.find_all('h3', {"class": "tit-prd"}):
-        #         name = b.get_text()
-        #         left_index = name.index('[')
-        #         right_index = name.index(']')
-        #         if (right_index - left_index) < 3:
-        #             color_list.append(name[left_index+1:right_index])
-        color_list = [s for s in color_list if '필수' not in s]
-        color_list = list(set(color_list))
-        info_list.append(color_list)
+            # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
+            on_sale_list = []
+            for color in color_list:
+                on_sale = True
+                if "품절" in color:
+                    on_sale = False
+                on_sale_list.append(on_sale)
+            info_list.append(on_sale_list)
 
-        # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
-        on_sale_list = []
-        for color in color_list:
-            on_sale = True
-            if "품절" in color:
-                on_sale = False
-            on_sale_list.append(on_sale)
-        info_list.append(on_sale_list)
+            # 단일색 / 중복색 정보 담기
+            is_mono = True
+            if len(color_list) > 1:
+                is_mono = False
+            info_list.append(is_mono)
 
-        # 단일색 / 중복색 정보 담기
-        is_mono = True
-        if len(color_list) > 1:
-            is_mono = False
-        info_list.append(is_mono)
+            # 이미지 source html 정보 추출하기
+            a = source.find('div', {"class": "thumb-wrap"})
+            img_source = a.find('div', {"class": "thumb"})
+            info_list.append('http://whosbag.com' + img_source.find('img', {"class": "detail_image"})['src'])
 
-        # 이미지 source html 정보 추출하기
-        a = source.find('div', {"class": "thumb-wrap"})
-        img_source = a.find('div', {"class": "thumb"})
-        info_list.append('http://whosbag.com' + img_source.find('img', {"class": "detail_image"})['src'])
+            # 크롤링된 시간 정보 담기
+            info_list.append(timezone.now())
 
-        # 크롤링된 시간 정보 담기
-        info_list.append(timezone.now())
+            # 상품 이름 정보 담기
+            for a_1 in source.find_all('div', {"class": "info"}):
+                for b in a_1.find_all('h3', {"class": "tit-prd"}):
+                    name = b.get_text()
+                    info_list.append(name)
 
-        # 상품 이름 정보 담기
-        for a_1 in source.find_all('div', {"class": "info"}):
-            for b in a_1.find_all('h3', {"class": "tit-prd"}):
-                name = b.get_text()
-                info_list.append(name)
+            # 모든 정보 담기
+            all_info_list.append(info_list)
 
-        # 모든 정보 담기
-        all_info_list.append(info_list)
-
-        # 서버 과부하를 위해 10s 간 멈춤
-        time.sleep(10)
+            # 서버 과부하를 위해 10s 간 멈춤
+            time.sleep(10)
+        except ConnectionResetError:
+            print("Connection reset by peer error")
     print(all_info_list)
     return all_info_list
 
@@ -173,7 +175,7 @@ def whosbag_update_product_list(all_info_list):
                     remove_list.append(i)
                 else:
                     remove_list.append(i+j+1)
-    remove_list = list(set(remove_list))
+    remove_list = sorted(list(set(remove_list)))
     count = 0
     for i in range(len(remove_list)):
         del all_info_list[remove_list[i] - count]

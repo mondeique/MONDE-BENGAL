@@ -80,70 +80,71 @@ def bana_info_crawler(product_list):
     all_info_list = []
     for i in range(len(product_list)):
         info_list = []
+        try:
+            # Best 상품인지 아닌지에 대한 정보 담기
+            is_best = False
+            if product_list[i][1] == 1:
+                is_best = True
+            info_list.append(is_best)
 
-        # Best 상품인지 아닌지에 대한 정보 담기
-        is_best = False
-        if product_list[i][1] == 1:
-            is_best = True
-        info_list.append(is_best)
+            html = urlopen(product_list[i][0])
+            source = BeautifulSoup(html, 'html.parser')
 
-        html = urlopen(product_list[i][0])
-        source = BeautifulSoup(html, 'html.parser')
+            # 가방 url 담기
+            info_list.append(product_list[i][0])
 
-        # 가방 url 담기
-        info_list.append(product_list[i][0])
+            # 가격 정보 추출하기
+            a = source.find('table', {"class": "goods_spec"})
+            price = a.find('font', {"id": "price"})
+            info_list.append(price.get_text())
 
-        # 가격 정보 추출하기
-        a = source.find('table', {"class": "goods_spec"})
-        price = a.find('font', {"id": "price"})
-        info_list.append(price.get_text())
+            # 색상 정보 추출하기 (하나의 상품마다 색상이 하나임!)
+            # color_list = []
+            for a in source.find_all('div', {"class": "left"}):
+                for b in a.find_all('div', {"class": "bold w24 goodsnm"}):
+                    name = b.get_text()
+                    color = name.split()[-1]
+            info_list.append(color)
 
-        # 색상 정보 추출하기 (하나의 상품마다 색상이 하나임!)
-        # color_list = []
-        for a in source.find_all('div', {"class": "left"}):
-            for b in a.find_all('div', {"class": "bold w24 goodsnm"}):
-                name = b.get_text()
-                color = name.split()[-1]
-        info_list.append(color)
+            # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
+            on_sale = True
+            for a in source.find_all(('div', {"class": "left"})):
+                for b in a.find_all('table', {"class": "goods_spec"}):
+                    for sale in b.find_all('b'):
+                        if '품절' in sale.get_text():
+                            on_sale = False
+            info_list.append(on_sale)
 
-        # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
-        on_sale = True
-        for a in source.find_all(('div', {"class": "left"})):
-            for b in a.find_all('table', {"class": "goods_spec"}):
-                for sale in b.find_all('b'):
-                    if '품절' in sale.get_text():
-                        on_sale = False
-        info_list.append(on_sale)
+            # 단일색 / 중복색 정보 담기
+            # 어차피 하나의 색이기 때문에 is_mono는 당연히 True!
+            is_mono = True
+            if len(color) > 1:
+                is_mono = False
+            info_list.append(is_mono)
 
-        # 단일색 / 중복색 정보 담기
-        # 어차피 하나의 색이기 때문에 is_mono는 당연히 True!
-        is_mono = True
-        if len(color) > 1:
-            is_mono = False
-        info_list.append(is_mono)
+            # 이미지 source html 정보 추출하기
+            new_html = 'http://www.banabanamall.com/shop//goods/goods_popup_large.php?' + product_list[i][0].split('?')[-1]
+            html = urlopen(new_html)
+            source_in = BeautifulSoup(html, 'html.parser')
+            for a in source_in.find_all('img', {"id": "objImg"}):
+                info_list.append('http://www.banabanamall.com/shop/' + a['src'][2:])
 
-        # 이미지 source html 정보 추출하기
-        new_html = 'http://www.banabanamall.com/shop//goods/goods_popup_large.php?' + product_list[i][0].split('?')[-1]
-        html = urlopen(new_html)
-        source_in = BeautifulSoup(html, 'html.parser')
-        for a in source_in.find_all('img', {"id": "objImg"}):
-            info_list.append('http://www.banabanamall.com/shop/' + a['src'][2:])
+            # 크롤링된 시간 정보 담기
+            info_list.append(timezone.now())
 
-        # 크롤링된 시간 정보 담기
-        info_list.append(timezone.now())
+            # 상품 이름 정보 담기
+            for a in source.find_all('div', {"class": "left"}):
+                for b in a.find_all('div', {"class": "bold w24 goodsnm"}):
+                    name = b.get_text()
+                    info_list.append(name)
 
-        # 상품 이름 정보 담기
-        for a in source.find_all('div', {"class": "left"}):
-            for b in a.find_all('div', {"class": "bold w24 goodsnm"}):
-                name = b.get_text()
-                info_list.append(name)
+            # 모든 정보 담기
+            all_info_list.append(info_list)
 
-        # 모든 정보 담기
-        all_info_list.append(info_list)
-
-        # 서버 과부하를 위해 10s 간 멈춤
-        time.sleep(10)
-
+            # 서버 과부하를 위해 10s 간 멈춤
+            time.sleep(10)
+        except ConnectionResetError:
+            print("Connection reset by peer error")
     print(all_info_list)
     return all_info_list
 
@@ -233,7 +234,7 @@ def bana_make_model_table(all_info_list):
                 colortag_list.append(13)
             if any(c in colortab_list[k] for c in ('레인보우', '멀티', '다중', '뱀피', '지브라', '호피')):
                 colortag_list.append(99)
-            if colortag_list.count == 0:
+            if len(colortag_list) == 0:
                 colortag_list.append(0)
 
             print(colortag_list)

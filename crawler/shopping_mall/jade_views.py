@@ -173,11 +173,11 @@ def jade_update_database(all_info_list):
             origin_list.append(bag.image_url)
         for origin in origin_list:
             if origin not in new_crawled_list:
-                p = Product.objects.filter(bag_images__image_url=origin).first()
+                p = Product.objects.filter(bag_image__image_url=origin).first()
                 p.is_valid = False
                 p.save()
             else:
-                p = Product.objects.filter(bag_images__image_url=origin).first()
+                p = Product.objects.filter(bag_image__image_url=origin).first()
                 p.is_valid = True
                 p.save()
 

@@ -15,7 +15,9 @@ def bnburde_tab_list_provider(main_url):
             for url in b.find_all('a'):
                 if url['href'].startswith('/shop/shopbrand.html?type'):
                     tab_list.append(main_url + url['href'])
-    return tab_list[:7]
+                    # Best Tab 은 따로 찾아서 집어넣도록 하자.
+                    tab_list.append('http://www.bnburde.com/shop/shopbrand.html?type=P&xcode=021')
+    return tab_list[1:7]
 
 
 def bnburde_page_list_provider(tab_list):
@@ -152,7 +154,7 @@ def bnburde_info_crawler(product_list):
             # 서버 과부하를 위해 10s 간 멈춤
             time.sleep(10)
         except (ConnectionResetError, error.URLError):
-            print("Connection Error when crawling")
+            print("Connection Error")
     print(all_info_list)
     return all_info_list
 
@@ -215,25 +217,25 @@ def bnburde_make_model_table(all_info_list):
             colortab_list.append(q.colors)
             for k in range(len(colortab_list)):
                 colortag_list = []
-                if any(c in colortab_list[k] for c in ('레드', '와인', '브릭', '버건디', '빨강')):
+                if any(c in colortab_list[k] for c in ('레드', '와인', '브릭', '버건디', '빨강', '그레나딘')):
                     colortag_list.append(1)
-                if any(c in colortab_list[k] for c in ('로즈쿼츠', '피치', '살구', '코랄', '핑크')):
+                if any(c in colortab_list[k] for c in ('체리', '로즈쿼츠', '피치', '살구', '코랄', '핑크')):
                     colortag_list.append(2)
                 if any(c in colortab_list[k] for c in ('오렌지', '귤')):
                     colortag_list.append(3)
                 if any(c in colortab_list[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로')):
                     colortag_list.append(4)
-                if any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아')):
+                if any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아', '에버닌')):
                     colortag_list.append(5)
                 if any(c in colortab_list[k] for c in ('녹', '그린', '카키', '올리브', '라임', '비취')):
                     colortag_list.append(6)
-                if any(c in colortab_list[k] for c in ('소라', '아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘')):
+                if any(c in colortab_list[k] for c in ('소라', '아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘', '스카이')):
                     colortag_list.append(7)
                 if any(c in colortab_list[k] for c in ('네이비', '진파랑', '곤색')):
                     colortag_list.append(8)
-                if any(c in colortab_list[k] for c in ('모브', '보라', '퍼플', '보르도', '보로도', '바이올렛')):
+                if any(c in colortab_list[k] for c in ('모브', '보라', '퍼플', '보르도', '보로도', '라벤더', '바이올렛')):
                     colortag_list.append(9)
-                if any(c in colortab_list[k] for c in ('샌드', '타프', '에땅', '머드', '에토프', '밤색', '브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운', '초콜렛')):
+                if any(c in colortab_list[k] for c in ('샌드', '마르살라', '타프', '에땅', '머드', '에토프', '밤색', '브론즈', '브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운', '초콜렛')):
                     colortag_list.append(10)
                 if any(c in colortab_list[k] for c in ('블랙', '검정')):
                     colortag_list.append(11)

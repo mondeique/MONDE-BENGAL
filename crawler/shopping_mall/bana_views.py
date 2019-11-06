@@ -59,7 +59,7 @@ def bana_product_list_provider(main_url, page_list):
     # for i in range(len(remove_list)):
     #     del product_list[remove_list[i] - count]
     #     count = count + 1
-    return product_list
+    return product_list[:5]
 
 
 # def bana_update_database(product_list):
@@ -99,13 +99,23 @@ def bana_info_crawler(product_list):
             price = a.find('font', {"id": "price"})
             info_list.append(price.get_text())
 
-            # 색상 정보 추출하기 (하나의 상품마다 색상이 하나임!)
-            # color_list = []
-            for a in source.find_all('div', {"class": "left"}):
-                for b in a.find_all('div', {"class": "bold w24 goodsnm"}):
-                    name = b.get_text()
-                    color = name.split()[-1]
-            info_list.append(color)
+            # 색상 정보 추출하기 (대부분 하나의 상품마다 색상이 하나임!)
+            # 아닌 경우는 따로 if 문으로 처리
+            color_list = []
+            if source.find_all('select', {"name": "opt[]"}):
+                for colortab in source.find_all('select', {"name": "opt[]"}):
+                    for color in colortab.find_all('option'):
+                        color_list.append(color.get_text().replace('\n', '').replace('\r', '').replace('\t', '')).replace(' ','')
+            else:
+                for a in source.find_all('div', {"class": "left"}):
+                    for b in a.find_all('div', {"class": "bold w24 goodsnm"}):
+                        name = b.get_text()
+                        color = name.split()[-1]
+                        color_list.append(color)
+
+            color_list = [s for s in color_list if '선택' not in s]
+            color_list = list(set(color_list))
+            info_list.append(color_list)
 
             # 현재 상품 판매 중인지 아닌지에 대한 정보를 통해 filtering
             on_sale = True
@@ -145,7 +155,7 @@ def bana_info_crawler(product_list):
             # 서버 과부하를 위해 10s 간 멈춤
             time.sleep(10)
         except (ConnectionResetError, error.URLError):
-            print("Connection Error when crawling")
+            print("Connection Error")
     print(all_info_list)
     return all_info_list
 
@@ -209,21 +219,21 @@ def bana_make_model_table(all_info_list):
             colortag_list = []
             if any(c in colortab_list[k] for c in ('레드', '와인', '브릭', '버건디', '빨강')):
                 colortag_list.append(1)
-            if any(c in colortab_list[k] for c in ('피치', '살구', '코랄', '핑크')):
+            if any(c in colortab_list[k] for c in ('피치', '살구', '코랄', '핑크', '스칼렛')):
                 colortag_list.append(2)
-            if any(c in colortab_list[k] for c in ('오렌지', '귤')):
+            if any(c in colortab_list[k] for c in ('오렌지', '귤', '만다린')):
                 colortag_list.append(3)
             if any(c in colortab_list[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로')):
                 colortag_list.append(4)
-            if any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아')):
+            if any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아', '코코넛')):
                 colortag_list.append(5)
             if any(c in colortab_list[k] for c in ('녹', '그린', '카키', '올리브', '라임', '비취')):
                 colortag_list.append(6)
-            if any(c in colortab_list[k] for c in ('소라', '아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘')):
+            if any(c in colortab_list[k] for c in ('소라', '아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘', '오션딥')):
                 colortag_list.append(7)
             if any(c in colortab_list[k] for c in ('네이비', '진파랑', '곤색')):
                 colortag_list.append(8)
-            if any(c in colortab_list[k] for c in ('보라', '퍼플', '보르도', '보로도')):
+            if any(c in colortab_list[k] for c in ('보라', '퍼플', '보르도', '보로도', '라벤더', '바이올렛')):
                 colortag_list.append(9)
             if any(c in colortab_list[k] for c in ('타프', '샌드', '에땅', '머드', '에토프', '밤색', '브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운', '초콜렛')):
                 colortag_list.append(10)

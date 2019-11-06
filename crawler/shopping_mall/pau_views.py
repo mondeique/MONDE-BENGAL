@@ -38,7 +38,8 @@ def pau_product_list_provider(main_url, page_list):
     first_product_list = []
     for i in range(len(page_list)):
         is_best = 0
-        if page_list[i].startswith('http://parisandyou.co.kr/category/%EB%B2%A0%EC%8A%A4%ED%8A%B8/44/'):
+        if page_list[i].startswith('http://parisandyou.co.kr/category/%EB%B2%A0%EC%8A%A4%ED%8A%B8/44/') \
+                or page_list[i].startswith('http://parisandyou.co.kr/category/베스트/44/'):
             is_best = 1
         html = urlopen(page_list[i])
         source = BeautifulSoup(html, 'html.parser')
@@ -159,7 +160,7 @@ def pau_info_crawler(product_list):
             # 서버 과부하를 위해 10s 간 멈춤
             time.sleep(10)
         except (ConnectionResetError, error.URLError):
-            print("Connection Error when crawling")
+            print("Connection Error")
     print(all_info_list)
     return all_info_list
 
@@ -224,31 +225,31 @@ def pau_make_model_table(all_info_list):
                 colortag_list = []
                 if any(c in colortab_list[k] for c in ('레드', '와인', '브릭', '버건디', '빨강')):
                     colortag_list.append(1)
-                if any(c in colortab_list[k] for c in ('코랄', '핑크')):
+                if any(c in colortab_list[k] for c in ('코랄', '핑크', '살구', '피치', '체리')):
                     colortag_list.append(2)
                 if any(c in colortab_list[k] for c in ('오렌지', '귤')):
                     colortag_list.append(3)
-                if any(c in colortab_list[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로')):
+                if any(c in colortab_list[k] for c in ('골드', '머스타드', '머스터드', '노란', '노랑', '옐로', '네온', '형광', '엘로')):
                     colortag_list.append(4)
-                if any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아')):
+                if any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아', '샴페인', '라이크캣')):
                     colortag_list.append(5)
-                if any(c in colortab_list[k] for c in ('녹', '그린', '카키', '타프', '올리브', '라임', '비취')):
+                if any(c in colortab_list[k] for c in ('녹', '그린', '카키', '타프', '올리브', '라임', '연두', '비취')):
                     colortag_list.append(6)
-                if any(c in colortab_list[k] for c in ('아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘')):
+                if any(c in colortab_list[k] for c in ('파랑', '아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘', '스카이', '코발트', '소라')):
                     colortag_list.append(7)
-                if any(c in colortab_list[k] for c in ('네이비', '진파랑', '곤색')):
+                if any(c in colortab_list[k] for c in ('네이비', '진파랑', '곤색', '마린', '진곤')):
                     colortag_list.append(8)
-                if any(c in colortab_list[k] for c in ('보라', '퍼플', '보르도', '보로도')):
+                if any(c in colortab_list[k] for c in ('보라', '퍼플', '보르도', '보로도', '라벤더', '바이올렛')):
                     colortag_list.append(9)
-                if any(c in colortab_list[k] for c in ('에땅', '머드', '에토프', '밤색', '브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운', '초콜렛')):
+                if any(c in colortab_list[k] for c in ('에땅', '머드', '에토프', '밤색', '브론즈', '브라운', '커피', '탄', '연밤', '진밤', '카멜', '캬라멜', '모카', '탑브라운', '초콜렛', '초코')):
                     colortag_list.append(10)
-                if any(c in colortab_list[k] for c in ('블랙', '검정')):
+                if any(c in colortab_list[k] for c in ('블랙', '블렉', '검정', '다크벡터', '흑니켈')):
                     colortag_list.append(11)
                 if any(c in colortab_list[k] for c in ('아이보리', '아이', '화이트', '크림', '하얀')):
                     colortag_list.append(12)
-                if any(c in colortab_list[k] for c in ('실버', '회색', '그레이', '차콜')):
+                if any(c in colortab_list[k] for c in ('구름흑색', '실버', '먹색', '회색', '그레이', '차콜', '연회', '진회', '챠콜', '차콜')):
                     colortag_list.append(13)
-                if any(c in colortab_list[k] for c in ('멀티', '다중', '뱀피', '지브라', '호피')):
+                if any(c in colortab_list[k] for c in ('멀티', '다중', '카모', '레오파드', '밀리터리', '뱀피', '지브라', '호피', '베네딕스', '잉크플라워', '컬러')):
                     colortag_list.append(99)
                 if len(colortag_list) == 0:
                     colortag_list.append(0)

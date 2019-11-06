@@ -98,6 +98,7 @@ def jade_info_crawler(product_list):
                     for c in b.find_all('option'):
                         color_list.append(c.get_text())
             color_list = [s for s in color_list if '옵션' not in s]
+            color_list = [s for s in color_list if '나머지' not in s]
 
             info_list.append(color_list)
 
@@ -135,7 +136,7 @@ def jade_info_crawler(product_list):
             # 서버 과부하를 위해 10s 간 멈춤
             time.sleep(10)
         except (ConnectionResetError, error.URLError):
-            print("Connection Error when crawling")
+            print("Connection Error")
     print(all_info_list)
     return all_info_list
 
@@ -198,25 +199,25 @@ def jade_make_model_table(all_info_list):
             colortab_list.append(q.colors)
             for k in range(len(colortab_list)):
                 colortag_list = []
-                if any(c in colortab_list[k] for c in ('레드', '와인', '브릭', '버건디', '빨강')):
+                if any(c in colortab_list[k] for c in ('레드', '와인', '브릭', '버건디', '빨강', '자')):
                     colortag_list.append(1)
-                if any(c in colortab_list[k] for c in ('피치', '살구', '코랄', '핑크')):
+                if any(c in colortab_list[k] for c in ('피치', '살구', '코랄', '핑크', '체')):
                     colortag_list.append(2)
                 if any(c in colortab_list[k] for c in ('오렌지', '귤')):
                     colortag_list.append(3)
-                if any(c in colortab_list[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로')):
+                if any(c in colortab_list[k] for c in ('골드', '머스타드', '노란', '노랑', '옐로', '겨자')):
                     colortag_list.append(4)
                 if any(c in colortab_list[k] for c in ('베이지', '타프베이지', '코코아')):
                     colortag_list.append(5)
-                if any(c in colortab_list[k] for c in ('녹', '그린', '카키', '타프', '올리브', '라임', '비취')):
+                if any(c in colortab_list[k] for c in ('연두', '녹', '초록', '그린', '카키', '타프', '올리브', '라임', '비취')):
                     colortag_list.append(6)
-                if any(c in colortab_list[k] for c in ('소라', '아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘')):
+                if any(c in colortab_list[k] for c in ('데님', '파랑', '소라', '아쿠아', '세레니티', '블루', '청', '민트', '청록', '하늘', '스카이')):
                     colortag_list.append(7)
                 if any(c in colortab_list[k] for c in ('네이비', '진파랑', '곤색')):
                     colortag_list.append(8)
-                if any(c in colortab_list[k] for c in ('보라', '퍼플', '보르도', '보로도')):
+                if any(c in colortab_list[k] for c in ('보라', '퍼플', '보르도', '보로도', '라벤더')):
                     colortag_list.append(9)
-                if any(c in colortab_list[k] for c in ('에땅', '머드', '에토프', '밤색', '브라운', '탄', '카멜', '캬라멜', '모카', '탑브라운', '초콜렛')):
+                if any(c in colortab_list[k] for c in ('에땅', '머드', '에토프', '밤색', '브라운', '탄', '카멜', '캬라멜', '연밤', '진밤', '모카', '탑브라운', '초콜렛')):
                     colortag_list.append(10)
                 if any(c in colortab_list[k] for c in ('블랙', '검정')):
                     colortag_list.append(11)
@@ -224,7 +225,7 @@ def jade_make_model_table(all_info_list):
                     colortag_list.append(12)
                 if any(c in colortab_list[k] for c in ('실버', '회색', '그레이', '차콜')):
                     colortag_list.append(13)
-                if any(c in colortab_list[k] for c in ('멀티', '다중', '뱀피', '지브라', '호피')):
+                if any(c in colortab_list[k] for c in ('멀티', '다중', '뱀피', '지브라', '호피', '카모')):
                     colortag_list.append(99)
                 if len(colortag_list) == 0:
                     colortag_list.append(0)

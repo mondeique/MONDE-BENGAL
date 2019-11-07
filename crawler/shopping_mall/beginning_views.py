@@ -35,10 +35,26 @@ def beginning_product_list_provider(main_url, page_list):
         html = urlopen(page_list[i])
         source = BeautifulSoup(html, 'html.parser')
         for a in source.find_all('div', {"class": 'prd-thumb'}):
+            is_best = 0
+            for best in a.find_all('span', {"class": 'MK-product-icons'}):
+                for icon in best.find_all('img'):
+                    if icon['src'].startswith(
+                            'http://cdnok.makeshop.co.kr/shopimages/beginning1/prod_icons/19580?1571209166') or \
+                            icon['src'].startswith('/shopimages/beginning1/prod_icons/19580?1571209166'):
+                        is_best = 1
             for url in a.find_all('a'):
                 if url['href'].startswith('/shop'):
-                    product_list.append(main_url + url['href'])
-    product_list = sorted(list(set(product_list)))
+                    product_list.append([main_url + url['href'], is_best])
+
+    remove_list = []
+    for i in range(len(product_list)):
+        for j in range(len(product_list) - i - 1):
+            if product_list[i][0] == product_list[i + j + 1][0]:
+                remove_list.append(i)
+    count = 0
+    for i in range(len(remove_list)):
+        del product_list[remove_list[i] - count]
+        count = count + 1
     return product_list
 
 
@@ -67,14 +83,12 @@ def beginning_info_crawler(product_list):
 
             # Best 상품인지 아닌지에 대한 정보 담기
             is_best = False
-            for a in source.find_all('div', {"class": "info"}):
-                for b in a.find_all('span', {"class": "MK-product-icons"}):
-                    if b.find('img')['src'] == '/shopimages/beginning1/prod_icons/19580?1446694730':
-                        is_best = True
+            if product_list[i][1] == 1:
+                is_best = True
             info_list.append(is_best)
 
             # 가방 url 담기
-            info_list.append(product_list[i])
+            info_list.append(product_list[i][0])
 
             # 가격 정보 추출하기
             a = source.find('td', {"class": "price"})

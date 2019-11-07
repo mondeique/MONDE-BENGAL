@@ -78,7 +78,7 @@ def beginning_info_crawler(product_list):
     for i in range(len(product_list)):
         info_list = []
         try:
-            html = urlopen(product_list[i])
+            html = urlopen(product_list[i][0])
             source = BeautifulSoup(html, 'html.parser')
 
             # Best 상품인지 아닌지에 대한 정보 담기

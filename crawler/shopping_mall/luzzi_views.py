@@ -141,7 +141,7 @@ def luzzi_info_crawler(product_list):
 
             # 서버 과부하 예방을 위해 10s 간 멈춤
             time.sleep(10)
-        except (ConnectionResetError, error.URLError):
+        except (ConnectionResetError, error.URLError, error.HTTPError):
             print("Connection Error")
     print(all_info_list)
     return all_info_list

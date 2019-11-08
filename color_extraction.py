@@ -155,9 +155,11 @@ def color_extraction():
                 result = 13
             p = ColorTag.objects.get(pk=obj.id)
             p.color = result
+            p.color_review = True
             p.save()
         else:
             result = 99
             p = ColorTag.objects.get(pk=obj.id)
             p.color = result
+            p.color_review = True
             p.save()

@@ -135,6 +135,7 @@ class ColorTag(models.Model):
     )
     colortab = models.ForeignKey(ColorTab, related_name='color_tags', on_delete=models.CASCADE)
     color = models.IntegerField(choices=COLOR_CHOICES)
+    color_review = models.BooleanField(default=False)
 
 
 

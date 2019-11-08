@@ -7,7 +7,7 @@ import numpy as np
 import os
 import tensorflow as tf
 import cv2
-from object_detection.utils import ops as utils_ops
+from utils import ops as utils_ops
 from utils import label_map_util
 
 # Pre trained graph model PATH

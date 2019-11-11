@@ -69,29 +69,32 @@ class BagImage(models.Model):
         print('request ok')
         # image = Image.open(BytesIO(resp.content))
         byteImgIO = BytesIO()
-        byteImg = Image.open(BytesIO(resp.content))
-        byteImg = byteImg.convert("RGB")
-        byteImg.save(byteImgIO, "JPEG")
-        byteImgIO.seek(0)
-        byteImg = byteImgIO.read()
-        dataBytesIO = BytesIO(byteImg)
-        image = Image.open(dataBytesIO)
-        print('image open ok')
-        width, height = image.size
-        left = width * 0.01
-        top = height * 0.01
-        right = width * 0.99
-        bottom = height * 0.99
-        crop_data = image.crop((int(left), int(top), int(right), int(bottom)))
-        # http://stackoverflow.com/questions/3723220/how-do-you-convert-a-pil-image-to-a-django-file
-        crop_io = BytesIO()
-        crop_data.save(crop_io, format=self.get_image_extension())
-        print('crop data save ok')
-        crop_file = InMemoryUploadedFile(crop_io, None, get_image_filename(self.bag_image), 'image/jpeg', len(crop_io.getvalue()), None)
-        print('memory upload ok')
-        self.bag_image.save(get_image_filename(self.bag_image), crop_file, save=False)
-        # To avoid recursive save, call super.save
-        super(BagImage, self).save()
+        try:
+            byteImg = Image.open(BytesIO(resp.content))
+            byteImg = byteImg.convert("RGB")
+            byteImg.save(byteImgIO, "JPEG")
+            byteImgIO.seek(0)
+            byteImg = byteImgIO.read()
+            dataBytesIO = BytesIO(byteImg)
+            image = Image.open(dataBytesIO)
+            print('image open ok')
+            width, height = image.size
+            left = width * 0.01
+            top = height * 0.01
+            right = width * 0.99
+            bottom = height * 0.99
+            crop_data = image.crop((int(left), int(top), int(right), int(bottom)))
+            # http://stackoverflow.com/questions/3723220/how-do-you-convert-a-pil-image-to-a-django-file
+            crop_io = BytesIO()
+            crop_data.save(crop_io, format=self.get_image_extension())
+            print('crop data save ok')
+            crop_file = InMemoryUploadedFile(crop_io, None, get_image_filename(self.bag_image), 'image/jpeg', len(crop_io.getvalue()), None)
+            print('memory upload ok')
+            self.bag_image.save(get_image_filename(self.bag_image), crop_file, save=False)
+            # To avoid recursive save, call super.save
+            super(BagImage, self).save()
+        except OSError:
+            print("OSError")
 
 
 class ColorTab(models.Model):

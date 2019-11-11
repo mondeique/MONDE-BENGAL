@@ -89,28 +89,28 @@ def bnburde_web_crawling():
     bnburde_make_model_table(bnburde_all_info_list)
 
 
-@shared_task
-def wconcept_web_crawling():
-    main_url = 'https://www.wconcept.co.kr/Women/004'
-    wconcept_tab_list = wconcept_tab_list_provider(main_url)
-    wconcept_page_list = wconcept_page_list_provider(wconcept_tab_list)
-    wconcept_product_list = wconcept_product_list_provider(main_url, wconcept_page_list)
-    wconcept_all_info_list = wconcept_info_crawler(wconcept_product_list)
-    wconcept_all_info_list = wconcept_update_product_list(wconcept_all_info_list)
-    wconcept_update_database(wconcept_all_info_list)
-    wconcept_make_model_table(wconcept_all_info_list)
-
-
-@shared_task
-def gabangpop_web_crawling():
-    main_url = 'http://www.gabangpop.co.kr'
-    gabangpop_tab_list = gabangpop_tab_list_provider(main_url)
-    gabangpop_page_list = gabangpop_page_list_provider(gabangpop_tab_list)
-    gabangpop_product_list = gabangpop_product_list_provider(main_url, gabangpop_page_list)
-    gabangpop_all_info_list = gabangpop_info_crawler(gabangpop_product_list)
-    gabangpop_all_info_list = gabangpop_update_product_list(gabangpop_all_info_list)
-    gabangpop_update_database(gabangpop_all_info_list)
-    gabangpop_make_model_table(gabangpop_all_info_list)
+# @shared_task
+# def wconcept_web_crawling():
+#     main_url = 'https://www.wconcept.co.kr/Women/004'
+#     wconcept_tab_list = wconcept_tab_list_provider(main_url)
+#     wconcept_page_list = wconcept_page_list_provider(wconcept_tab_list)
+#     wconcept_product_list = wconcept_product_list_provider(main_url, wconcept_page_list)
+#     wconcept_all_info_list = wconcept_info_crawler(wconcept_product_list)
+#     wconcept_all_info_list = wconcept_update_product_list(wconcept_all_info_list)
+#     wconcept_update_database(wconcept_all_info_list)
+#     wconcept_make_model_table(wconcept_all_info_list)
+#
+#
+# @shared_task
+# def gabangpop_web_crawling():
+#     main_url = 'http://www.gabangpop.co.kr'
+#     gabangpop_tab_list = gabangpop_tab_list_provider(main_url)
+#     gabangpop_page_list = gabangpop_page_list_provider(gabangpop_tab_list)
+#     gabangpop_product_list = gabangpop_product_list_provider(main_url, gabangpop_page_list)
+#     gabangpop_all_info_list = gabangpop_info_crawler(gabangpop_product_list)
+#     gabangpop_all_info_list = gabangpop_update_product_list(gabangpop_all_info_list)
+#     gabangpop_update_database(gabangpop_all_info_list)
+#     gabangpop_make_model_table(gabangpop_all_info_list)
 
 
 @shared_task

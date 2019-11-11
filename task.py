@@ -18,15 +18,15 @@ def crawler_2():
     mjade_web_crawling.delay()
     jade_web_crawling.delay()
     luzzi_web_crawling.delay()
-    mclanee_web_crawling.delay()
 
 
 def crawler_3():
     # gabangpop_web_crawling.delay()
+    mclanee_web_crawling.delay()
     pau_web_crawling.delay()
-    # pink_web_crawling.delay()
-    wconcept_web_crawling.delay()
-    # whosbag_web_crawling.delay()
+    pink_web_crawling.delay()
+    # wconcept_web_crawling.delay()
+    whosbag_web_crawling.delay()
 
 # Auto run script at specific time
 import schedule

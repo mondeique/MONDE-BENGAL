@@ -5,28 +5,32 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'web_crawler.settings'
 django.setup()
 
 from crawler.tasks import *
+from crawler.tools import get_token
 
 
 def crawler_1():
-    beginning_web_crawling.delay()
-    bana_web_crawling.delay()
-    bnburde_web_crawling.delay()
-    bagshoes_web_crawling.delay()
+    token = get_token()
+    beginning_web_crawling(token).delay()
+    bana_web_crawling(token).delay()
+    bnburde_web_crawling(token).delay()
+    bagshoes_web_crawling(token).delay()
 
 
 def crawler_2():
-    mjade_web_crawling.delay()
-    jade_web_crawling.delay()
-    luzzi_web_crawling.delay()
+    token = get_token()
+    mjade_web_crawling(token).delay()
+    jade_web_crawling(token).delay()
+    luzzi_web_crawling(token).delay()
 
 
 def crawler_3():
+    token = get_token()
     # gabangpop_web_crawling.delay()
-    mclanee_web_crawling.delay()
-    pau_web_crawling.delay()
-    pink_web_crawling.delay()
+    mclanee_web_crawling(token).delay()
+    pau_web_crawling(token).delay()
+    pink_web_crawling(token).delay()
     # wconcept_web_crawling.delay()
-    whosbag_web_crawling.delay()
+    whosbag_web_crawling(token).delay()
 
 # Auto run script at specific time
 import schedule

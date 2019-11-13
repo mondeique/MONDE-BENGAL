@@ -16,6 +16,8 @@ from crawler.shopping_mall.mjade_views import *
 from crawler.shopping_mall.pink_views import *
 from crawler.shopping_mall.whosbag_views import *
 
+import requests
+
 
 @shared_task
 def luzzi_web_crawling():
@@ -27,6 +29,8 @@ def luzzi_web_crawling():
     luzzi_all_info_list = luzzi_update_product_list(luzzi_all_info_list)
     luzzi_update_database(luzzi_all_info_list)
     luzzi_make_model_table(luzzi_all_info_list)
+    post_url = 'http://15.164.101.147:7800/api/v1/sync/1/'
+    requests.post(url=post_url, verify=False)
 
 
 @shared_task
@@ -39,6 +43,8 @@ def pau_web_crawling():
     pau_all_info_list = pau_update_product_list(pau_all_info_list)
     pau_update_database(pau_all_info_list)
     pau_make_model_table(pau_all_info_list)
+    post_url = 'http://15.164.101.147:7800/api/v1/sync/2/'
+    requests.post(url=post_url, verify=False)
 
 
 @shared_task
@@ -51,6 +57,8 @@ def jade_web_crawling():
     jade_all_info_list = jade_update_product_list(jade_all_info_list)
     jade_update_database(jade_all_info_list)
     jade_make_model_table(jade_all_info_list)
+    post_url = 'http://15.164.101.147:7800/api/v1/sync/3/'
+    requests.post(url=post_url, verify=False)
 
 
 @shared_task
@@ -63,6 +71,8 @@ def bana_web_crawling():
     bana_all_info_list = bana_update_product_list(bana_all_info_list)
     bana_update_database(bana_all_info_list)
     bana_make_model_table(bana_all_info_list)
+    post_url = 'http://15.164.101.147:7800/api/v1/sync/4/'
+    requests.post(url=post_url, verify=False)
 
 
 @shared_task
@@ -75,6 +85,8 @@ def beginning_web_crawling():
     beginning_all_info_list = beginning_update_product_list(beginning_all_info_list)
     beginning_update_database(beginning_all_info_list)
     beginning_make_model_table(beginning_all_info_list)
+    post_url = 'http://15.164.101.147:7800/api/v1/sync/5/'
+    requests.post(url=post_url, verify=False)
 
 
 @shared_task
@@ -87,6 +99,8 @@ def bnburde_web_crawling():
     bnburde_all_info_list = bnburde_update_product_list(bnburde_all_info_list)
     bnburde_update_database(bnburde_all_info_list)
     bnburde_make_model_table(bnburde_all_info_list)
+    post_url = 'http://15.164.101.147:7800/api/v1/sync/6/'
+    requests.post(url=post_url, verify=False)
 
 
 # @shared_task
@@ -123,6 +137,9 @@ def bagshoes_web_crawling():
     bagshoes_all_info_list = bagshoes_update_product_list(bagshoes_all_info_list)
     bagshoes_update_database(bagshoes_all_info_list)
     bagshoes_make_model_table(bagshoes_all_info_list)
+    post_url = 'http://15.164.101.147:7800/api/v1/sync/9/'
+    requests.post(url=post_url, verify=False)
+
 
 
 @shared_task
@@ -135,6 +152,9 @@ def mclanee_web_crawling():
     mclanee_all_info_list = mclanee_update_product_list(mclanee_all_info_list)
     mclanee_update_database(mclanee_all_info_list)
     mclanee_make_model_table(mclanee_all_info_list)
+    post_url = 'http://15.164.101.147:7800/api/v1/sync/10/'
+    requests.post(url=post_url, verify=False)
+
 
 
 @shared_task
@@ -147,6 +167,8 @@ def mjade_web_crawling():
     mjade_all_info_list = mjade_update_product_list(mjade_all_info_list)
     mjade_update_database(mjade_all_info_list)
     mjade_make_model_table(mjade_all_info_list)
+    post_url = 'http://15.164.101.147:7800/api/v1/sync/11/'
+    requests.post(url=post_url, verify=False)
 
 
 @shared_task
@@ -159,6 +181,8 @@ def pink_web_crawling():
     pink_all_info_list = pink_update_product_list(pink_all_info_list)
     pink_update_database(pink_all_info_list)
     pink_make_model_table(pink_all_info_list)
+    post_url = 'http://15.164.101.147:7800/api/v1/sync/12/'
+    requests.post(url=post_url, verify=False)
 
 
 @shared_task
@@ -171,5 +195,7 @@ def whosbag_web_crawling():
     whosbag_all_info_list = whosbag_update_product_list(whosbag_all_info_list)
     whosbag_update_database(whosbag_all_info_list)
     whosbag_make_model_table(whosbag_all_info_list)
+    post_url = 'http://15.164.101.147:7800/api/v1/sync/13/'
+    requests.post(url=post_url, verify=False)
 
 

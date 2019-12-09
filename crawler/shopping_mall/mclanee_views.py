@@ -3,6 +3,8 @@ from crawler.models import *
 from urllib.request import urlopen
 from urllib import parse
 from urllib import error
+from requests.exceptions import ConnectionError
+from urllib3.exceptions import NewConnectionError, MaxRetryError
 from bs4 import BeautifulSoup
 import time
 
@@ -154,7 +156,7 @@ def mclanee_info_crawler(product_list):
 
             # 서버 과부하를 위해 10s 간 멈춤
             time.sleep(10)
-        except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError):
+        except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError, MaxRetryError):
             print("Connection Error")
     print(all_info_list)
     return all_info_list

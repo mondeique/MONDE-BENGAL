@@ -31,7 +31,7 @@ def luzzi_web_crawling(token):
     luzzi_all_info_list = luzzi_update_product_list(luzzi_all_info_list)
     luzzi_update_database(luzzi_all_info_list)
     luzzi_make_model_table(luzzi_all_info_list)
-    sync_mondebro(token, 1)
+    # sync_mondebro(token, 1)
 
 
 @shared_task
@@ -44,7 +44,7 @@ def pau_web_crawling(token):
     pau_all_info_list = pau_update_product_list(pau_all_info_list)
     pau_update_database(pau_all_info_list)
     pau_make_model_table(pau_all_info_list)
-    sync_mondebro(token, 2)
+    # sync_mondebro(token, 2)
 
 
 @shared_task
@@ -57,7 +57,7 @@ def jade_web_crawling(token):
     jade_all_info_list = jade_update_product_list(jade_all_info_list)
     jade_update_database(jade_all_info_list)
     jade_make_model_table(jade_all_info_list)
-    sync_mondebro(token, 3)
+    # sync_mondebro(token, 3)
 
 
 @shared_task
@@ -70,7 +70,7 @@ def bana_web_crawling(token):
     bana_all_info_list = bana_update_product_list(bana_all_info_list)
     bana_update_database(bana_all_info_list)
     bana_make_model_table(bana_all_info_list)
-    sync_mondebro(token, 4)
+    # sync_mondebro(token, 4)
 
 
 @shared_task
@@ -83,7 +83,7 @@ def beginning_web_crawling(token):
     beginning_all_info_list = beginning_update_product_list(beginning_all_info_list)
     beginning_update_database(beginning_all_info_list)
     beginning_make_model_table(beginning_all_info_list)
-    sync_mondebro(token, 5)
+    # sync_mondebro(token, 5)
 
 
 @shared_task
@@ -96,7 +96,7 @@ def bnburde_web_crawling(token):
     bnburde_all_info_list = bnburde_update_product_list(bnburde_all_info_list)
     bnburde_update_database(bnburde_all_info_list)
     bnburde_make_model_table(bnburde_all_info_list)
-    sync_mondebro(token, 6)
+    # sync_mondebro(token, 6)
 
 
 # @shared_task
@@ -133,7 +133,7 @@ def bagshoes_web_crawling(token):
     bagshoes_all_info_list = bagshoes_update_product_list(bagshoes_all_info_list)
     bagshoes_update_database(bagshoes_all_info_list)
     bagshoes_make_model_table(bagshoes_all_info_list)
-    sync_mondebro(token, 9)
+    # sync_mondebro(token, 9)
 
 
 
@@ -147,7 +147,7 @@ def mclanee_web_crawling(token):
     mclanee_all_info_list = mclanee_update_product_list(mclanee_all_info_list)
     mclanee_update_database(mclanee_all_info_list)
     mclanee_make_model_table(mclanee_all_info_list)
-    sync_mondebro(token, 10)
+    # sync_mondebro(token, 10)
 
 
 
@@ -161,7 +161,7 @@ def mjade_web_crawling(token):
     mjade_all_info_list = mjade_update_product_list(mjade_all_info_list)
     mjade_update_database(mjade_all_info_list)
     mjade_make_model_table(mjade_all_info_list)
-    sync_mondebro(token, 11)
+    # sync_mondebro(token, 11)
 
 
 @shared_task
@@ -174,7 +174,7 @@ def pink_web_crawling(token):
     pink_all_info_list = pink_update_product_list(pink_all_info_list)
     pink_update_database(pink_all_info_list)
     pink_make_model_table(pink_all_info_list)
-    sync_mondebro(token, 12)
+    # sync_mondebro(token, 12)
 
 
 @shared_task
@@ -187,6 +187,6 @@ def whosbag_web_crawling(token):
     whosbag_all_info_list = whosbag_update_product_list(whosbag_all_info_list)
     whosbag_update_database(whosbag_all_info_list)
     whosbag_make_model_table(whosbag_all_info_list)
-    sync_mondebro(token, 13)
+    # sync_mondebro(token, 13)
 
 

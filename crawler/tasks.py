@@ -22,7 +22,7 @@ from crawler.tools import valid_token, sync_mondebro
 
 
 @shared_task
-def luzzi_web_crawling(token):
+def luzzi_web_crawling():
     main_url = 'http://www.luzzibag.com'
     luzzi_tab_list = luzzi_tab_list_provider(main_url)
     luzzi_page_list = luzzi_page_list_provider(luzzi_tab_list)
@@ -35,7 +35,7 @@ def luzzi_web_crawling(token):
 
 
 @shared_task
-def pau_web_crawling(token):
+def pau_web_crawling():
     main_url = 'http://www.parisandyou.co.kr'
     pau_tab_list = pau_tab_list_provider(main_url)
     pau_page_list = pau_page_list_provider(pau_tab_list)
@@ -48,7 +48,7 @@ def pau_web_crawling(token):
 
 
 @shared_task
-def jade_web_crawling(token):
+def jade_web_crawling():
     main_url = 'http://www.jadebag.co.kr'
     jade_tab_list = jade_tab_list_provider(main_url)
     jade_page_list = jade_page_list_provider(jade_tab_list)
@@ -61,7 +61,7 @@ def jade_web_crawling(token):
 
 
 @shared_task
-def bana_web_crawling(token):
+def bana_web_crawling():
     main_url = 'http://www.banabanamall.com'
     bana_tab_list = bana_tab_list_provider(main_url)
     bana_page_list = bana_page_list_provider(bana_tab_list)
@@ -74,7 +74,7 @@ def bana_web_crawling(token):
 
 
 @shared_task
-def beginning_web_crawling(token):
+def beginning_web_crawling():
     main_url = 'http://www.beginning.kr'
     beginning_tab_list = beginning_tab_list_provider(main_url)
     beginning_page_list = beginning_page_list_provider(beginning_tab_list)
@@ -87,7 +87,7 @@ def beginning_web_crawling(token):
 
 
 @shared_task
-def bnburde_web_crawling(token):
+def bnburde_web_crawling():
     main_url = 'http://www.bnburde.com'
     bnburde_tab_list = bnburde_tab_list_provider(main_url)
     bnburde_page_list = bnburde_page_list_provider(bnburde_tab_list)
@@ -124,7 +124,7 @@ def bnburde_web_crawling(token):
 
 
 @shared_task
-def bagshoes_web_crawling(token):
+def bagshoes_web_crawling():
     main_url = 'http://www.bagshoes.co.kr'
     bagshoes_tab_list = bagshoes_tab_list_provider(main_url)
     bagshoes_page_list = bagshoes_page_list_provider(bagshoes_tab_list)
@@ -138,7 +138,7 @@ def bagshoes_web_crawling(token):
 
 
 @shared_task
-def mclanee_web_crawling(token):
+def mclanee_web_crawling():
     main_url = 'http://www.mclanee.co.kr'
     mclanee_tab_list = mclanee_tab_list_provider(main_url)
     mclanee_page_list = mclanee_page_list_provider(mclanee_tab_list)
@@ -152,7 +152,7 @@ def mclanee_web_crawling(token):
 
 
 @shared_task
-def mjade_web_crawling(token):
+def mjade_web_crawling():
     main_url = 'http://www.mjade.co.kr'
     mjade_tab_list = mjade_tab_list_provider(main_url)
     mjade_page_list = mjade_page_list_provider(mjade_tab_list)
@@ -165,7 +165,7 @@ def mjade_web_crawling(token):
 
 
 @shared_task
-def pink_web_crawling(token):
+def pink_web_crawling():
     main_url = 'http://www.pinkbag.co.kr'
     pink_tab_list = pink_tab_list_provider(main_url)
     pink_page_list = pink_page_list_provider(pink_tab_list)
@@ -178,7 +178,7 @@ def pink_web_crawling(token):
 
 
 @shared_task
-def whosbag_web_crawling(token):
+def whosbag_web_crawling():
     main_url = 'http://www.whosbag.com'
     whosbag_tab_list = whosbag_tab_list_provider(main_url)
     whosbag_page_list = whosbag_page_list_provider(whosbag_tab_list)

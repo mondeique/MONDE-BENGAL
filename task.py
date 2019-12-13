@@ -36,22 +36,18 @@ def crawler_3():
 import schedule
 import time
 
-# schedule.every().monday.at("03:00").do(crawler_1)
-# schedule.every().monday.at("06:00").do(crawler_1)
-# schedule.every().tuesday.at("03:00").do(crawler_2)
-# schedule.every().tuesday.at("06:00").do(crawler_2)
-# schedule.every().wednesday.at("03:00").do(crawler_3)
-# schedule.every().wednesday.at("06:00").do(crawler_3)
-# schedule.every().thursday.at("03:00").do(crawler_1)
-# schedule.every().thursday.at("06:00").do(crawler_1)
-# schedule.every().friday.at("03:00").do(crawler_2)
-# schedule.every().friday.at("06:00").do(crawler_2)
-# schedule.every().saturday.at("03:00").do(crawler_3)
-# schedule.every().saturday.at("06:00").do(crawler_3)
-
-schedule.every().thursday.at("14:00").do(crawler_1)
-schedule.every().thursday.at("20:00").do(crawler_2)
-schedule.every().friday.at("00:00").do(crawler_3)
+schedule.every().monday.at("03:00").do(crawler_1)
+schedule.every().monday.at("06:00").do(crawler_1)
+schedule.every().tuesday.at("03:00").do(crawler_2)
+schedule.every().tuesday.at("06:00").do(crawler_2)
+schedule.every().wednesday.at("03:00").do(crawler_3)
+schedule.every().wednesday.at("06:00").do(crawler_3)
+schedule.every().thursday.at("03:00").do(crawler_1)
+schedule.every().thursday.at("06:00").do(crawler_1)
+schedule.every().friday.at("03:00").do(crawler_2)
+schedule.every().friday.at("06:00").do(crawler_2)
+schedule.every().saturday.at("03:00").do(crawler_3)
+schedule.every().saturday.at("06:00").do(crawler_3)
 
 while True:
     schedule.run_pending()

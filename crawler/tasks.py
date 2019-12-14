@@ -22,7 +22,7 @@ from crawler.tools import valid_token, sync_mondebro
 
 
 @shared_task
-def luzzi_web_crawling():
+def luzzi_web_crawling(token):
     main_url = 'http://www.luzzibag.com'
     luzzi_tab_list = luzzi_tab_list_provider(main_url)
     luzzi_page_list = luzzi_page_list_provider(luzzi_tab_list)
@@ -31,11 +31,11 @@ def luzzi_web_crawling():
     luzzi_all_info_list = luzzi_update_product_list(luzzi_all_info_list)
     luzzi_update_database(luzzi_all_info_list)
     luzzi_make_model_table(luzzi_all_info_list)
-    # sync_mondebro(token, 1)
+    sync_mondebro(token, 1)
 
 
 @shared_task
-def pau_web_crawling():
+def pau_web_crawling(token):
     main_url = 'http://www.parisandyou.co.kr'
     pau_tab_list = pau_tab_list_provider(main_url)
     pau_page_list = pau_page_list_provider(pau_tab_list)
@@ -44,11 +44,11 @@ def pau_web_crawling():
     pau_all_info_list = pau_update_product_list(pau_all_info_list)
     pau_update_database(pau_all_info_list)
     pau_make_model_table(pau_all_info_list)
-    # sync_mondebro(token, 2)
+    sync_mondebro(token, 2)
 
 
 @shared_task
-def jade_web_crawling():
+def jade_web_crawling(token):
     main_url = 'http://www.jadebag.co.kr'
     jade_tab_list = jade_tab_list_provider(main_url)
     jade_page_list = jade_page_list_provider(jade_tab_list)
@@ -57,11 +57,11 @@ def jade_web_crawling():
     jade_all_info_list = jade_update_product_list(jade_all_info_list)
     jade_update_database(jade_all_info_list)
     jade_make_model_table(jade_all_info_list)
-    # sync_mondebro(token, 3)
+    sync_mondebro(token, 3)
 
 
 @shared_task
-def bana_web_crawling():
+def bana_web_crawling(token):
     main_url = 'http://www.banabanamall.com'
     bana_tab_list = bana_tab_list_provider(main_url)
     bana_page_list = bana_page_list_provider(bana_tab_list)
@@ -70,11 +70,11 @@ def bana_web_crawling():
     bana_all_info_list = bana_update_product_list(bana_all_info_list)
     bana_update_database(bana_all_info_list)
     bana_make_model_table(bana_all_info_list)
-    # sync_mondebro(token, 4)
+    sync_mondebro(token, 4)
 
 
 @shared_task
-def beginning_web_crawling():
+def beginning_web_crawling(token):
     main_url = 'http://www.beginning.kr'
     beginning_tab_list = beginning_tab_list_provider(main_url)
     beginning_page_list = beginning_page_list_provider(beginning_tab_list)
@@ -83,11 +83,11 @@ def beginning_web_crawling():
     beginning_all_info_list = beginning_update_product_list(beginning_all_info_list)
     beginning_update_database(beginning_all_info_list)
     beginning_make_model_table(beginning_all_info_list)
-    # sync_mondebro(token, 5)
+    sync_mondebro(token, 5)
 
 
 @shared_task
-def bnburde_web_crawling():
+def bnburde_web_crawling(token):
     main_url = 'http://www.bnburde.com'
     bnburde_tab_list = bnburde_tab_list_provider(main_url)
     bnburde_page_list = bnburde_page_list_provider(bnburde_tab_list)
@@ -96,7 +96,7 @@ def bnburde_web_crawling():
     bnburde_all_info_list = bnburde_update_product_list(bnburde_all_info_list)
     bnburde_update_database(bnburde_all_info_list)
     bnburde_make_model_table(bnburde_all_info_list)
-    # sync_mondebro(token, 6)
+    sync_mondebro(token, 6)
 
 
 # @shared_task
@@ -124,7 +124,7 @@ def bnburde_web_crawling():
 
 
 @shared_task
-def bagshoes_web_crawling():
+def bagshoes_web_crawling(token):
     main_url = 'http://www.bagshoes.co.kr'
     bagshoes_tab_list = bagshoes_tab_list_provider(main_url)
     bagshoes_page_list = bagshoes_page_list_provider(bagshoes_tab_list)
@@ -133,12 +133,12 @@ def bagshoes_web_crawling():
     bagshoes_all_info_list = bagshoes_update_product_list(bagshoes_all_info_list)
     bagshoes_update_database(bagshoes_all_info_list)
     bagshoes_make_model_table(bagshoes_all_info_list)
-    # sync_mondebro(token, 9)
+    sync_mondebro(token, 9)
 
 
 
 @shared_task
-def mclanee_web_crawling():
+def mclanee_web_crawling(token):
     main_url = 'http://www.mclanee.co.kr'
     mclanee_tab_list = mclanee_tab_list_provider(main_url)
     mclanee_page_list = mclanee_page_list_provider(mclanee_tab_list)
@@ -147,12 +147,12 @@ def mclanee_web_crawling():
     mclanee_all_info_list = mclanee_update_product_list(mclanee_all_info_list)
     mclanee_update_database(mclanee_all_info_list)
     mclanee_make_model_table(mclanee_all_info_list)
-    # sync_mondebro(token, 10)
+    sync_mondebro(token, 10)
 
 
 
 @shared_task
-def mjade_web_crawling():
+def mjade_web_crawling(token):
     main_url = 'http://www.mjade.co.kr'
     mjade_tab_list = mjade_tab_list_provider(main_url)
     mjade_page_list = mjade_page_list_provider(mjade_tab_list)
@@ -161,11 +161,11 @@ def mjade_web_crawling():
     mjade_all_info_list = mjade_update_product_list(mjade_all_info_list)
     mjade_update_database(mjade_all_info_list)
     mjade_make_model_table(mjade_all_info_list)
-    # sync_mondebro(token, 11)
+    sync_mondebro(token, 11)
 
 
 @shared_task
-def pink_web_crawling():
+def pink_web_crawling(token):
     main_url = 'http://www.pinkbag.co.kr'
     pink_tab_list = pink_tab_list_provider(main_url)
     pink_page_list = pink_page_list_provider(pink_tab_list)
@@ -174,11 +174,11 @@ def pink_web_crawling():
     pink_all_info_list = pink_update_product_list(pink_all_info_list)
     pink_update_database(pink_all_info_list)
     pink_make_model_table(pink_all_info_list)
-    # sync_mondebro(token, 12)
+    sync_mondebro(token, 12)
 
 
 @shared_task
-def whosbag_web_crawling():
+def whosbag_web_crawling(token):
     main_url = 'http://www.whosbag.com'
     whosbag_tab_list = whosbag_tab_list_provider(main_url)
     whosbag_page_list = whosbag_page_list_provider(whosbag_tab_list)
@@ -187,6 +187,6 @@ def whosbag_web_crawling():
     whosbag_all_info_list = whosbag_update_product_list(whosbag_all_info_list)
     whosbag_update_database(whosbag_all_info_list)
     whosbag_make_model_table(whosbag_all_info_list)
-    # sync_mondebro(token, 13)
+    sync_mondebro(token, 13)
 
 

@@ -4,8 +4,8 @@ from .models import *
 # Register your models here.
 
 admin.site.register(Product)
-admin.site.register(BagImage)
+admin.site.register(DetailImage)
 admin.site.register(ColorTab)
-admin.site.register(ColorTag)
+admin.site.register(SizeTab)
 
 

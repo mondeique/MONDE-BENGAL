@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'web_crawler.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'web_crawler',
+        'NAME': 'mondeique_crawler',
         'HOST': 'choco-database.ckanfuynig82.ap-northeast-2.rds.amazonaws.com',
         'USER': load_credential("WEB_CRAWLER_DATABASE_USERNAME",""),
         'PASSWORD': load_credential('WEB_CRAWLER_DATABASE_PASSWORD'),

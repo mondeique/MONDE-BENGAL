@@ -1,5 +1,5 @@
 # MONDE web-crawling server
-__web-crawling server + ODCE code__
+__web-crawling server
 <br></br>
 ## How to install 
 ```
@@ -34,7 +34,7 @@ $ brew services start redis
 $ brew services stop redis
 $ brew services restart redis
 ```
-## How to run
+## How to run for bag crawling(DEPRECATED)
 ### 1. redis
 ```
 $ redis-server # redis 실행

@@ -118,17 +118,19 @@ class DetailImage(models.Model):
 class ColorTab(models.Model):
     product = models.ForeignKey(Product, related_name='color_tabs', on_delete=models.CASCADE)
     is_mono = models.BooleanField(default=False)
-    colors = models.CharField(max_length=50)
+    colors = models.CharField(blank=True, max_length=50)
 
 
 class SizeTab(models.Model):
+    DUMP = 0
     XS = 1
     S = 2
     M = 3
     L = 4
     XL = 5
     FREE = 6
-    SITE_CHOICES = (
+    SIZE_CHOICES = (
+        (DUMP, 'not selected'),
         (XS, 'x small'),
         (S, 'small'),
         (M, 'medium'),
@@ -137,7 +139,7 @@ class SizeTab(models.Model):
         (FREE, 'free')
     )
     product = models.ForeignKey(Product, related_name='size_tabs', on_delete=models.CASCADE)
-    size = models.IntegerField(choices=SITE_CHOICES, help_text='crawled product size')
+    size = models.IntegerField(default=0, choices=SIZE_CHOICES, help_text='crawled product size')
 
 
 # class ColorTag(models.Model):

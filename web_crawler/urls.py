@@ -19,5 +19,6 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/crawling', views.CrawlingAPIView.as_view())
+    path('api/crawling', views.CrawlCreateAPIView.as_view()),
+    path('api/crawled/<int:product_id>', views.CrawlRetrieveAPIView.as_view())
 ]

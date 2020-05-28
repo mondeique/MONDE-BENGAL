@@ -16,15 +16,107 @@ from urllib import parse
 
 # Create your views here.
 
-class CrawlingAPIView(generics.CreateAPIView):
 
-    # TODO : post 짜기
+class CrawlCreateAPIView(generics.CreateAPIView):
+
     def post(self, request, *args, **kwargs):
+        data = self.request.data
+        product_url = data['product_url']
+        shopping_num , info_list = select_website(product_url)
+        p = Product.objects.create(shopping_mall=shopping_num, product_url=product_url,
+                                   product_name=info_list[1], price=info_list[2], thumbnail_url=info_list[3],
+                                   crawled_date=timezone.now(), is_valid=True)
+        for i in len(info_list[4]):
+            DetailImage.objects.create(product=p, detail_url=info_list[4][i])
+        ColorTab.objects.create(product=p)
+        SizeTab.objects.create(product=p)
+        product_id = p.id
+        return Response(product_id, status=status.HTTP_201_CREATED)
 
-        return Response({"product_id": 3}, status=status.HTTP_201_CREATED)
+
+class CrawlRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+
+    def retrieve(self, request, *args, **kwargs):
+        product = self.get_object(self)
+        return Response(product.id, status=status.HTTP_200_OK)
+
+    def get_object(self):
+        id = self.kwargs['product_id']
+        return self.queryset.get(pk=id)
 
 
 # info_crawler code
+
+def select_website(product_url):
+    if product_url.find("hotping") != -1:
+        shopping_num = 1
+        info_list = hotping_info_crawler(product_url=product_url)
+    elif product_url.find("66girls") != -1:
+        shopping_num = 2
+        info_list = _66girls_info_crawler(product_url=product_url)
+    elif product_url.find("ggsing") != -1:
+        shopping_num = 3
+        info_list = ggsing_info_crawler(product_url=product_url)
+    elif product_url.find("mixxmix") != -1:
+        shopping_num = 4
+        info_list = mixxmix_info_crawler(product_url=product_url)
+    elif product_url.find("stylenanda") != -1:
+        shopping_num = 5
+        info_list = stylenanda_info_crawler(product_url=product_url)
+    elif product_url.find("imvely") != -1:
+        shopping_num = 6
+        info_list = imvely_info_crawler(product_url=product_url)
+    elif product_url.find("slowand") != -1:
+        shopping_num = 7
+        info_list = slowand_info_crawler(product_url=product_url)
+    elif product_url.find("withyoon") != -1:
+        shopping_num = 8
+        info_list = withyoon_info_crawler(product_url=product_url)
+    elif product_url.find("creamcheese") != -1:
+        shopping_num = 9
+        info_list = creamcheese_info_crawler(product_url=product_url)
+    elif product_url.find("slowberry") != -1:
+        shopping_num = 10
+        info_list = slowberry_info_crawler(product_url=product_url)
+    elif product_url.find("moodloveroom") != -1:
+        shopping_num = 11
+        info_list = moodloveroom_info_crawler(product_url=product_url)
+    elif product_url.find("loveandpop") != -1:
+        shopping_num = 12
+        info_list = loveandpop_info_crawler(product_url=product_url)
+    elif product_url.find("angtoo") != -1:
+        shopping_num = 13
+        info_list = angtoo_info_crawler(product_url=product_url)
+    elif product_url.find("uniqueon") != -1:
+        shopping_num = 14
+        info_list = uniqueon_info_crawler(product_url=product_url)
+    elif product_url.find("commonunique") != -1:
+        shopping_num = 15
+        info_list = commonunique_info_crawler(product_url=product_url)
+    elif product_url.find("baon") != -1:
+        shopping_num = 16
+        info_list = baon_info_crawler(product_url=product_url)
+    elif product_url.find("maybins") != -1:
+        shopping_num = 17
+        info_list = maybins_info_crawler(product_url=product_url)
+    elif product_url.find("giftabox") != -1:
+        shopping_num = 18
+        info_list = giftabox_info_crawler(product_url=product_url)
+    elif product_url.find("maybebaby") != -1:
+        shopping_num = 19
+        info_list = maybebaby_info_crawler(product_url=product_url)
+    elif product_url.find("vinvle") != -1:
+        shopping_num = 20
+        info_list = vinvle_info_crawler(product_url=product_url)
+    elif product_url.find("attrangs") != -1:
+        shopping_num = 21
+        info_list = attrangs_info_crawler(product_url=product_url)
+    else:
+        shopping_num = 22
+        info_list = beginning_info_crawler(product_url=product_url)
+
+    return shopping_num, info_list
 
 def hotping_info_crawler(product_url):
     info_list = []

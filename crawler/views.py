@@ -23,19 +23,19 @@ class CrawlCreateAPIView(generics.CreateAPIView):
         data = self.request.data
         product_url = data['product_url']
         shopping_num , info_list = select_website(product_url)
-        p = Product.objects.create(shopping_mall=shopping_num, product_url=product_url,
+        p = CrawlProduct.objects.create(shopping_mall=shopping_num, product_url=product_url,
                                    product_name=info_list[1], price=info_list[2], thumbnail_url=info_list[3],
                                    crawled_date=timezone.now(), is_valid=True)
         for i in len(info_list[4]):
-            DetailImage.objects.create(product=p, detail_url=info_list[4][i])
-        ColorTab.objects.create(product=p)
-        SizeTab.objects.create(product=p)
+            CrawlDetailImage.objects.create(product=p, detail_url=info_list[4][i])
+        CrawlColorTab.objects.create(product=p)
+        CrawlSizeTab.objects.create(product=p)
         product_id = p.id
         return Response(product_id, status=status.HTTP_201_CREATED)
 
 
 class CrawlRetrieveAPIView(generics.RetrieveAPIView):
-    queryset = Product.objects.all()
+    queryset = CrawlProduct.objects.all()
 
     def retrieve(self, request, *args, **kwargs):
         product = self.get_object(self)

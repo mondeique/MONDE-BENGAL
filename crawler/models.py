@@ -5,7 +5,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from crawler.tools import get_image_filename
 
 
-class Product(models.Model):
+class CrawlProduct(models.Model):
     HOTPING = 1
     _66GIRLS = 2
     GGSING = 3
@@ -108,9 +108,9 @@ class Product(models.Model):
             print("OSError")
 
 
-class DetailImage(models.Model):
+class CrawlDetailImage(models.Model):
     # Product 하나당 상세이미지 여러개 -> Foreign Key 연결
-    product = models.ForeignKey(Product, related_name='detail_image', null=True, on_delete=models.CASCADE)
+    product = models.ForeignKey(CrawlProduct, related_name='detail_image', null=True, on_delete=models.CASCADE)
     detail_url = models.URLField(help_text='detail html image source')
     detail_image = models.ImageField(upload_to='detail-image', blank=True)
 
@@ -157,13 +157,13 @@ class DetailImage(models.Model):
             print("OSError")
 
 
-class ColorTab(models.Model):
-    product = models.ForeignKey(Product, related_name='color_tabs', on_delete=models.CASCADE)
+class CrawlColorTab(models.Model):
+    product = models.ForeignKey(CrawlProduct, related_name='color_tabs', on_delete=models.CASCADE)
     is_mono = models.BooleanField(default=False)
     colors = models.CharField(blank=True, max_length=50)
 
 
-class SizeTab(models.Model):
+class CrawlSizeTab(models.Model):
     DUMP = 0
     XS = 1
     S = 2
@@ -180,7 +180,7 @@ class SizeTab(models.Model):
         (XL, 'x large'),
         (FREE, 'free')
     )
-    product = models.ForeignKey(Product, related_name='size_tabs', on_delete=models.CASCADE)
+    product = models.ForeignKey(CrawlProduct, related_name='size_tabs', on_delete=models.CASCADE)
     size = models.IntegerField(default=0, choices=SIZE_CHOICES, help_text='crawled product size')
 
 

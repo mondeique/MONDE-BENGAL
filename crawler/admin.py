@@ -3,9 +3,9 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(Product)
-admin.site.register(DetailImage)
-admin.site.register(ColorTab)
-admin.site.register(SizeTab)
+admin.site.register(CrawlProduct)
+admin.site.register(CrawlDetailImage)
+admin.site.register(CrawlColorTab)
+admin.site.register(CrawlSizeTab)
 
 

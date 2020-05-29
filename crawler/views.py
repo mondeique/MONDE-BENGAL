@@ -148,9 +148,8 @@ def hotping_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -185,8 +184,8 @@ def _66girls_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError,
     MaxRetryError):
         print("Connection Error")
     return info_list
@@ -227,9 +226,8 @@ def ggsing_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -264,9 +262,8 @@ def mixxmix_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -301,9 +298,8 @@ def stylenanda_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -338,9 +334,8 @@ def imvely_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -377,9 +372,8 @@ def slowand_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -416,9 +410,8 @@ def withyoon_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -453,9 +446,8 @@ def creamcheese_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -490,9 +482,8 @@ def slowberry_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -527,9 +518,8 @@ def moodloveroom_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -564,9 +554,8 @@ def loveandpop_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -601,9 +590,8 @@ def angtoo_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -640,9 +628,8 @@ def uniqueon_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -677,9 +664,8 @@ def commonunique_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -714,9 +700,8 @@ def baon_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -751,9 +736,8 @@ def maybins_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -790,9 +774,8 @@ def giftabox_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -827,9 +810,8 @@ def maybebaby_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -864,9 +846,8 @@ def vinvle_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -901,9 +882,8 @@ def attrangs_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -941,9 +921,8 @@ def beginning_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 

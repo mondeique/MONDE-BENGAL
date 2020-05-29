@@ -2,7 +2,6 @@ import requests
 from django.db import models
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
-
 from crawler.tools import get_image_filename
 
 
@@ -53,17 +52,60 @@ class Product(models.Model):
         (ATTRANGS, ('아뜨랑스')),
         (BEGINNING, ('프롬비기닝'))
     )
+
+    # TODO : bucket upload-to 조정
     shopping_mall = models.IntegerField(choices=SITE_CHOICES, help_text='crawling website number')
     # is_banned = models.BooleanField(default=False, help_text='best에 가방 외의 것들이 들어갈 수 있기 때문에 생성된 필드')
     thumbnail_url = models.URLField(help_text='thumbnail html image source')
     thumbnail_image = models.ImageField(upload_to='thumbnail-image', blank=True)
-    size_image = models.ImageField(upload_to='size-image', blank=True, help_text='captured size image')
+    size_image = models.ImageField(upload_to='size-image', null=True, help_text='captured size image')
     product_name = models.CharField(null=True, max_length=100)
     product_url = models.URLField(help_text='한 상품에 대한 url')
     # is_best = models.BooleanField(default=False)
     price = models.CharField(max_length=50)
     crawled_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     is_valid = models.BooleanField(default=True, help_text='만료된 웹 페이지의 경우 False로 변경됨')
+
+    def get_image_extension(self):
+        return 'jpeg'
+
+    def save(self, *args, **kwargs):
+        super(DetailImage, self).save(*args, **kwargs)
+        self._save_image()
+
+    def _save_image(self):
+        # TODO : crop 말고 저장
+        from PIL import Image
+        resp = requests.get(self.thumbnail_url, headers={'User-Agent': 'Mozilla/5.0'})
+        print('request ok')
+        # image = Image.open(BytesIO(resp.content))
+        byteImgIO = BytesIO()
+        try:
+            byteImg = Image.open(BytesIO(resp.content))
+            byteImg = byteImg.convert("RGB")
+            byteImg.save(byteImgIO, "JPEG")
+            byteImgIO.seek(0)
+            byteImg = byteImgIO.read()
+            dataBytesIO = BytesIO(byteImg)
+            image = Image.open(dataBytesIO)
+            print('image open ok')
+            width, height = image.size
+            left = width * 0.01
+            top = height * 0.01
+            right = width * 0.99
+            bottom = height * 0.99
+            crop_data = image.crop((int(left), int(top), int(right), int(bottom)))
+            # http://stackoverflow.com/questions/3723220/how-do-you-convert-a-pil-image-to-a-django-file
+            crop_io = BytesIO()
+            crop_data.save(crop_io, format=self.get_image_extension())
+            print('crop data save ok')
+            crop_file = InMemoryUploadedFile(crop_io, None, get_image_filename(self.thumbnail_image), 'image/jpeg', len(crop_io.getvalue()), None)
+            print('memory upload ok')
+            self.thumbnail_image.save(get_image_filename(self.thumbnail_image), crop_file, save=False)
+            # To avoid recursive save, call super.save
+            super(Product, self).save()
+        except OSError:
+            print("OSError")
 
 
 class DetailImage(models.Model):

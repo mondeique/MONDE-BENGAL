@@ -24,8 +24,8 @@ class CrawlCreateAPIView(generics.CreateAPIView):
         product_url = data['product_url']
         shopping_num , info_list = select_website(product_url)
         p = CrawlProduct.objects.create(shopping_mall=shopping_num, product_url=product_url,
-                                   product_name=info_list[1], price=info_list[2], thumbnail_url=info_list[3],
-                                   crawled_date=timezone.now(), is_valid=True)
+                                        product_name=info_list[1], price=info_list[2], thumbnail_url=info_list[3],
+                                        crawled_date=timezone.now(), is_valid=True)
         for i in len(info_list[4]):
             CrawlDetailImage.objects.create(product=p, detail_url=info_list[4][i])
         CrawlColorTab.objects.create(product=p)
@@ -118,6 +118,7 @@ def select_website(product_url):
 
     return shopping_num, info_list
 
+
 def hotping_info_crawler(product_url):
     info_list = []
     try:
@@ -185,8 +186,7 @@ def _66girls_info_crawler(product_url):
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
     except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
-            ConnectionError, NewConnectionError,
-    MaxRetryError):
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 

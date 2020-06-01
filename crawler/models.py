@@ -70,7 +70,7 @@ class CrawlProduct(models.Model):
         return 'jpeg'
 
     def save(self, *args, **kwargs):
-        super(DetailImage, self).save(*args, **kwargs)
+        super(CrawlProduct, self).save(*args, **kwargs)
         self._save_image()
 
     def _save_image(self):
@@ -103,7 +103,7 @@ class CrawlProduct(models.Model):
             print('memory upload ok')
             self.thumbnail_image.save(get_image_filename(self.thumbnail_image), crop_file, save=False)
             # To avoid recursive save, call super.save
-            super(Product, self).save()
+            super(CrawlProduct, self).save()
         except OSError:
             print("OSError")
 
@@ -118,7 +118,7 @@ class CrawlDetailImage(models.Model):
         return 'jpeg'
 
     def save(self, *args, **kwargs):
-        super(DetailImage, self).save(*args, **kwargs)
+        super(CrawlDetailImage, self).save(*args, **kwargs)
         # TODO : FIX ME
         self._save_image()
 
@@ -152,7 +152,7 @@ class CrawlDetailImage(models.Model):
             print('memory upload ok')
             self.detail_image.save(get_image_filename(self.detail_image), crop_file, save=False)
             # To avoid recursive save, call super.save
-            super(DetailImage, self).save()
+            super(CrawlDetailImage, self).save()
         except OSError:
             print("OSError")
 

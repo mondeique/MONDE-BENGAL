@@ -1,6 +1,6 @@
 # Dockerfile 
 
-FROM python:3.7
+FROM python:3.7.4
 MAINTAINER eren@mondeique.com
 
 # 우분투 환경 업데이트 및 기본 패키지 설치
@@ -10,6 +10,7 @@ RUN apt-get -y dist-upgrade
 RUN apt-get install -y python3-pip git vim 
 
 RUN pip3 install --upgrade pip
+RUN pip install --upgrade pip
 
 # pyenv setting 
 RUN apt-get install -y make build-essential \
@@ -29,7 +30,7 @@ python3-dev \
 python3-setuptools \
 wget
 RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-ENV PATH /home/ubuntu/.pyenv/bin:$PATH
+ENV PATH /root/.pyenv/bin:$PATH
 RUN pyenv install 3.7.4
 
 # zsh 
@@ -38,7 +39,7 @@ RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -
 RUN chsh -s /usr/bin/zsh
 
 # pyenv settings
-RUN echo 'export PATH="/home/ubuntu/.pyenv/bin:$PATH"' >> ~/.zshrc
+RUN echo 'export PATH="/root/.pyenv/bin:$PATH"' >> ~/.zshrc
 RUN echo 'eval "$(pyenv init -)"' >> ~/.zshrc
 RUN echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
 
@@ -61,6 +62,11 @@ WORKDIR /mondeique_crawler
 
 # requirements install 
 RUN pip install -r requirements.txt
+
+# mysqlclient install
+RUN apt-get install mysql-client
+RUN apt-get install python3-dev libmysqlclient-dev gcc
+RUN pip install mysqlclient==1.4.4
 
 # 원하는 포트를 열어준다. runserver가 8000번을 default로 쓰기때문에 8000번을 열어줌
 EXPOSE 8000

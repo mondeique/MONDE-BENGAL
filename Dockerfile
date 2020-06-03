@@ -29,7 +29,7 @@ python3-dev \
 python3-setuptools \
 wget
 RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-ENV PATH /root/.pyenv/bin:$PATH
+ENV PATH /home/ubuntu/.pyenv/bin:$PATH
 RUN pyenv install 3.7.4
 
 # zsh 
@@ -38,7 +38,7 @@ RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -
 RUN chsh -s /usr/bin/zsh
 
 # pyenv settings
-RUN echo 'export PATH="/root/.pyenv/bin:$PATH"' >> ~/.zshrc
+RUN echo 'export PATH="/home/ubuntu/.pyenv/bin:$PATH"' >> ~/.zshrc
 RUN echo 'eval "$(pyenv init -)"' >> ~/.zshrc
 RUN echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
 

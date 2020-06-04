@@ -42,6 +42,7 @@ RUN chsh -s /usr/bin/zsh
 RUN echo 'export PATH="/root/.pyenv/bin:$PATH"' >> ~/.zshrc
 RUN echo 'eval "$(pyenv init -)"' >> ~/.zshrc
 RUN echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
+RUN ["/bin/bash", "-c", "source ~/.zshrc"]
 
 # pyenv virtualenv
 RUN pyenv virtualenv 3.7.4 mondeique-crawling
@@ -64,8 +65,8 @@ WORKDIR /mondeique_crawler
 RUN pip install -r requirements.txt
 
 # mysqlclient install
-RUN apt-get install mysql-client
-RUN apt-get install python3-dev libmysqlclient-dev gcc
+RUN apt-get install -y mariadb-client
+RUN apt-get install -y python3-dev default-libmysqlclient-dev gcc
 RUN pip install mysqlclient==1.4.4
 
 # 원하는 포트를 열어준다. runserver가 8000번을 default로 쓰기때문에 8000번을 열어줌

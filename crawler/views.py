@@ -27,16 +27,16 @@ class CrawlCreateAPIView(generics.CreateAPIView):
         p = CrawlProduct.objects.create(shopping_mall=shopping_num, product_url=product_url,
                                         product_name=info_list[1], price=info_list[2], thumbnail_url=info_list[3],
                                         crawled_date=timezone.now(), is_valid=True)
-        self.save_detail_image(info_list)
+        self.save_detail_image(self, p, info_list)
         CrawlColorTab.objects.create(product=p)
         CrawlSizeTab.objects.create(product=p)
         product_id = p.id
         return Response({"product_id" : product_id}, status=status.HTTP_201_CREATED)
 
     @shared_task()
-    def save_detail_image(self, info_list):
+    def save_detail_image(self, product, info_list):
         for i in range(len(info_list[4])):
-            CrawlDetailImage.objects.create(product=p, detail_url=info_list[4][i])
+            CrawlDetailImage.objects.create(product=product, detail_url=info_list[4][i])
 
 
 

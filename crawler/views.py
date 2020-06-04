@@ -22,11 +22,11 @@ class CrawlCreateAPIView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         data = self.request.data
         product_url = data['product_url']
-        shopping_num , info_list = select_website(product_url)
+        shopping_num, info_list = select_website(product_url)
         p = CrawlProduct.objects.create(shopping_mall=shopping_num, product_url=product_url,
                                         product_name=info_list[1], price=info_list[2], thumbnail_url=info_list[3],
                                         crawled_date=timezone.now(), is_valid=True)
-        for i in len(info_list[4]):
+        for i in range(len(info_list[4])):
             CrawlDetailImage.objects.create(product=p, detail_url=info_list[4][i])
         CrawlColorTab.objects.create(product=p)
         CrawlSizeTab.objects.create(product=p)
@@ -42,8 +42,8 @@ class CrawlRetrieveAPIView(generics.RetrieveAPIView):
         return Response(product.id, status=status.HTTP_200_OK)
 
     def get_object(self):
-        id = self.kwargs['product_id']
-        return self.queryset.get(pk=id)
+        pk = self.kwargs['product_id']
+        return self.queryset.get(pk=pk)
 
 
 # info_crawler code

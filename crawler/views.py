@@ -33,7 +33,7 @@ class CrawlCreateAPIView(generics.CreateAPIView):
         product_id = p.id
         return Response({"product_id" : product_id}, status=status.HTTP_201_CREATED)
 
-    @shared_task()
+    @shared_task
     def save_detail_image(self, product, info_list):
         for i in range(len(info_list[4])):
             CrawlDetailImage.objects.create(product=product, detail_url=info_list[4][i])

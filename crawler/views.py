@@ -31,7 +31,7 @@ class CrawlCreateAPIView(generics.CreateAPIView):
         CrawlColorTab.objects.create(product=p)
         CrawlSizeTab.objects.create(product=p)
         product_id = p.id
-        return Response(product_id, status=status.HTTP_201_CREATED)
+        return Response({"product_id" : product_id}, status=status.HTTP_201_CREATED)
 
 
 class CrawlRetrieveAPIView(generics.RetrieveAPIView):

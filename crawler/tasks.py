@@ -3,9 +3,6 @@
 import os
 import django
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'web_crawler.settings'
-django.setup()
-
 from celery import shared_task
 from crawler.models import *
 

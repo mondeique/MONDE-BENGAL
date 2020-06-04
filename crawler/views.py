@@ -13,16 +13,10 @@ from urllib3.exceptions import NewConnectionError, MaxRetryError
 from bs4 import BeautifulSoup
 import time
 from urllib import parse
-from celery import shared_task
-from celery import Celery
+from .tasks import save_detail_image
 
 # Create your views here.
 
-@Celery.task
-def save_detail_image(product, info_list):
-    for i in range(len(info_list[4])):
-        CrawlDetailImage.objects.create(product=product, detail_url=info_list[4][i])
-    return 
 
 class CrawlCreateAPIView(generics.CreateAPIView):
 
@@ -38,12 +32,6 @@ class CrawlCreateAPIView(generics.CreateAPIView):
         CrawlSizeTab.objects.create(product=p)
         product_id = p.id
         return Response({"product_id" : product_id}, status=status.HTTP_201_CREATED)
-
-#    @shared_task
-#    def save_detail_image(self, product, info_list):
-#        for i in range(len(info_list[4])):
-#            CrawlDetailImage.objects.create(product=product, detail_url=info_list[4][i])
-
 
 
 class CrawlRetrieveAPIView(generics.RetrieveAPIView):

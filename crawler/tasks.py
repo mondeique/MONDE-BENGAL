@@ -1,6 +1,19 @@
-# # Create your tasks here
+# Create your tasks here
 # from __future__ import absolute_import, unicode_literals
-# from celery import shared_task
+import os
+import django
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'web_crawler.settings'
+django.setup()
+
+from celery import shared_task
+from crawler.models import *
+
+
+@shared_task()
+def save_detail_image(product, info_list):
+    for i in range(len(info_list[4])):
+        CrawlDetailImage.objects.create(product=product, detail_url=info_list[4][i])
 #
 # from crawler.shopping_mall.luzzi_views import *
 # from crawler.shopping_mall.pau_views import *

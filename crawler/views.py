@@ -14,9 +14,15 @@ from bs4 import BeautifulSoup
 import time
 from urllib import parse
 from celery import shared_task
+from celery import Celery
 
 # Create your views here.
 
+@Celery.task
+def save_detail_image(product, info_list):
+    for i in range(len(info_list[4])):
+        CrawlDetailImage.objects.create(product=product, detail_url=info_list[4][i])
+    return 
 
 class CrawlCreateAPIView(generics.CreateAPIView):
 
@@ -27,16 +33,16 @@ class CrawlCreateAPIView(generics.CreateAPIView):
         p = CrawlProduct.objects.create(shopping_mall=shopping_num, product_url=product_url,
                                         product_name=info_list[1], price=info_list[2], thumbnail_url=info_list[3],
                                         crawled_date=timezone.now(), is_valid=True)
-        self.save_detail_image(self, p, info_list)
+        save_detail_image.delay(p, info_list)
         CrawlColorTab.objects.create(product=p)
         CrawlSizeTab.objects.create(product=p)
         product_id = p.id
         return Response({"product_id" : product_id}, status=status.HTTP_201_CREATED)
 
-    @shared_task
-    def save_detail_image(self, product, info_list):
-        for i in range(len(info_list[4])):
-            CrawlDetailImage.objects.create(product=product, detail_url=info_list[4][i])
+#    @shared_task
+#    def save_detail_image(self, product, info_list):
+#        for i in range(len(info_list[4])):
+#            CrawlDetailImage.objects.create(product=product, detail_url=info_list[4][i])
 
 
 

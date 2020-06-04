@@ -39,7 +39,7 @@ class CrawlRetrieveAPIView(generics.RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         product = self.get_object(self)
-        return Response(product.id, status=status.HTTP_200_OK)
+        return Response({"product_id" : product.id}, status=status.HTTP_200_OK)
 
     def get_object(self):
         pk = self.kwargs['product_id']

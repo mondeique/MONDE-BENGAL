@@ -18,6 +18,23 @@ from .tasks import save_detail_image
 # Create your views here.
 
 
+class CrawlTestCreateAPIView(generics.CreateAPIView):
+
+    def post(self, request, *args, **kwargs):
+        data = self.request.data
+        product_url = data['product_url']
+        shopping_num, info_list = select_website(product_url)
+        p = CrawlProduct.objects.create(shopping_mall=shopping_num, product_url=product_url,
+                                        product_name=info_list[1], price=info_list[2], thumbnail_url=info_list[3],
+                                        crawled_date=timezone.now(), is_valid=True)
+        for i in range(len(info_list[4])):
+            CrawlDetailImage.objects.create(product=p, detail_url=info_list[4][i])
+        CrawlColorTab.objects.create(product=p)
+        CrawlSizeTab.objects.create(product=p)
+        product_id = p.id
+        return Response({"product_id" : product_id}, status=status.HTTP_201_CREATED)
+
+
 class CrawlCreateAPIView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):

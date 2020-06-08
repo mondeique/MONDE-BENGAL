@@ -44,11 +44,11 @@ class CrawlCreateAPIView(generics.CreateAPIView):
         p = CrawlProduct.objects.create(shopping_mall=shopping_num, product_url=product_url,
                                         product_name=info_list[1], price=info_list[2], thumbnail_url=info_list[3],
                                         crawled_date=timezone.now(), is_valid=True)
-        save_detail_image.delay(p, info_list)
+        product_id = p.id
+        save_detail_image.delay(product_id, info_list)
         CrawlColorTab.objects.create(product=p)
         CrawlSizeTab.objects.create(product=p)
-        product_id = p.id
-        return Response({"product_id" : product_id}, status=status.HTTP_201_CREATED)
+        return Response({"product_id":product_id}, status=status.HTTP_201_CREATED)
 
 
 class CrawlRetrieveAPIView(generics.RetrieveAPIView):

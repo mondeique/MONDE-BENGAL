@@ -8,9 +8,10 @@ from crawler.models import *
 
 
 @shared_task()
-def save_detail_image(product, info_list):
+def save_detail_image(product_id, info_list):
+    p = CrawlProduct.objects.filter(pk=product_id).first()
     for i in range(len(info_list[4])):
-        CrawlDetailImage.objects.create(product=product, detail_url=info_list[4][i])
+        CrawlDetailImage.objects.create(product=p, detail_url=info_list[4][i])
 #
 # from crawler.shopping_mall.luzzi_views import *
 # from crawler.shopping_mall.pau_views import *

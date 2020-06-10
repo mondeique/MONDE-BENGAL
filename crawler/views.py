@@ -32,7 +32,7 @@ class CrawlTestCreateAPIView(generics.CreateAPIView):
         CrawlColorTab.objects.create(product=p)
         CrawlSizeTab.objects.create(product=p)
         product_id = p.id
-        return Response({"product_id" : product_id}, status=status.HTTP_201_CREATED)
+        return Response({"product_id": product_id}, status=status.HTTP_201_CREATED)
 
 
 class CrawlCreateAPIView(generics.CreateAPIView):
@@ -48,7 +48,7 @@ class CrawlCreateAPIView(generics.CreateAPIView):
         save_detail_image.delay(product_id, info_list)
         CrawlColorTab.objects.create(product=p)
         CrawlSizeTab.objects.create(product=p)
-        return Response({"product_id":product_id}, status=status.HTTP_201_CREATED)
+        return Response({"product_id": product_id}, status=status.HTTP_201_CREATED)
 
 
 class CrawlRetrieveAPIView(generics.RetrieveAPIView):
@@ -494,7 +494,10 @@ def slowberry_info_crawler(product_url):
         url_list = []
         detail_list = source.select('div.cont')[0].select('img')
         for i in range(len(detail_list)):
-            url_list.append('http://slowberry.co.kr' + detail_list[i]['ec-data-src'])
+            if detail_list[i]['ec-data-src'].startswith('http'):
+                url_list.append(detail_list[i]['ec-data-src'])
+            else:
+                url_list.append('http://slowberry.co.kr' + detail_list[i]['ec-data-src'])
         info_list.append(url_list)
 
         # 서버 과부하를 위해 2s 간 멈춤

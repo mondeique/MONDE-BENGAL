@@ -569,7 +569,7 @@ def loveandpop_info_crawler(product_url):
         url_list = []
         detail_list = source.select('#prdDetail')[0].select('img')
         for i in range(len(detail_list)):
-            url_list.append('http:' + detail_list[i]['src'])
+            url_list.append('http://loveandpop.kr' + detail_list[i]['src'])
         info_list.append(url_list)
 
         # 서버 과부하를 위해 2s 간 멈춤

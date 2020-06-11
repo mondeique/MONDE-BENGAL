@@ -14,6 +14,8 @@ from bs4 import BeautifulSoup
 import time
 from urllib import parse
 from .tasks import save_detail_image
+from .slack import slack_message
+
 
 # Create your views here.
 
@@ -40,15 +42,20 @@ class CrawlCreateAPIView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         data = self.request.data
         product_url = data['product_url']
-        shopping_num, info_list = select_website(product_url)
-        p = CrawlProduct.objects.create(shopping_mall=shopping_num, product_url=product_url,
-                                        product_name=info_list[1], price=info_list[2], thumbnail_url=info_list[3],
-                                        crawled_date=timezone.now(), is_valid=True)
-        product_id = p.id
-        save_detail_image.delay(product_id, info_list)
-        CrawlColorTab.objects.create(product=p)
-        CrawlSizeTab.objects.create(product=p)
-        return Response({"product_id": product_id}, status=status.HTTP_201_CREATED)
+        try:
+            shopping_num, info_list = select_website(product_url)
+            p = CrawlProduct.objects.create(shopping_mall=shopping_num, product_url=product_url,
+                                            product_name=info_list[1], price=info_list[2], thumbnail_url=info_list[3],
+                                            crawled_date=timezone.now(), is_valid=True)
+            product_id = p.id
+            save_detail_image.delay(product_id, info_list)
+            CrawlColorTab.objects.create(product=p)
+            CrawlSizeTab.objects.create(product=p)
+            return Response({"product_id": product_id}, status=status.HTTP_201_CREATED)
+        except:
+            slack_message("[Whole Crawling 요청] {} 에서 크롤링하는 과정에서 오류가 나타났습니다. 확인 후 staff 페이지에서 update 해주세요."
+                          .format(product_url))
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CrawlRetrieveAPIView(generics.RetrieveAPIView):
@@ -56,7 +63,7 @@ class CrawlRetrieveAPIView(generics.RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         product = self.get_object(self)
-        return Response({"product_id" : product.id}, status=status.HTTP_200_OK)
+        return Response({"product_id": product.id}, status=status.HTTP_200_OK)
 
     def get_object(self):
         pk = self.kwargs['product_id']
@@ -945,4 +952,3 @@ def beginning_info_crawler(product_url):
             ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
-

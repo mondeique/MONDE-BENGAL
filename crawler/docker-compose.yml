@@ -1,0 +1,61 @@
+# docker-compose.yml
+
+
+version: "3.7"
+#networks:
+#  web-crawler-net:  # Container들의 Private Network을 설정한다.
+#    ipam:
+#      config:
+#        - subnet: 172.20.1.0/24
+volumes:  # Container 들에서 사용되는 Volume을 정의한다.
+    web-crawler-cache-volume: {}
+    web-crawler-media-volume: {}
+
+
+services:
+
+    # redis container build & run
+   web-crawler-cache:
+        image: redis:5.0.3-alpine
+        command: redis-server --requirepass samplepassword
+        ports:
+            - "127.0.0.1:6379:6379"
+        volumes:
+            - web-crawler-cache-volume:/data
+        healthcheck:
+            test: "redis-cli -h 127.0.0.1 ping"
+            interval: 3s
+            timeout: 1s
+            retries: 5
+
+    # docker container build & run
+    web-crawler:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        ports:
+            - "127.0.0.1:8000:8000"
+        depends_on:
+            - web-crawler-cache
+        links:
+            - web-crawler-cache:web-crawler-cache
+        command: bash -c "pip3 install -r requirements.txt && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+        volumes:
+            - .:/web-crawler/web-crawler
+            - web-crawler-media-volume:/web-crawler/web-crawler-media:Z
+
+    # celery task build & run
+    web-crawler-task:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+
+        depends_on:
+            - web-crawler-cache
+
+        links:
+            - web-crawler-cache:web-crawler-cache
+        command: bash -c "celery -A web_crawler.celery worker -l info"
+        volumes:
+            - .:/web-crawler/web-crawler
+            - web-crawler-media-volume:/web-crawler/web-crawler-media:Z

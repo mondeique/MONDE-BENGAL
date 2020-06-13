@@ -74,4 +74,4 @@ EXPOSE 8000
 
 # manage.py가 있는 directory로 이동한 후에 runesrver 실행
 # manage.py가 dockerfile과 같은 dir에 있으면 따로 WORKDIR를 지정할 필요는 없다.
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

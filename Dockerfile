@@ -3,6 +3,8 @@
 FROM python:3.7.4
 MAINTAINER eren@mondeique.com
 
+ENV PYTHONUNBUFFERED 0
+
 # 우분투 환경 업데이트 및 기본 패키지 설치
 RUN apt-get -y update
 RUN apt-get upgrade -y

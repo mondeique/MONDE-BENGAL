@@ -110,7 +110,7 @@ class CrawlProduct(models.Model):
 
 class CrawlDetailImage(models.Model):
     # Product 하나당 상세이미지 여러개 -> Foreign Key 연결
-    product = models.ForeignKey(CrawlProduct, related_name='detail_image', null=True, on_delete=models.CASCADE)
+    product = models.ForeignKey(CrawlProduct, related_name='detail_images', null=True, on_delete=models.CASCADE)
     detail_url = models.URLField(help_text='detail html image source')
     detail_image = models.ImageField(upload_to='detail-image', blank=True)
 

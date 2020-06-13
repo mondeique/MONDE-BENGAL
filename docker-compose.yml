@@ -8,22 +8,22 @@ version: "3.7"
 #      config:
 #        - subnet: 172.20.1.0/24
 volumes:  # Container 들에서 사용되는 Volume을 정의한다.
-    web-crawler-cache-volume: {}
-    web-crawler-media-volume: {}
+    web-crawler-redis-volume: {}
+    web-crawler-celery-volume: {}
 
 
 services:
 
     # redis container build & run
-   web-crawler-cache:
+   web-crawler-redis:
         image: redis:5.0.3-alpine
-        command: redis-server --requirepass samplepassword
+        command: redis-server
         ports:
             - "127.0.0.1:6379:6379"
         volumes:
-            - web-crawler-cache-volume:/data
+            - web-crawler-redis-volume:/data
         healthcheck:
-            test: "redis-cli -h 127.0.0.1 ping"
+            test: "redis-cli ping"
             interval: 3s
             timeout: 1s
             retries: 5
@@ -36,16 +36,16 @@ services:
         ports:
             - "127.0.0.1:8000:8000"
         depends_on:
-            - web-crawler-cache
+            - web-crawler-redis
         links:
-            - web-crawler-cache:web-crawler-cache
+            - web-crawler-redis:web-crawler-redis
         command: bash -c "pip3 install -r requirements.txt && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
         volumes:
             - .:/web-crawler/web-crawler
             - web-crawler-media-volume:/web-crawler/web-crawler-media:Z
 
     # celery task build & run
-    web-crawler-task:
+    web-crawler-celery:
         build:
             context: .
             dockerfile: ./Dockerfile
@@ -58,4 +58,4 @@ services:
         command: bash -c "celery -A web_crawler.celery worker -l info"
         volumes:
             - .:/web-crawler/web-crawler
-            - web-crawler-media-volume:/web-crawler/web-crawler-media:Z
+            - web-crawler-celery-volume:/web-crawler/web-crawler-celery:Z

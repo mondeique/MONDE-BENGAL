@@ -126,8 +126,8 @@ USE_TZ = True
 
 
 # Celery
-CELERY_BROKER_URL = 'redis://0.0.0.0:6379'
-CELERY_RESULT_BACKEND = 'redis://0.0.0.0:6379'
+CELERY_BROKER_URL = 'redis://web-crawler-cache:6379'
+CELERY_RESULT_BACKEND = 'redis://web-crawler-cache:6379'
 #CELERY_ACCEPT_CONTENT = ['application/json']
 #CELERY_TAST_SERIALIZER = 'json'
 #CELERY_RESULT_SERIALIZER = 'json'
@@ -154,3 +154,14 @@ MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIA_LOCATION)
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 MEDIAFILES_LOCATION = 'media'
 STATICFILES_LOCATION = 'static'
+
+# Redis
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://web-crawler-cache:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

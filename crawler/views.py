@@ -142,15 +142,23 @@ def select_website(product_url):
 
     return shopping_num, info_list
 
+# FIXME: Hard Coding으로 짜여져 있음 -> same code control 할 수 있는 utils def needed..
+#  (ex. mobile discriminator / urlopen utils..)
 
 def hotping_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea1 > h3')[0].get_text()
@@ -181,12 +189,18 @@ def hotping_info_crawler(product_url):
 
 def _66girls_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea > h2')[0].get_text()
@@ -217,12 +231,20 @@ def _66girls_info_crawler(product_url):
 
 def ggsing_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://www.' + new_product_url
     try:
-        html = urlopen(product_url)
+        new_product_url = new_product_url.split(':')[1]
+        new_product_url = parse.quote(new_product_url)
+        html = urlopen('https:' + new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea > h3')[0].get_text()
@@ -258,12 +280,18 @@ def ggsing_info_crawler(product_url):
 
 def mixxmix_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea')[0].select('span')[1].get_text()
@@ -294,12 +322,18 @@ def mixxmix_info_crawler(product_url):
 
 def stylenanda_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('span.name')[0].get_text()
@@ -330,12 +364,17 @@ def stylenanda_info_crawler(product_url):
 
 def imvely_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('m.') or product_url.startswith('https://m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.box > h3')[0].get_text()
@@ -366,14 +405,20 @@ def imvely_info_crawler(product_url):
 
 def slowand_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://www.' + new_product_url
     try:
-        product_url = product_url.split(':')[1]
-        product_url = parse.quote(product_url)
-        html = urlopen('https:' + product_url)
+        new_product_url = new_product_url.split(':')[1]
+        new_product_url = parse.quote(new_product_url)
+        html = urlopen('https:' + new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea')[0].select('h2')[0].get_text()
@@ -404,14 +449,20 @@ def slowand_info_crawler(product_url):
 
 def withyoon_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('m.') or product_url.startswith('https://m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+    new_product_url = 'https://' + new_product_url
     try:
-        product_url = product_url.split(':')[1]
-        product_url = parse.quote(product_url)
-        html = urlopen('https:' + product_url)
+        new_product_url = new_product_url.split(':')[1]
+        new_product_url = parse.quote(new_product_url)
+        html = urlopen('https:' + new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.-titlebox')[0].get_text()
@@ -442,12 +493,18 @@ def withyoon_info_crawler(product_url):
 
 def creamcheese_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea')[0].select('h2')[0].get_text()
@@ -478,12 +535,17 @@ def creamcheese_info_crawler(product_url):
 
 def slowberry_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('m.') or product_url.startswith('https://m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea')[0].select('h2')[0].get_text()
@@ -517,12 +579,17 @@ def slowberry_info_crawler(product_url):
 
 def moodloveroom_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('m.') or product_url.startswith('https://m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea')[0].select('h2')[0].get_text()
@@ -553,6 +620,11 @@ def moodloveroom_info_crawler(product_url):
 
 def loveandpop_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('m.') or product_url.startswith('https://m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
     try:
         html = urlopen(product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -589,12 +661,18 @@ def loveandpop_info_crawler(product_url):
 
 def angtoo_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea')[0].select('h2')[0].get_text()
@@ -625,14 +703,20 @@ def angtoo_info_crawler(product_url):
 
 def uniqueon_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://www.' + new_product_url
     try:
-        product_url = product_url.split(':')[1]
-        product_url = parse.quote(product_url)
-        html = urlopen('https:' + product_url)
+        new_product_url = new_product_url.split(':')[1]
+        new_product_url = parse.quote(new_product_url)
+        html = urlopen('https:' + new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append('https:' + product_url)
+        info_list.append('https:' + new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.detailArea')[0].select('h2')[0].get_text()
@@ -663,12 +747,18 @@ def uniqueon_info_crawler(product_url):
 
 def commonunique_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea > h3.title_engname')[0].get_text()
@@ -699,12 +789,18 @@ def commonunique_info_crawler(product_url):
 
 def baon_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea')[0].select('tr.xans-record-')[0].get_text()
@@ -735,12 +831,18 @@ def baon_info_crawler(product_url):
 
 def maybins_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea > h3')[0].get_text()
@@ -771,10 +873,16 @@ def maybins_info_crawler(product_url):
 
 def giftabox_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     try:
-        product_url = product_url.split(':')[1]
-        product_url = parse.quote(product_url)
-        html = urlopen('https:' + product_url)
+        new_product_url = new_product_url.split(':')[1]
+        new_product_url = parse.quote(new_product_url)
+        html = urlopen('https:' + new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
@@ -809,12 +917,18 @@ def giftabox_info_crawler(product_url):
 
 def maybebaby_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://www.' + new_product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea')[0].select('h3')[0].get_text()
@@ -845,12 +959,18 @@ def maybebaby_info_crawler(product_url):
 
 def vinvle_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea')[0].select('h2')[0].get_text()
@@ -881,12 +1001,18 @@ def vinvle_info_crawler(product_url):
 
 def attrangs_info_crawler(product_url):
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.info > h3.name')[0].get_text()
@@ -916,13 +1042,22 @@ def attrangs_info_crawler(product_url):
 
 
 def beginning_info_crawler(product_url):
+    """
+    프롬비기닝의 경우 자체 app이 있기 때문에 mobile version은 존재하지는 않지만 일단 집어넣었음
+    """
     info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://www.' + new_product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('h3.tit-prd')[0].get_text()

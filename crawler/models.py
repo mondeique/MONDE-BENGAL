@@ -113,6 +113,7 @@ class CrawlDetailImage(models.Model):
     product = models.ForeignKey(CrawlProduct, related_name='detail_images', null=True, on_delete=models.CASCADE)
     detail_url = models.URLField(help_text='detail html image source')
     detail_image = models.ImageField(upload_to='detail-image', blank=True)
+    detail_image_crop = models.ImageField(upload_to='detail-image-crop', blank=True)
 
     def get_image_extension(self):
         return 'jpeg'
@@ -142,6 +143,19 @@ class CrawlDetailImage(models.Model):
             left = width * 0.01
             top = height * 0.01
             right = width * 0.99
+            if height > 4305:
+                crop_bottom = 4305
+                crop_data = image.crop((int(left), int(top), int(right), int(crop_bottom)))
+                # http://stackoverflow.com/questions/3723220/how-do-you-convert-a-pil-image-to-a-django-file
+                crop_io = BytesIO()
+                crop_data.save(crop_io, format=self.get_image_extension())
+                print('4305 crop data save ok')
+                crop_file = InMemoryUploadedFile(crop_io, None, get_image_filename(self.detail_image), 'image/jpeg',
+                                                 len(crop_io.getvalue()), None)
+                print('4305 memory upload ok')
+                self.detail_image.save(get_image_filename(self.detail_image_crop), crop_file, save=False)
+                # To avoid recursive save, call super.save
+                super(CrawlDetailImage, self).save()
             bottom = height * 0.99
             crop_data = image.crop((int(left), int(top), int(right), int(bottom)))
             # http://stackoverflow.com/questions/3723220/how-do-you-convert-a-pil-image-to-a-django-file

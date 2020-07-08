@@ -142,8 +142,10 @@ def select_website(product_url):
 
     return shopping_num, info_list
 
+
 # FIXME: Hard Coding으로 짜여져 있음 -> same code control 할 수 있는 utils def needed..
 #  (ex. mobile discriminator / urlopen utils..)
+
 
 def hotping_info_crawler(product_url):
     info_list = []
@@ -244,10 +246,14 @@ def ggsing_info_crawler(product_url):
     else:
         new_product_url = product_url
     try:
-        new_product_url = new_product_url.split(':')[1]
-        new_product_url = parse.quote(new_product_url)
-        html = urlopen('https:' + new_product_url)
-        source = BeautifulSoup(html, 'html.parser')
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
         info_list.append(new_product_url)
@@ -426,10 +432,14 @@ def slowand_info_crawler(product_url):
     else:
         new_product_url = product_url
     try:
-        new_product_url = new_product_url.split(':')[1]
-        new_product_url = parse.quote(new_product_url)
-        html = urlopen('https:' + new_product_url)
-        source = BeautifulSoup(html, 'html.parser')
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
         info_list.append(new_product_url)
@@ -472,10 +482,14 @@ def withyoon_info_crawler(product_url):
     else:
         new_product_url = product_url
     try:
-        new_product_url = new_product_url.split(':')[1]
-        new_product_url = parse.quote(new_product_url)
-        html = urlopen('https:' + new_product_url)
-        source = BeautifulSoup(html, 'html.parser')
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
         info_list.append(new_product_url)
@@ -739,10 +753,14 @@ def uniqueon_info_crawler(product_url):
     else:
         new_product_url = product_url
     try:
-        new_product_url = new_product_url.split(':')[1]
-        new_product_url = parse.quote(new_product_url)
-        html = urlopen('https:' + new_product_url)
-        source = BeautifulSoup(html, 'html.parser')
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
         info_list.append('https:' + new_product_url)
@@ -917,10 +935,14 @@ def giftabox_info_crawler(product_url):
     else:
         new_product_url = product_url
     try:
-        new_product_url = new_product_url.split(':')[1]
-        new_product_url = parse.quote(new_product_url)
-        html = urlopen('https:' + new_product_url)
-        source = BeautifulSoup(html, 'html.parser')
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
         info_list.append(product_url)

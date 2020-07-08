@@ -118,7 +118,7 @@ def select_website(product_url):
     elif product_url.find("commonunique") != -1:
         shopping_num = 15
         info_list = commonunique_info_crawler(product_url=product_url)
-    elif product_url.find("baon") != -1:
+    elif product_url.find("ba-on") != -1:
         shopping_num = 16
         info_list = baon_info_crawler(product_url=product_url)
     elif product_url.find("maybins") != -1:
@@ -180,7 +180,10 @@ def hotping_info_crawler(product_url):
         url_list = []
         detail_list = source.select('div.cont')[0].select('img')
         for i in range(len(detail_list)):
-            url_list.append('http://hotping.co.kr' + detail_list[i]['src'])
+            if detail_list[i]['src'].startswith('http'):
+                url_list.append(detail_list[i]['src'])
+            else:
+                url_list.append('http://hotping.co.kr' + detail_list[i]['src'])
         info_list.append(url_list)
 
         # 서버 과부하를 위해 2s 간 멈춤
@@ -217,7 +220,10 @@ def _66girls_info_crawler(product_url):
         info_list.append(price)
 
         # 이미지 thumbnail source html 정보 추출하기
-        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        if source.select('img.BigImage')[0]['src'].startswith('http'):
+            image_url = source.select('img.BigImage')[0]['src']
+        else:
+            image_url = 'https:' + source.select('img.BigImage')[0]['src']
         info_list.append(image_url)
 
         # 이미지 detail source 정보 추출하기
@@ -267,7 +273,10 @@ def ggsing_info_crawler(product_url):
         info_list.append(price)
 
         # 이미지 thumbnail source html 정보 추출하기
-        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        if source.select('img.BigImage')[0]['src'].startswith('https:'):
+            image_url = source.select('img.BigImage')[0]['src']
+        else:
+            image_url = 'https:' + source.select('img.BigImage')[0]['src']
         info_list.append(image_url)
 
         # 이미지 detail source 정보 추출하기
@@ -360,14 +369,20 @@ def stylenanda_info_crawler(product_url):
         info_list.append(price)
 
         # 이미지 thumbnail source html 정보 추출하기
-        image_url = 'https:' + source.select('div.thumbnail')[0].select('img')[0]['src']
+        if source.select('div.thumbnail')[0].select('img')[0]['src'].startswith('http'):
+            image_url = source.select('div.thumbnail')[0].select('img')[0]['src']
+        else:
+            image_url = 'https:' + source.select('div.thumbnail')[0].select('img')[0]['src']
         info_list.append(image_url)
 
         # 이미지 detail source 정보 추출하기
         url_list = []
         detail_list = source.select('div.d_proimage')[0].select('img')
         for i in range(len(detail_list)):
-            url_list.append('https://stylenanda.com' + detail_list[i]['src'])
+            if detail_list[i]['src'].startswith('http'):
+                url_list.append(detail_list[i]['src'])
+            else:
+                url_list.append('https://stylenanda.com' + detail_list[i]['src'])
         info_list.append(url_list)
 
         # 서버 과부하를 위해 2s 간 멈춤
@@ -687,7 +702,10 @@ def loveandpop_info_crawler(product_url):
         url_list = []
         detail_list = source.select('#prdDetail')[0].select('img')
         for i in range(len(detail_list)):
-            url_list.append('http://loveandpop.kr' + detail_list[i]['src'])
+            if detail_list[i]['src'].startswith('http'):
+                url_list.append(detail_list[i]['src'])
+            else:
+                url_list.append('http://loveandpop.kr' + detail_list[i]['src'])
         info_list.append(url_list)
 
         # 서버 과부하를 위해 2s 간 멈춤

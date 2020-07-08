@@ -15,8 +15,9 @@ def save_detail_image(product_id, info_list):
     for i in range(len(info_list[4])):
         try:
             CrawlDetailImage.objects.create(product=p, detail_url=info_list[4][i])
-        except:
             count_detail = count_detail + 1
+        except:
+            pass
     if count_detail > 0.6 * len(info_list[4]):
         slack_message("[Detail Crawling 요청] {}에서 상세이미지를 크롤링하는 과정에서 오류가 나타났습니다 확인해주세요".format(p.product_url))
 

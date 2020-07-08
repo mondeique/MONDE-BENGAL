@@ -153,6 +153,8 @@ def hotping_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -195,6 +197,8 @@ def _66girls_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -237,6 +241,8 @@ def ggsing_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://www.' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         new_product_url = new_product_url.split(':')[1]
         new_product_url = parse.quote(new_product_url)
@@ -286,6 +292,8 @@ def mixxmix_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -328,6 +336,8 @@ def stylenanda_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -369,6 +379,8 @@ def imvely_info_crawler(product_url):
         new_product_url = ''
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -411,6 +423,8 @@ def slowand_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://www.' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         new_product_url = new_product_url.split(':')[1]
         new_product_url = parse.quote(new_product_url)
@@ -454,7 +468,9 @@ def withyoon_info_crawler(product_url):
         new_product_url = ''
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
-    new_product_url = 'https://' + new_product_url
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         new_product_url = new_product_url.split(':')[1]
         new_product_url = parse.quote(new_product_url)
@@ -499,6 +515,8 @@ def creamcheese_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -540,6 +558,8 @@ def slowberry_info_crawler(product_url):
         new_product_url = ''
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -584,6 +604,8 @@ def moodloveroom_info_crawler(product_url):
         new_product_url = ''
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -620,17 +642,20 @@ def moodloveroom_info_crawler(product_url):
 
 def loveandpop_info_crawler(product_url):
     info_list = []
-    if product_url.startswith('m.') or product_url.startswith('https://m.'):
+    if product_url.startswith('m.') or product_url.startswith('http://m.'):
         product_url = product_url.split('.')[1:]
         new_product_url = ''
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'http://www.' + new_product_url
+    else:
+        new_product_url = product_url
     try:
-        html = urlopen(product_url)
+        html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
         # 가방 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.prdname')[0].get_text()
@@ -667,6 +692,8 @@ def angtoo_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -709,6 +736,8 @@ def uniqueon_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://www.' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         new_product_url = new_product_url.split(':')[1]
         new_product_url = parse.quote(new_product_url)
@@ -753,6 +782,8 @@ def commonunique_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -795,6 +826,8 @@ def baon_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -837,6 +870,8 @@ def maybins_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -879,6 +914,8 @@ def giftabox_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         new_product_url = new_product_url.split(':')[1]
         new_product_url = parse.quote(new_product_url)
@@ -923,6 +960,8 @@ def maybebaby_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://www.' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -965,6 +1004,8 @@ def vinvle_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -1007,6 +1048,8 @@ def attrangs_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
@@ -1052,6 +1095,8 @@ def beginning_info_crawler(product_url):
         for i in range(len(product_url)):
             new_product_url = new_product_url + product_url[i] + '.'
         new_product_url = 'https://www.' + new_product_url
+    else:
+        new_product_url = product_url
     try:
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')

@@ -39,7 +39,7 @@ services:
 #        networks:
 #          - web-crawler-net
     web-crawler-task:
-        image: monde-bengal_web-crawler:latest
+        image: monde-bengal_web-crawler:0.0.2
 #        build:
 #            context: .
 #            dockerfile: ./Dockerfile

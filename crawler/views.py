@@ -43,6 +43,8 @@ class CrawlCreateAPIView(generics.CreateAPIView):
         data = self.request.data
         product_url = data['product_url']
         try:
+            html = urlopen(product_url)
+            product_url = html.url
             shopping_num, info_list = select_website(product_url)
             p = CrawlProduct.objects.create(shopping_mall=shopping_num, product_url=product_url,
                                             product_name=info_list[1], price=info_list[2], thumbnail_url=info_list[3],
@@ -1003,6 +1005,9 @@ def maybebaby_info_crawler(product_url):
     else:
         new_product_url = product_url
     try:
+        html = urlopen(new_product_url)
+        # change short url to unshorten url to avoid bad request syntax with https to http
+        new_product_url = html.url
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 

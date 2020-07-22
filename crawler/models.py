@@ -3,9 +3,13 @@ from django.db import models
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from crawler.tools import get_image_filename
+from PIL import Image
+import sys
+import os
 
 
 class CrawlProduct(models.Model):
+    DUMP = 0
     HOTPING = 1
     _66GIRLS = 2
     GGSING = 3
@@ -28,7 +32,16 @@ class CrawlProduct(models.Model):
     VINVLE = 20
     ATTRANGS = 21
     BEGINNING = 22
+    # New added shopping mall
+    LEVLINA = 23
+    HYUNSLOOK = 24
+    ARMIS = 25
+    SECONDRAIN = 26
+    LADYL = 27
+    LOWEAR = 28
+
     SITE_CHOICES = (
+        (DUMP, ('추가되지 않은 쇼핑몰')),
         (HOTPING, ('핫핑')),
         (_66GIRLS, ('66걸즈')),
         (GGSING, ('고고싱')),
@@ -50,17 +63,23 @@ class CrawlProduct(models.Model):
         (MAYBEBABY, ('메이비베이비')),
         (VINVLE, ('빈블')),
         (ATTRANGS, ('아뜨랑스')),
-        (BEGINNING, ('프롬비기닝'))
+        (BEGINNING, ('프롬비기닝')),
+        (LEVLINA, ('레브리나')),
+        (HYUNSLOOK, ('현스룩')),
+        (ARMIS, ('아르미스')),
+        (SECONDRAIN, ('세컨드레인')),
+        (LADYL, ('래드일')),
+        (LOWEAR, ('로웨어'))
     )
 
     # TODO : bucket upload-to 조정
     shopping_mall = models.IntegerField(choices=SITE_CHOICES, help_text='crawling website number')
     # is_banned = models.BooleanField(default=False, help_text='best에 가방 외의 것들이 들어갈 수 있기 때문에 생성된 필드')
-    thumbnail_url = models.URLField(help_text='thumbnail html image source')
+    thumbnail_url = models.CharField(help_text='thumbnail html image source', max_length=500)
     thumbnail_image = models.ImageField(upload_to='thumbnail-image', blank=True)
     size_image = models.ImageField(upload_to='size-image', null=True, help_text='captured size image')
     product_name = models.CharField(null=True, max_length=100)
-    product_url = models.URLField(help_text='한 상품에 대한 url')
+    product_url = models.CharField(help_text='한 상품에 대한 url', max_length=500)
     # is_best = models.BooleanField(default=False)
     price = models.CharField(max_length=50)
     crawled_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -73,12 +92,33 @@ class CrawlProduct(models.Model):
         super(CrawlProduct, self).save(*args, **kwargs)
         self._save_image()
 
+    # GIF TO JPG converter
+    def iter_frames(image):
+        try:
+            i = 0
+            image.seek(i)
+            imframe = image.copy()
+            yield imframe
+        except EOFError:
+            pass
+
     def _save_image(self):
         # TODO : crop 말고 저장
         from PIL import Image
         try:
             resp = requests.get(self.thumbnail_url, headers={'User-Agent': 'Mozilla/5.0'})
             print('request ok')
+            # # gif to jpg converter
+            # if self.thumbnail_url.find('.gif'):
+            #     # curl 요청
+            #     os.system("curl " + self.thumbnail_url + " > test.gif")
+            #
+            #     im = Image.open('./test.gif')
+            #     for i, frame in enumerate(self.iter_frames(im)):
+            #         frame.save('test%d.png' % i, **frame.info)
+            #
+            #     os.remove('./test.gif')
+            #     os.remove('./test0.png')
             # image = Image.open(BytesIO(resp.content))
             byteImgIO = BytesIO()
             try:

@@ -36,15 +36,15 @@ ENV PATH /root/.pyenv/bin:$PATH
 RUN pyenv install 3.7.4
 
 # zsh 
-RUN apt-get install -y zsh
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
-RUN chsh -s /usr/bin/zsh
+#RUN apt-get install -y zsh
+#RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+#RUN chsh -s /usr/bin/zsh
 
 # pyenv settings
-RUN echo 'export PATH="/root/.pyenv/bin:$PATH"' >> ~/.zshrc
-RUN echo 'eval "$(pyenv init -)"' >> ~/.zshrc
-RUN echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
-RUN ["/bin/bash", "-c", "source ~/.zshrc"]
+RUN echo 'export PATH="/root/.pyenv/bin:$PATH"' >> ~/.bashrc
+RUN echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+RUN echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
+RUN ["/bin/bash", "-c", "source ~/.bashrc"]
 
 # pyenv virtualenv
 RUN pyenv virtualenv 3.7.4 mondeique-crawling

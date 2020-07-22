@@ -43,7 +43,12 @@ class CrawlCreateAPIView(generics.CreateAPIView):
         data = self.request.data
         product_url = data['product_url']
         try:
-            html = urlopen(product_url)
+            try:
+                parse_product_url = product_url.split(':')[1]
+                parse_product_url = parse.quote(parse_product_url)
+                html = urlopen('https:' + parse_product_url)
+            except:
+                html = urlopen(product_url)
             product_url = html.url
             shopping_num, info_list = select_website(product_url)
             p = CrawlProduct.objects.create(shopping_mall=shopping_num, product_url=product_url,
@@ -138,9 +143,27 @@ def select_website(product_url):
     elif product_url.find("attrangs") != -1:
         shopping_num = 21
         info_list = attrangs_info_crawler(product_url=product_url)
-    else:
+    elif product_url.find("beginning") != -1:
         shopping_num = 22
         info_list = beginning_info_crawler(product_url=product_url)
+    elif product_url.find("levlina") != -1:
+        shopping_num = 23
+        info_list = levlina_info_crawler(product_url=product_url)
+    elif product_url.find("hyunslook") != -1:
+        shopping_num = 24
+        info_list = hyunslook_info_crawler(product_url=product_url)
+    elif product_url.find("armis") != -1:
+        shopping_num = 25
+        info_list = armis_info_crawler(product_url=product_url)
+    elif product_url.find("secondrain") != -1:
+        shopping_num = 26
+        info_list = secondrain_info_crawler(product_url=product_url)
+    elif product_url.find("ladyl") != -1:
+        shopping_num = 27
+        info_list = ladyl_info_crawler(product_url=product_url)
+    else:
+        shopping_num = 28
+        info_list = lowear_info_crawler(product_url=product_url)
 
     return shopping_num, info_list
 
@@ -163,7 +186,7 @@ def hotping_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -210,7 +233,7 @@ def _66girls_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -263,7 +286,7 @@ def ggsing_info_crawler(product_url):
             html = urlopen(new_product_url)
             source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -315,7 +338,7 @@ def mixxmix_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -359,7 +382,7 @@ def stylenanda_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -408,7 +431,7 @@ def imvely_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -458,7 +481,7 @@ def slowand_info_crawler(product_url):
             html = urlopen(new_product_url)
             source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -508,7 +531,7 @@ def withyoon_info_crawler(product_url):
             html = urlopen(new_product_url)
             source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -552,7 +575,7 @@ def creamcheese_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -595,7 +618,7 @@ def slowberry_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -641,7 +664,7 @@ def moodloveroom_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -685,7 +708,7 @@ def loveandpop_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -732,7 +755,7 @@ def angtoo_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -782,7 +805,7 @@ def uniqueon_info_crawler(product_url):
             html = urlopen(new_product_url)
             source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append('https:' + new_product_url)
 
         # 상품 이름 정보 담기
@@ -826,7 +849,7 @@ def commonunique_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -870,7 +893,7 @@ def baon_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -914,7 +937,7 @@ def maybins_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -964,7 +987,7 @@ def giftabox_info_crawler(product_url):
             html = urlopen(new_product_url)
             source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(product_url)
 
         # 상품 이름 정보 담기
@@ -1011,7 +1034,7 @@ def maybebaby_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -1055,7 +1078,7 @@ def vinvle_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -1099,7 +1122,7 @@ def attrangs_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -1146,7 +1169,7 @@ def beginning_info_crawler(product_url):
         html = urlopen(new_product_url)
         source = BeautifulSoup(html, 'html.parser')
 
-        # 가방 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
@@ -1169,6 +1192,307 @@ def beginning_info_crawler(product_url):
             url_list.append(model_detail_list[i]['src'])
         for i in range(len(product_detail_list)):
             url_list.append(product_detail_list[i]['src'])
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+# NEW ADDED version 2 (2020.07.22)
+def levlina_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핌몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('div.headingArea > h2')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('#span_product_price_text')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.cont')[0].select('img')
+        for i in range(len(detail_list)):
+            url_list.append('https://levlina.com' + detail_list[i]['ec-data-src'])
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def hyunslook_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핌몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('div.infoArea > h2')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('#span_product_price_text')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.cont')[0].select('img')
+        for i in range(len(detail_list)):
+            url_list.append('https://hyunslook.shop' + detail_list[i]['ec-data-src'])
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def armis_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핌몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('div.infoArea')[0].select('tr.xans-record-')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('#span_product_price_text')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.cont')[0].select('img')
+        for i in range(len(detail_list)):
+            url_list.append('https:' + detail_list[i]['ec-data-src'])
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def secondrain_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핌몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('div.headingArea > h2')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('#span_product_price_text')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.cont')[0].select('img')
+        for i in range(len(detail_list)):
+            url_list.append('https:' + detail_list[i]['ec-data-src'])
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def ladyl_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핌몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('div.headingArea > h2')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('#span_product_price_text')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.cont')[0].select('img')
+        for i in range(len(detail_list)):
+            url_list.append('https:' + detail_list[i]['ec-data-src'])
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def lowear_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핌몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('li.name')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('li.inner')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.cont')[0].select('img')
+        for i in range(len(detail_list)):
+            url_list.append('https://www.lowear.co.kr' + detail_list[i]['src'])
         info_list.append(url_list)
 
         # 서버 과부하를 위해 2s 간 멈춤

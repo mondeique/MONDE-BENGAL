@@ -122,7 +122,7 @@ def select_website(product_url):
     elif product_url.find("uniqueon") != -1:
         shopping_num = 14
         info_list = uniqueon_info_crawler(product_url=product_url)
-    elif product_url.find("commonunique") != -1:
+    elif product_url.find("common-unique") != -1:
         shopping_num = 15
         info_list = commonunique_info_crawler(product_url=product_url)
     elif product_url.find("ba-on") != -1:
@@ -161,9 +161,39 @@ def select_website(product_url):
     elif product_url.find("ladyl") != -1:
         shopping_num = 27
         info_list = ladyl_info_crawler(product_url=product_url)
-    else:
+    elif product_url.find("lowear") != -1:
         shopping_num = 28
         info_list = lowear_info_crawler(product_url=product_url)
+    elif product_url.find("leehit") != -1:
+        shopping_num = 29
+        info_list = leehit_info_crawler(product_url=product_url)
+    elif product_url.find("cherrykoko") != -1:
+        shopping_num = 30
+        info_list = cherrykoko_info_crawler(product_url=product_url)
+    elif product_url.find("mygon") != -1:
+        shopping_num = 31
+        info_list = mygon_info_crawler(product_url=product_url)
+    elif product_url.find("madejay") != -1:
+        shopping_num = 32
+        info_list = madejay_info_crawler(product_url=product_url)
+    elif product_url.find("heigl") != -1:
+        shopping_num = 33
+        info_list = heigl_info_crawler(product_url=product_url)
+    elif product_url.find("hypnotic") != -1:
+        shopping_num = 34
+        info_list = hypnotic_info_crawler(product_url=product_url)
+    elif product_url.find("wvproject") != -1:
+        shopping_num = 35
+        info_list = wvproject_info_crawler(product_url=product_url)
+    elif product_url.find("peachpicnic") != -1:
+        shopping_num = 36
+        info_list = peachpicnic_info_crawler(product_url=product_url)
+    elif product_url.find("srable") != -1:
+        shopping_num = 37
+        info_list = srable_info_crawler(product_url=product_url)
+    else:
+        shopping_num = 38
+        info_list = oldmickey_info_crawler(product_url=product_url)
 
     return shopping_num, info_list
 
@@ -1223,7 +1253,7 @@ def levlina_info_crawler(product_url):
             html = urlopen(new_product_url)
             source = BeautifulSoup(html, 'html.parser')
 
-        # 쇼핌몰 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(product_url)
 
         # 상품 이름 정보 담기
@@ -1273,7 +1303,7 @@ def hyunslook_info_crawler(product_url):
             html = urlopen(new_product_url)
             source = BeautifulSoup(html, 'html.parser')
 
-        # 쇼핌몰 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(product_url)
 
         # 상품 이름 정보 담기
@@ -1323,7 +1353,7 @@ def armis_info_crawler(product_url):
             html = urlopen(new_product_url)
             source = BeautifulSoup(html, 'html.parser')
 
-        # 쇼핌몰 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(product_url)
 
         # 상품 이름 정보 담기
@@ -1373,7 +1403,7 @@ def secondrain_info_crawler(product_url):
             html = urlopen(new_product_url)
             source = BeautifulSoup(html, 'html.parser')
 
-        # 쇼핌몰 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(product_url)
 
         # 상품 이름 정보 담기
@@ -1423,7 +1453,7 @@ def ladyl_info_crawler(product_url):
             html = urlopen(new_product_url)
             source = BeautifulSoup(html, 'html.parser')
 
-        # 쇼핌몰 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(product_url)
 
         # 상품 이름 정보 담기
@@ -1473,7 +1503,7 @@ def lowear_info_crawler(product_url):
             html = urlopen(new_product_url)
             source = BeautifulSoup(html, 'html.parser')
 
-        # 쇼핌몰 url 담기
+        # 쇼핑몰 url 담기
         info_list.append(product_url)
 
         # 상품 이름 정보 담기
@@ -1501,3 +1531,520 @@ def lowear_info_crawler(product_url):
             ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
+
+
+def leehit_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핑몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('div.headingArea > h2')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('#span_product_price_text')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.cont')[0].select('img')
+        for i in range(len(detail_list)):
+            try:
+                url_list.append('https:' + detail_list[i]['ec-data-src'])
+            except:
+                print("ERROR!")
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def cherrykoko_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핑몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('h2.prd_title')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('div.prd_data > em')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = source.select('div.thumb > img')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.detail')[0].select('img')
+        for i in range(len(detail_list)):
+            url_list.append(detail_list[i]['src'])
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def mygon_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핑몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('div.headingArea > h2')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('#span_product_price_text')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.cont')[0].select('img')
+        for i in range(len(detail_list)):
+            try:
+                url_list.append('https:' + detail_list[i]['ec-data-src'])
+            except:
+                print("ERROR!")
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def madejay_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핑몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('div.headingArea > h2')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('#span_product_price_text')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.cont')[0].select('img')
+        for i in range(len(detail_list)):
+            url_list.append('https://madejay.com' + detail_list[i]['ec-data-src'])
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def heigl_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핑몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('div.infoArea > h3')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('#span_product_price_text')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.cont')[0].select('img')
+        for i in range(len(detail_list)):
+            url_list.append('http://www.heigl.kr' + detail_list[i]['ec-data-src'])
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def hypnotic_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핑몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('li.name')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('li.price')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https://hypnotic.co.kr' + source.select('img.detail_image')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.prd-detail')[0].select('img')
+        for i in range(len(detail_list)):
+            if detail_list[i]['src'].startswith('http:'):
+                url_list.append(detail_list[i]['src'])
+            else:
+                pass
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def wvproject_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핑몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('li > strong')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('ul > li.sell')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https://wvproject.co.kr' + source.select('img.detail_image')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('center')[0].select('img')
+        for i in range(len(detail_list)):
+            url_list.append(detail_list[i]['src'])
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def peachpicnic_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핑몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('div.prdName')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('#span_product_price_text')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https:' + source.select('img.ThumbImage')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.cont')[0].select('img')
+        for i in range(len(detail_list)):
+            url_list.append('http://peachpicnic.com' + detail_list[i]['src'])
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def srable_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핑몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('div.headingArea > h2')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('#span_product_price_text')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.cont')[0].select('img')
+        for i in range(len(detail_list)):
+            url_list.append('https://www.srable.co.kr' + detail_list[i]['ec-data-src'])
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+def oldmickey_info_crawler(product_url):
+    info_list = []
+    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+        product_url = product_url.split('.')[1:]
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    else:
+        new_product_url = product_url
+    try:
+        try:
+            parse_product_url = new_product_url.split(':')[1]
+            parse_product_url = parse.quote(parse_product_url)
+            html = urlopen('https:' + parse_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+        except:
+            html = urlopen(new_product_url)
+            source = BeautifulSoup(html, 'html.parser')
+
+        # 쇼핑몰 url 담기
+        info_list.append(product_url)
+
+        # 상품 이름 정보 담기
+        name = source.select('div.headingArea > h2')[0].get_text()
+        info_list.append(name)
+
+        # 가격 정보 추출하기
+        price = source.select('#span_product_price_text')[0].get_text()
+        info_list.append(price)
+
+        # 이미지 thumbnail source html 정보 추출하기
+        image_url = 'https:' + source.select('img.BigImage')[0]['src']
+        info_list.append(image_url)
+
+        # 이미지 detail source 정보 추출하기
+        url_list = []
+        detail_list = source.select('div.cont')[0].select('img')
+        for i in range(len(detail_list)):
+            try:
+                url_list.append(detail_list[i]['ec-data-src'])
+            except:
+                #   url_list.append(detail_list[i]['src'])
+                pass
+        info_list.append(url_list)
+
+        # 서버 과부하를 위해 2s 간 멈춤
+        time.sleep(2)
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
+        print("Connection Error")
+    return info_list
+
+
+
+

@@ -39,6 +39,16 @@ class CrawlProduct(models.Model):
     SECONDRAIN = 26
     LADYL = 27
     LOWEAR = 28
+    LEEHIT = 29
+    CHERRYKOKO = 30
+    MYGON = 31
+    MADEJAY = 32
+    HEIGL = 33
+    HYPNOTIC = 34
+    WVPROJECT = 35
+    PEACHPICNIC = 36
+    SRABLE = 37
+    OLDMICKEY = 38
 
     SITE_CHOICES = (
         (DUMP, ('추가되지 않은 쇼핑몰')),
@@ -68,8 +78,18 @@ class CrawlProduct(models.Model):
         (HYUNSLOOK, ('현스룩')),
         (ARMIS, ('아르미스')),
         (SECONDRAIN, ('세컨드레인')),
-        (LADYL, ('래드일')),
-        (LOWEAR, ('로웨어'))
+        (LADYL, ('레이디엘')),
+        (LOWEAR, ('로웨어')),
+        (LEEHIT, ('리히트')),
+        (CHERRYKOKO, ('체리코코')),
+        (MYGON, ('마이곤')),
+        (MADEJAY, ('메이드제이')),
+        (HEIGL, ('헤이지엘')),
+        (HYPNOTIC, ('히포노틱')),
+        (WVPROJECT, ('WV프로젝트')),
+        (PEACHPICNIC, ('피치피크닉')),
+        (SRABLE, ('에스레이블')),
+        (OLDMICKEY, ('올드미키'))
     )
 
     # TODO : bucket upload-to 조정
@@ -108,18 +128,40 @@ class CrawlProduct(models.Model):
         try:
             resp = requests.get(self.thumbnail_url, headers={'User-Agent': 'Mozilla/5.0'})
             print('request ok')
-            # # gif to jpg converter
+            # gif to jpg converter
             # if self.thumbnail_url.find('.gif'):
-            #     # curl 요청
-            #     os.system("curl " + self.thumbnail_url + " > test.gif")
+            #     try:
+            #         # curl 요청
+            #         os.system("curl " + self.thumbnail_url + " > test.gif")
             #
-            #     im = Image.open('./test.gif')
-            #     for i, frame in enumerate(self.iter_frames(im)):
-            #         frame.save('test%d.png' % i, **frame.info)
+            #         im = Image.open('./test.gif')
+            #         for i, frame in enumerate(self.iter_frames(im)):
+            #             frame.save('test%d.png' % i, **frame.info)
             #
-            #     os.remove('./test.gif')
-            #     os.remove('./test0.png')
-            # image = Image.open(BytesIO(resp.content))
+            #         image = Image.open('./test0.png')
+            #         width, height = image.size
+            #         left = width * 0.01
+            #         top = height * 0.01
+            #         right = width * 0.99
+            #         bottom = height * 0.99
+            #         crop_data = image.crop((int(left), int(top), int(right), int(bottom)))
+            #         # http://stackoverflow.com/questions/3723220/how-do-you-convert-a-pil-image-to-a-django-file
+            #         crop_io = BytesIO()
+            #         crop_data.save(crop_io, format=self.get_image_extension())
+            #         print('crop data save ok')
+            #         crop_file = InMemoryUploadedFile(crop_io, None, get_image_filename(self.thumbnail_image), 'image/jpeg',
+            #                                          len(crop_io.getvalue()), None)
+            #         print('memory upload ok')
+            #
+            #         os.remove('./test.gif')
+            #         os.remove('./test0.png')
+            #
+            #         self.thumbnail_image.save(get_image_filename(self.thumbnail_image), crop_file, save=False)
+            #         # To avoid recursive save, call super.save
+            #         super(CrawlProduct, self).save()
+            #     except OSError:
+            #         print("OSERROR")
+            # else:
             byteImgIO = BytesIO()
             try:
                 byteImg = Image.open(BytesIO(resp.content))

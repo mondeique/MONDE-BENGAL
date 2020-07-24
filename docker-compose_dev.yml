@@ -1,20 +1,20 @@
-# docker-compose.yml
+# docker-compose_dev.yml
 
 version: '3'
 #networks:
 #  web-crawler-net:  # Container들의 Private Network을 설정한다.
 #    driver: bridge
 volumes:  # Container 들에서 사용되는 Volume을 정의한다.
-    web-crawler-cache-volume: {}
-    web-crawler-task-volume: {}
+    web-crawler-cache-volume-dev: {}
+    web-crawler-task-volume-dev: {}
 services:
-    web-crawler-cache:
+    web-crawler-cache-dev:
         image: redis:5.0.3-alpine
         command: redis-server
         ports:
             - "6379:6379"
         volumes:
-            - web-crawler-cache-volume:/data
+            - web-crawler-cache-volume-dev:/data
         healthcheck:
             test: "redis-cli -h 127.0.0.1 ping"
             interval: 3s
@@ -22,35 +22,35 @@ services:
             retries: 5
 #        networks:
 #          - web-crawler-net
-    web-crawler:
-        image: monde-bengal_web-crawler:0.0.1
+    web-crawler-dev:
+        image: monde-bengal_web-crawler:latest
 #        build:
 #            context: .
 #            dockerfile: ./Dockerfile
         ports:
-            - "0.0.0.0:8000:8000"
+            - "0.0.0.0:8001:8001"
         depends_on:
-            - web-crawler-cache
+            - web-crawler-cache-dev
         links:
-            - web-crawler-cache:web-crawler-cache
-        command: python manage.py runserver 0.0.0.0:8000
+            - web-crawler-cache-dev:web-crawler-cache-dev
+        command: python manage.py runserver 0.0.0.0:8001
         volumes:
-            - .:/web-crawler/web-crawler
-            - web-crawler-task-volume:/web-crawler/web-crawler-task:Z
+            - .:/web-crawler-dev/web-crawler-dev
+            - web-crawler-task-volume-dev:/web-crawler-dev/web-crawler-task-dev:Z
 #        networks:
 #          - web-crawler-net
-    web-crawler-task:
-        image: monde-bengal_web-crawler:0.0.1
+    web-crawler-task-dev:
+        image: monde-bengal_web-crawler:latest
 #        build:
 #            context: .
 #            dockerfile: ./Dockerfile
         depends_on:
-            - web-crawler-cache
+            - web-crawler-cache-dev
         links:
-            - web-crawler-cache:web-crawler-cache
+            - web-crawler-cache-dev:web-crawler-cache-dev
         command: celery -A web_crawler worker -l info
         volumes:
-            - .:/web-crawler/web-crawler
-            - web-crawler-task-volume:/web-crawler/web-crawler-task:Z
+            - .:/web-crawler-dev/web-crawler-dev
+            - web-crawler-task-volume-dev:/web-crawler-dev/web-crawler-task-dev:Z
 #        networks:
 #          - web-crawler-net

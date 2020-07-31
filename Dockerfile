@@ -63,7 +63,8 @@ CMD ["pyenv", "activate", "mondeique-crawling"]
 COPY . /mondeique_crawler
 WORKDIR /mondeique_crawler
 
-# requirements install 
+# pip upgrade & requirements install
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # mysqlclient install

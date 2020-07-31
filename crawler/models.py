@@ -49,6 +49,17 @@ class CrawlProduct(models.Model):
     PEACHPICNIC = 36
     SRABLE = 37
     OLDMICKEY = 38
+    # 2020.07.29
+    WEANDME = 39
+    TRENDY = 40
+    FLYMODEL = 41
+    MERRYAROUND = 42
+    BLACKUP = 43
+    SECONDDESECON = 44
+    HENIQUE = 45
+    FROMGIRLS = 46
+    PROSTJ = 47
+    PERBIT = 48
 
     SITE_CHOICES = (
         (DUMP, ('추가되지 않은 쇼핑몰')),
@@ -89,7 +100,17 @@ class CrawlProduct(models.Model):
         (WVPROJECT, ('WV프로젝트')),
         (PEACHPICNIC, ('피치피크닉')),
         (SRABLE, ('에스레이블')),
-        (OLDMICKEY, ('올드미키'))
+        (OLDMICKEY, ('올드미키')),
+        (WEANDME, ('위앤미')),
+        (TRENDY, ('트렌디어필')),
+        (FLYMODEL, ('플라이모델')),
+        (MERRYAROUND, ('메리어라운드')),
+        (BLACKUP, ('블랙')),
+        (SECONDDESECON, ('세컨드데세컨')),
+        (HENIQUE, ('헤니크')),
+        (FROMGIRLS, ('프롬걸스')),
+        (PROSTJ, ('프로스트제이')),
+        (PERBIT, ('퍼비트'))
     )
 
     # TODO : bucket upload-to 조정

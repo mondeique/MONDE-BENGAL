@@ -60,6 +60,12 @@ class CrawlProduct(models.Model):
     FROMGIRLS = 46
     PROSTJ = 47
     PERBIT = 48
+    FROMDAYONE = 49
+    RIRINCO = 50
+    _09WOMEN = 51
+    XEXYMIX = 52
+    _98DOCI = 53
+    PAGE4 = 54
 
     SITE_CHOICES = (
         (DUMP, ('추가되지 않은 쇼핑몰')),
@@ -110,7 +116,14 @@ class CrawlProduct(models.Model):
         (HENIQUE, ('헤니크')),
         (FROMGIRLS, ('프롬걸스')),
         (PROSTJ, ('프로스트제이')),
-        (PERBIT, ('퍼비트'))
+        (PERBIT, ('퍼비트')),
+        (FROMDAYONE, ('프롬데이원')),
+        (RIRINCO, ('리린코')),
+        (_09WOMEN, ('09우먼')),
+        (XEXYMIX, ('엑시믹스')),
+        (_98DOCI, ('98도시')),
+        (PAGE4, ('페이지포'))
+
     )
 
     # TODO : bucket upload-to 조정

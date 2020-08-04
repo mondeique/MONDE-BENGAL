@@ -1839,6 +1839,12 @@ def heigl_info_crawler(product_url):
 
 def hypnotic_info_crawler(product_url):
     info_list = []
+    if product_url.find('/m/product.html?'):
+        product_url = product_url.replace('/m/product.html?', '/shop/shopdetail.html?')
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     if product_url.startswith('https://m.') or product_url.startswith('m.'):
         product_url = product_url.split('.')[1:]
         new_product_url = ''
@@ -1892,6 +1898,12 @@ def hypnotic_info_crawler(product_url):
 
 def wvproject_info_crawler(product_url):
     info_list = []
+    if product_url.find('/m/product.html?'):
+        product_url = product_url.replace('/m/product.html?', '/shop/shopdetail.html?')
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     if product_url.startswith('https://m.') or product_url.startswith('m.'):
         product_url = product_url.split('.')[1:]
         new_product_url = ''
@@ -2299,7 +2311,7 @@ def merryaround_info_crawler(product_url):
 
 def blackup_info_crawler(product_url):
     info_list = []
-    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+    if product_url.startswith('https://m.') or product_url.startswith('m.') or product_url.startswith('http://m.'):
         product_url = product_url.split('.')[1:]
         new_product_url = ''
         for i in range(len(product_url)):
@@ -2451,6 +2463,12 @@ def henique_info_crawler(product_url):
 
 def fromgirls_info_crawler(product_url):
     info_list = []
+    if product_url.find('/m/product.html?'):
+        product_url = product_url.replace('/m/product.html?', '/shop/shopdetail.html?')
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
     if product_url.startswith('https://m.') or product_url.startswith('m.'):
         product_url = product_url.split('.')[1:]
         new_product_url = ''
@@ -2502,7 +2520,7 @@ def fromgirls_info_crawler(product_url):
 
 def prostj_info_crawler(product_url):
     info_list = []
-    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+    if product_url.startswith('https://m.') or product_url.startswith('m.') or product_url.startswith('http://m.'):
         product_url = product_url.split('.')[1:]
         new_product_url = ''
         for i in range(len(product_url)):
@@ -2556,7 +2574,7 @@ def prostj_info_crawler(product_url):
 
 def perbit_info_crawler(product_url):
     info_list = []
-    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+    if product_url.startswith('https://m.') or product_url.startswith('m.') or product_url.startswith('http://m.'):
         product_url = product_url.split('.')[1:]
         new_product_url = ''
         for i in range(len(product_url)):
@@ -2709,7 +2727,13 @@ def ririnco_info_crawler(product_url):
 
 def _09women_info_crawler(product_url):
     info_list = []
-    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+    if product_url.find('/m/product.html?'):
+        product_url = product_url.replace('/m/product.html?', '/shop/shopdetail.html?')
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    if product_url.startswith('https://m.') or product_url.startswith('m.') or product_url.startswith('http://m.'):
         product_url = product_url.split('.')[1:]
         new_product_url = ''
         for i in range(len(product_url)):
@@ -2760,7 +2784,13 @@ def _09women_info_crawler(product_url):
 
 def xexymix_info_crawler(product_url):
     info_list = []
-    if product_url.startswith('https://m.') or product_url.startswith('m.'):
+    if product_url.find('/m/product.html?'):
+        product_url = product_url.replace('/m/product.html?', '/shop/shopdetail.html?')
+        new_product_url = ''
+        for i in range(len(product_url)):
+            new_product_url = new_product_url + product_url[i] + '.'
+        new_product_url = 'https://' + new_product_url
+    if product_url.startswith('https://m.') or product_url.startswith('m.') or product_url.startswith('http://m.'):
         product_url = product_url.split('.')[1:]
         new_product_url = ''
         for i in range(len(product_url)):

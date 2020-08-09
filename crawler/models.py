@@ -49,7 +49,7 @@ class CrawlProduct(models.Model):
     PEACHPICNIC = 36
     SRABLE = 37
     OLDMICKEY = 38
-    # 2020.07.29
+    # 2020.07.29 daniel
     WEANDME = 39
     TRENDY = 40
     FLYMODEL = 41
@@ -66,6 +66,13 @@ class CrawlProduct(models.Model):
     XEXYMIX = 52
     _98DOCI = 53
     PAGE4 = 54
+    BENITO = 55
+    MINSSHOP = 56
+    ANDAR = 57
+    LIKEYOU = 58
+    DAILYJOU = 59
+    _30me = 60
+
 
     SITE_CHOICES = (
         (DUMP, ('추가되지 않은 쇼핑몰')),
@@ -122,8 +129,13 @@ class CrawlProduct(models.Model):
         (_09WOMEN, ('09우먼')),
         (XEXYMIX, ('엑시믹스')),
         (_98DOCI, ('98도시')),
-        (PAGE4, ('페이지포'))
-
+        (PAGE4, ('페이지포')),
+        (BENITO, ('비니토')),
+        (MINSSHOP, ('민스샵')),
+        (ANDAR, ('앤달')),
+        (LIKEYOU, ('라이크유')),
+        (DAILYJOU, ('데일리쥬')),
+        (_30me, ('써리미'))
     )
 
     # TODO : bucket upload-to 조정

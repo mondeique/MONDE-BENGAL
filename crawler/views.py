@@ -1320,7 +1320,7 @@ def levlina_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -1370,7 +1370,7 @@ def hyunslook_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea > h2')[0].get_text()
@@ -1420,7 +1420,7 @@ def armis_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea')[0].select('tr.xans-record-')[0].get_text()
@@ -1470,7 +1470,7 @@ def secondrain_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -1520,7 +1520,7 @@ def ladyl_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -1570,7 +1570,7 @@ def lowear_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('li.name')[0].get_text()
@@ -1620,7 +1620,7 @@ def leehit_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -1673,7 +1673,7 @@ def cherrykoko_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('h2.prd_title')[0].get_text()
@@ -1723,7 +1723,7 @@ def mygon_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -1776,7 +1776,7 @@ def madejay_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -1826,7 +1826,7 @@ def heigl_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea > h3')[0].get_text()
@@ -1882,7 +1882,7 @@ def hypnotic_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('li.name')[0].get_text()
@@ -1941,7 +1941,7 @@ def wvproject_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('li > strong')[0].get_text()
@@ -1991,7 +1991,7 @@ def peachpicnic_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.prdName')[0].get_text()
@@ -2041,7 +2041,7 @@ def srable_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -2091,7 +2091,7 @@ def oldmickey_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -2145,7 +2145,7 @@ def weandme_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea > h3')[0].get_text()
@@ -2195,7 +2195,7 @@ def trendyapparel_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -2248,7 +2248,7 @@ def flymodel_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -2298,7 +2298,7 @@ def merryaround_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -2348,7 +2348,7 @@ def blackup_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h3')[0].get_text()
@@ -2398,7 +2398,7 @@ def secondesecon_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -2421,9 +2421,8 @@ def secondesecon_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError,
+            ConnectionRefusedError, ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -2449,7 +2448,7 @@ def henique_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -2472,9 +2471,8 @@ def henique_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -2506,7 +2504,7 @@ def fromgirls_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.titleArea > h2')[0].get_text()
@@ -2529,9 +2527,8 @@ def fromgirls_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -2557,7 +2554,7 @@ def prostj_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.optCon > span')[0].get_text()
@@ -2583,9 +2580,8 @@ def prostj_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -2611,7 +2607,7 @@ def perbit_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.ssname > h2')[0].get_text()
@@ -2634,9 +2630,8 @@ def perbit_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -2662,7 +2657,7 @@ def fromdayone_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('h2.info_name')[0].get_text()
@@ -2685,9 +2680,8 @@ def fromdayone_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -2713,7 +2707,7 @@ def ririnco_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -2736,9 +2730,8 @@ def ririnco_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -2770,7 +2763,7 @@ def _09women_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('h3.tit-prd')[0].get_text()
@@ -2793,9 +2786,8 @@ def _09women_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -2827,7 +2819,7 @@ def xexymix_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('h3.tit-prd')[0].get_text()
@@ -2850,9 +2842,8 @@ def xexymix_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -2878,7 +2869,7 @@ def _98doci_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -2904,9 +2895,8 @@ def _98doci_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -2932,7 +2922,7 @@ def page4_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.mun-detail-desc')[0].get_text()
@@ -2958,9 +2948,8 @@ def page4_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -2992,7 +2981,7 @@ def benito_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -3018,9 +3007,8 @@ def benito_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -3052,7 +3040,7 @@ def minsshop_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -3078,9 +3066,8 @@ def minsshop_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -3112,7 +3099,7 @@ def andar_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('h2.name')[0].get_text()
@@ -3135,9 +3122,8 @@ def andar_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -3169,7 +3155,7 @@ def likeyou_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핑몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.headingArea > h2')[0].get_text()
@@ -3192,9 +3178,8 @@ def likeyou_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -3226,7 +3211,7 @@ def dailyjou_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핌몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('div.infoArea > h3')[0].get_text()
@@ -3249,9 +3234,8 @@ def dailyjou_info_crawler(product_url):
 
         # 서버 과부하를 위해 2s 간 멈춤
         time.sleep(2)
-    except (
-    ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError, ConnectionError, NewConnectionError,
-    MaxRetryError):
+    except (ConnectionResetError, error.URLError, error.HTTPError, ConnectionRefusedError,
+            ConnectionError, NewConnectionError, MaxRetryError):
         print("Connection Error")
     return info_list
 
@@ -3283,7 +3267,7 @@ def _30me_info_crawler(product_url):
             source = BeautifulSoup(html, 'html.parser')
 
         # 쇼핌몰 url 담기
-        info_list.append(product_url)
+        info_list.append(new_product_url)
 
         # 상품 이름 정보 담기
         name = source.select('tr.xans-record- > td')[0].get_text()
@@ -3293,17 +3277,20 @@ def _30me_info_crawler(product_url):
         price = source.select('#span_product_price_text')[0].get_text()
         info_list.append(price)
 
-        # 이미지 thumbnail source html 정보 추출하기
-        image_url = 'http://30me.co.kr' + source.select('div.cont')[0].select('img')[1]['src']
-        info_list.append(image_url)
-
         # 이미지 detail source 정보 추출하기
         url_list = []
         detail_list = source.select('div.cont')[0].select('img')
         for i in range(len(detail_list)):
             url_list.append('http://30me.co.kr' + detail_list[i]['src'])
-        del url_list[0]
+        print(len(url_list))
+        if len(url_list) >= 4:
+            del url_list[0]
         del url_list[-1]
+
+        # 이미지 thumbnail source html 정보 추출하기
+        info_list.append(url_list[0])
+
+        # 이미지 detail_source 따로 넣기
         info_list.append(url_list)
 
         # 서버 과부하를 위해 2s 간 멈춤

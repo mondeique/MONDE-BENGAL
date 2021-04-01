@@ -1,3 +1,6 @@
+*.csv
+*.xlsx
+
 # data file 
 data/
 
